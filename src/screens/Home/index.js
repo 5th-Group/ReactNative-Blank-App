@@ -1,14 +1,14 @@
 import React from 'react';
 
+import {style} from './styles';
+import Poster from '../../components/Poster/index';
+
 import {
   SafeAreaView,
-  StatusBar,
   ScrollView,
-  StyleSheet,
   Image,
   Text,
   View,
-  Platform,
   TouchableOpacity,
   TextInput,
 } from 'react-native';
@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import Icon2 from 'react-native-vector-icons/AntDesign';
 
 export const Home = () => {
+  const test = '../../assets/Images/Poster/1.png';
   return (
     <SafeAreaView style={style.wrap}>
       {/* Box 1 */}
@@ -45,55 +46,31 @@ export const Home = () => {
           size={20}
           color="#c4c4c4"></Icon2>
       </View>
+      {/* Box 4 */}
+      <View style={style.boxFour}>
+        <Text>Novel</Text>
+        <Text>Science</Text>
+        <Text>Romance</Text>
+        <Text>Sci-fi</Text>
+      </View>
+      {/* Box 5 */}
+      <View style={style.boxFive}>
+        <Poster
+          image={require('../../assets/Images/Poster/1.png')}
+          title="Catcher in the Rye"
+          author="J.D Salinger"
+        />
+        <Poster
+          image={require('../../assets/Images/Poster/2.jpg')}
+          title="Away"
+          author="J.D Salinger"
+        />
+        <Poster
+          image={require('../../assets/Images/Poster/3.jpg')}
+          title="Journey to the past"
+          author="J.D Salinger"
+        />
+      </View>
     </SafeAreaView>
   );
 };
-
-const style = StyleSheet.create({
-  wrap: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'white',
-    justifyContent: 'flex-start',
-    gap: 1000,
-  },
-  boxOne: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 30,
-  },
-  boxTwo: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginTop: 30,
-  },
-  boxThree: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginTop: 30,
-    position: 'relative',
-  },
-  text: {
-    color: 'black',
-  },
-  avt: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
-  },
-  input: {
-    height: 49,
-    paddingHorizontal: 40,
-    width: 353,
-    borderRadius: 10,
-    backgroundColor: '#f4f4f4',
-  },
-  icon: {
-    top: '30%',
-    left: 10,
-    position: 'absolute',
-  },
-});
