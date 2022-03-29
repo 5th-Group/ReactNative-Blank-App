@@ -1,21 +1,23 @@
 import {StyleSheet} from 'react-native';
 
+import {constants} from '../../constants';
+
 export const style = StyleSheet.create({
   wrap: {
     paddingHorizontal: 20,
-    paddingTop: 20,
     flex: 1,
-    flexDirection: 'column',
     backgroundColor: 'white',
-    justifyContent: 'flex-start',
-    gap: 1000,
+    paddingBottom: 80,
   },
+  contentContainerStyle: {},
   //   Box 1
   boxOne: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    height: 30,
+    height: 40,
+    overflow: 'visible',
+    marginTop: 10,
   },
   //   Box 2
   boxTwo: {
@@ -36,7 +38,6 @@ export const style = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     marginTop: 30,
-    position: 'relative',
   },
   //   Box 5
   boxFive: {
@@ -44,7 +45,18 @@ export const style = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     marginTop: 30,
-    position: 'relative',
+  },
+  //   Box 6
+  boxSix: {
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginTop: 30,
+  },
+  //   Box 7
+  boxSeven: {
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginTop: 30,
   },
 
   //   ETC
@@ -55,8 +67,10 @@ export const style = StyleSheet.create({
     fontSize: 12,
   },
   title: {
-    color: 'black',
-    fontSize: 18,
+    color: constants.primaryColor,
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   avt: {
     width: 40,

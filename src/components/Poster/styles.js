@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 const style = StyleSheet.create({
   // Poster
   posterWrap: {
-    marginRight: 10,
+    marginRight: 15,
   },
   posterTitle: {
     flexDirection: 'column',

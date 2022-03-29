@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -51,5 +51,80 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
+		<string>SFUFuturaBold.TTF</string>
+		<string>SFUFuturaBoldOblique.TTF</string>
+		<string>SFUFuturaBook.TTF</string>
+		<string>SFUFuturaBookOblique.TTF</string>
+		<string>SFUFuturaExtraBold.TTF</string>
+		<string>SFUFuturaExtraBoldOblique.TTF</string>
+		<string>SFUFuturaHeavy.TTF</string>
+		<string>SFUFuturaHeavyOblique.TTF</string>
+		<string>SFUFuturaLight.TTF</string>
+		<string>SFUFuturaLightOblique.TTF</string>
+		<string>SFUFuturaObliqueTTF.TTF</string>
+		<string>SFUFuturaRegular.TTF</string>
+		<string>Caramel and Vanilla.ttf</string>
+		<string>BebasNeue-Regular.ttf</string>
+		<string>futur.ttf</string>
+		<string>Futura Bold font.ttf</string>
+		<string>Futura Bold Italic font.ttf</string>
+		<string>Futura Book font.ttf</string>
+		<string>Futura Book Italic font.ttf</string>
+		<string>Futura Extra Black font.ttf</string>
+		<string>Futura Heavy font.ttf</string>
+		<string>Futura Heavy Italic font.ttf</string>
+		<string>futura light bt.ttf</string>
+		<string>Futura Light font.ttf</string>
+		<string>Futura Light Italic font.ttf</string>
+		<string>futura medium bt.ttf</string>
+		<string>futura medium condensed bt.ttf</string>
+		<string>Futura Medium Italic font.ttf</string>
+		<string>Futura XBlk BT.ttf</string>
+		<string>Futura-CondensedLight.otf</string>
+		<string>tt0205m_.ttf</string>
+		<string>unicode.futurab.ttf</string>
+		<string>unicode.futurabb.ttf</string>
+		<string>Ailerons-Typeface.otf</string>
+		<string>kenyan coffee bd it.ttf</string>
+		<string>kenyan coffee bd.ttf</string>
+		<string>kenyan coffee rg it.ttf</string>
+		<string>kenyan coffee rg.ttf</string>
+		<string>Metropolis-Black.otf</string>
+		<string>Metropolis-BlackItalic.otf</string>
+		<string>Metropolis-Bold.otf</string>
+		<string>Metropolis-BoldItalic.otf</string>
+		<string>Metropolis-ExtraBold.otf</string>
+		<string>Metropolis-ExtraBoldItalic.otf</string>
+		<string>Metropolis-ExtraLight.otf</string>
+		<string>Metropolis-ExtraLightItalic.otf</string>
+		<string>Metropolis-Light.otf</string>
+		<string>Metropolis-LightItalic.otf</string>
+		<string>Metropolis-Medium.otf</string>
+		<string>Metropolis-MediumItalic.otf</string>
+		<string>Metropolis-Regular.otf</string>
+		<string>Metropolis-RegularItalic.otf</string>
+		<string>Metropolis-SemiBold.otf</string>
+		<string>Metropolis-SemiBoldItalic.otf</string>
+		<string>Metropolis-Thin.otf</string>
+		<string>Metropolis-ThinItalic.otf</string>
+	</array>
 </dict>
 </plist>
