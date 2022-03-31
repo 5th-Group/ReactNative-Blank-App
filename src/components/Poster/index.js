@@ -5,17 +5,18 @@ import style from './styles';
 
 const Poster = ({image, title, author, navigation}) => {
   return (
-    <View style={style.posterWrap}>
+    <View>
       <TouchableOpacity
+        style={style.posterWrap}
         onPress={() => {
           navigation.navigate('Detail');
         }}>
-        <Image style={style.poster} source={image} />
+        <Image resizeMode="cover" style={style.poster} source={image} />
+        <View style={style.posterTitle}>
+          <Text style={style.title}>{title}</Text>
+          <Text style={style.textSmall}>{author}</Text>
+        </View>
       </TouchableOpacity>
-      <View style={style.posterTitle}>
-        <Text style={style.title}>{title}</Text>
-        <Text style={style.textSmall}>{author}</Text>
-      </View>
     </View>
   );
 };

@@ -1,28 +1,47 @@
 import {StyleSheet} from 'react-native';
+import {constants} from '../../constants';
 
 const style = StyleSheet.create({
   // Poster
   posterWrap: {
-    marginRight: 15,
+    borderWidth: 2,
+    borderColor: constants.OutlineColor,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginHorizontal: 10,
+    marginVertical: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    // Shadow
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
   },
+
   posterTitle: {
     flexDirection: 'column',
+    marginTop: 10,
   },
   //   ETC
-  text: {
-    color: 'black',
-  },
+
   textSmall: {
-    fontSize: 12,
+    fontSize: constants.TextSmall,
+    color: constants.black,
   },
   title: {
-    color: 'black',
-    fontSize: 18,
+    color: constants.primaryColor,
+    fontSize: constants.TextMed + 3,
+    fontFamily: 'Metropolis-Medium',
   },
   poster: {
-    width: 160,
-    height: 250,
-    borderRadius: 10,
+    width: 230,
+    height: 350,
+    borderRadius: 5,
   },
 });
 

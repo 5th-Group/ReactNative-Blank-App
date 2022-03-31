@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-
-import Tabs from './src/components/navigation';
+import {StatusBar} from 'react-native';
+import Navigate from './src/components/Navigation/MainNav';
 
 import {
   Colors,
@@ -14,7 +14,8 @@ import {
 const App = () => {
   return (
     <NavigationContainer>
-      <Tabs />
+      <StatusBar animated={true} backgroundColor="#61dafb" hidden={true} />
+      <Navigate></Navigate>
     </NavigationContainer>
   );
 };

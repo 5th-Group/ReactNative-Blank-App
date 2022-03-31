@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import Icon2 from 'react-native-vector-icons/AntDesign';
@@ -18,63 +17,47 @@ import {constants} from '../../constants';
 
 const Home = ({navigation}) => {
   return (
-    <SafeAreaView style={style.wrap}>
-      <StatusBar></StatusBar>
+    <View style={style.wrap}>
       <ScrollView
         contentContainerStyle={style.contentContainerStyle}
         showsVerticalScrollIndicator={false}>
-        {/* Box 1 */}
+        {/* Avatar */}
         <View style={style.boxOne}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Login');
+            }}>
             <Image
               style={style.avt}
               source={require('../../assets/Images/avt.jpg')}
             />
           </TouchableOpacity>
         </View>
-        {/* Box 2 */}
+        {/* Title */}
         <View style={style.boxTwo}>
-          <Text style={{fontSize: 20, color: 'gray'}}>Welcome back, Bi!</Text>
-          <Text
-            style={{
-              color: constants.primaryColor,
-              fontSize: 38,
-              // fontWeight: 'bold',
-              fontFamily: 'Metropolis-SemiBold',
-            }}>
-            What do you want to read today?
-          </Text>
+          <Text style={style.text}>Welcome back, Bi!</Text>
+          <Text style={style.title}>What do you want to read today?</Text>
         </View>
-        {/* Box 3 */}
+        {/* Search */}
         <View style={style.boxThree}>
           <TextInput style={style.input} placeholder="Search"></TextInput>
           <Icon2
             style={style.icon}
             name="search1"
-            size={20}
+            size={30}
             color="#c4c4c4"></Icon2>
         </View>
-        {/* Box 4 */}
+        {/* Book categories*/}
         <View style={style.boxFour}>
-          <Text
-            style={{
-              color: constants.primaryColor,
-              opacity: 0.8,
-              // fontFamily: 'Metropolis-Light',
-            }}>
-            Novel
-          </Text>
-          <Text style={{color: constants.primaryColor, opacity: 0.5}}>
-            Science
-          </Text>
-          <Text style={{color: constants.primaryColor, opacity: 0.5}}>
-            Romance
-          </Text>
-          <Text style={{color: constants.primaryColor, opacity: 0.5}}>
-            Sci-fi
-          </Text>
+          <View style={style.category}>
+            <Text style={style.textColor}>Novel</Text>
+            <Text style={style.textColor}>Science</Text>
+            <Text style={style.textColor}>Romance</Text>
+            <Text style={style.textColor}>Sci-fi</Text>
+          </View>
+          <View style={style.line}></View>
         </View>
-        {/* Box 5 */}
+        {/* Book silde */}
         <View style={style.boxFive}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <Poster
@@ -135,8 +118,12 @@ const Home = ({navigation}) => {
         </View>
         {/* Box 6 */}
         <View style={style.boxSix}>
-          <Text style={style.title}>New Arrival</Text>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <Text style={style.titleMed}>New Arrival</Text>
+          <View style={style.line}></View>
+          <ScrollView
+            alwaysBounceVertical={true}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}>
             <Poster
               image={require('../../assets/Images/Poster/3.jpg')}
               title="Journey to the past"
@@ -171,7 +158,44 @@ const Home = ({navigation}) => {
         </View>
         {/* Box 7 */}
         <View style={style.boxSeven}>
-          <Text style={style.title}>Best Seller</Text>
+          <Text style={style.titleMed}>Best Seller</Text>
+          <View style={style.line}></View>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <Poster
+              image={require('../../assets/Images/Poster/3.jpg')}
+              title="Journey to the past"
+              author="J.D Salinger"
+            />
+            <Poster
+              image={require('../../assets/Images/Poster/3.jpg')}
+              title="Journey to the past"
+              author="J.D Salinger"
+            />
+            <Poster
+              image={require('../../assets/Images/Poster/3.jpg')}
+              title="Journey to the past"
+              author="J.D Salinger"
+            />
+            <Poster
+              image={require('../../assets/Images/Poster/3.jpg')}
+              title="Journey to the past"
+              author="J.D Salinger"
+            />
+            <Poster
+              image={require('../../assets/Images/Poster/3.jpg')}
+              title="Journey to the past"
+              author="J.D Salinger"
+            />
+            <Poster
+              image={require('../../assets/Images/Poster/3.jpg')}
+              title="Journey to the past"
+              author="J.D Salinger"
+            />
+          </ScrollView>
+        </View>
+        <View style={style.boxSeven}>
+          <Text style={style.titleMed}>Upcoming</Text>
+          <View style={style.line}></View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <Poster
               image={require('../../assets/Images/Poster/3.jpg')}
@@ -206,7 +230,7 @@ const Home = ({navigation}) => {
           </ScrollView>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

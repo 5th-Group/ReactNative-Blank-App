@@ -1,15 +1,18 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
 import {constants} from '../../constants';
+
+const width = Dimensions.get('window').width - 40;
 
 export const style = StyleSheet.create({
   wrap: {
     paddingHorizontal: 20,
     flex: 1,
     backgroundColor: 'white',
+  },
+  contentContainerStyle: {
     paddingBottom: 80,
   },
-  contentContainerStyle: {},
   //   Box 1
   boxOne: {
     flexDirection: 'row',
@@ -17,7 +20,7 @@ export const style = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     overflow: 'visible',
-    marginTop: 10,
+    marginTop: 40,
   },
   //   Box 2
   boxTwo: {
@@ -35,16 +38,27 @@ export const style = StyleSheet.create({
   //   Box 4
   boxFour: {
     justifyContent: 'space-between',
-    flexDirection: 'row',
     alignItems: 'flex-start',
     marginTop: 30,
+  },
+  category: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    width: '100%',
+  },
+  line: {
+    marginTop: 5,
+    width: '100%',
+    height: 2,
+    backgroundColor: constants.primaryColor,
   },
   //   Box 5
   boxFive: {
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginTop: 30,
+    // padding: 10,
   },
   //   Box 6
   boxSix: {
@@ -61,32 +75,53 @@ export const style = StyleSheet.create({
 
   //   ETC
   text: {
-    color: 'black',
-  },
-  textSmall: {
-    fontSize: 12,
+    color: constants.black,
+    fontSize: constants.TextMed,
+    fontFamily: constants.FontLight,
   },
   title: {
     color: constants.primaryColor,
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: constants.TextBig,
+    fontFamily: 'Metropolis-Semibold',
+  },
+  titleMed: {
+    color: constants.primaryColor,
+    fontSize: 40,
+    fontFamily: constants.FontSemiBold,
+  },
+  textColor: {
+    color: constants.primaryColor,
+    fontSize: constants.TextMed,
+    fontFamily: constants.FontLight,
   },
   avt: {
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
     borderRadius: 50,
   },
   input: {
-    height: 49,
-    paddingHorizontal: 40,
-    width: 353,
+    height: 60,
+    fontSize: constants.TextMed,
+    paddingLeft: 60,
+    width: width,
     borderRadius: 10,
     backgroundColor: '#f4f4f4',
+    borderColor: 'rgba(15,194,192, 0.3)',
+    borderWidth: 1.5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+    elevation: 1,
+    position: 'relative',
   },
   icon: {
-    top: '30%',
-    left: 10,
+    top: 15,
+    left: 15,
     position: 'absolute',
+    zIndex: 100,
   },
 });

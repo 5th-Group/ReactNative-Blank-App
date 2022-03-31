@@ -1,18 +1,37 @@
 import React from 'react';
-import {ScrollView, Text, View, SafeAreaView, Image} from 'react-native';
+import {
+  ScrollView,
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 
 import style from './styles';
+import {constants} from '../../constants/index';
 
-export const Detail = () => {
+export const Detail = ({navigation}) => {
   return (
     <SafeAreaView style={style.wrap}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Box 1 */}
         <View style={style.boxOne}>
-          <Icon name="arrow-back" size={25} color="black"></Icon>
-          <Icon name="bookmark" size={25} color="red"></Icon>
+          <TouchableOpacity
+            onPress={() => {
+              console.log('Clicked');
+              navigation.navigate('Home');
+            }}>
+            <Icon name="arrow-back" size={25} color="black"></Icon>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Icon
+              name="bookmark"
+              size={25}
+              color={constants.primaryColor}></Icon>
+          </TouchableOpacity>
         </View>
         {/* Box 2 */}
         <View style={style.boxTwo}>
