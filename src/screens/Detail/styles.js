@@ -1,86 +1,129 @@
 import {StyleSheet} from 'react-native';
 
+import {constants} from '../../constants';
+
 export const style = StyleSheet.create({
   wrap: {
-    paddingHorizontal: 20,
     flex: 1,
-    backgroundColor: 'white',
-    paddingBottom: 77,
-  },
-  contentContainerStyle: {},
-  //   Box 1
-  boxOne: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 40,
-    overflow: 'visible',
-    marginTop: 5,
-  },
-  //   Box 2
-  boxTwo: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginTop: 30,
-  },
-  //   Box 3
-  boxThree: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginTop: 30,
     position: 'relative',
   },
-  //   Box 4
-  boxFour: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginTop: 20,
+  scroll: {},
+  // Info
+  cover: {
+    height: 650,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  //   Box 5
-  boxFive: {
-    justifyContent: 'space-between',
+  image: {
+    width: 250,
+    height: 400,
+    alignSelf: 'center',
+    borderRadius: 10,
+  },
+  Detail: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  // Book rating
+  Rating: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginTop: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 10,
   },
-  //   Box 6
-  boxSix: {
+  ratingItem: {
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    width: 170,
+  },
+  itemText: {
+    fontSize: constants.h2 - 2,
+    fontFamily: constants.FontBold,
+    color: 'white',
+  },
+  itemTitle: {
+    fontSize: constants.h3 + 1,
+    fontFamily: constants.FontSemiBold,
+    color: 'white',
+  },
+
+  // Description
+  Description: {
+    paddingHorizontal: 20,
+    flex: 1,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginTop: 30,
+    marginTop: 50,
   },
-  //   Box 7
-  boxSeven: {
+  author: {
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginTop: 30,
+    // backgroundColor: 'red',
+  },
+  overview: {
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginTop: 10,
+    // backgroundColor: 'blue',
+  },
+  // Sticky Button
+  bottomButton: {
+    position: 'relative',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 170,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: 'white',
+    paddingHorizontal: 20,
+  },
+  // Upper
+  count: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  quantity: {
+    width: 100,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  total: {
+    width: 140,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  // Down
+  button: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginBottom: 20,
   },
 
   //   ETC
   text: {
-    color: 'black',
+    color: constants.black,
+    fontFamily: constants.FontLight,
+    fontSize: constants.TextMed,
+    lineHeight: 25,
   },
-  textSmall: {
-    fontSize: 12,
-  },
+
   title: {
-    color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold',
+    color: constants.primaryColor,
+    fontSize: constants.TextMed + 10,
+    fontFamily: constants.FontSemiBold,
     marginBottom: 5,
-  },
-  cover: {
-    width: 220,
-    height: 350,
-    alignSelf: 'center',
-    borderRadius: 10,
-  },
-  info: {
-    alignSelf: 'center',
-    alignItems: 'center',
-  },
-  star: {
-    marginRight: 5,
   },
 });
 

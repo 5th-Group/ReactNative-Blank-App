@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
 
 import styles from './styles';
-const Button = ({title, color, navigate, size, margin}) => {
+const Button = ({title, color, navigate, size, margin, onPress}) => {
   // Hande Button Style
   const handleButtonStyle = color => {
     if (color) {
@@ -51,7 +51,7 @@ const Button = ({title, color, navigate, size, margin}) => {
       ) : (
         <TouchableOpacity
           onPress={() => {
-            console.log(typeof size === 'object');
+            onPress();
           }}
           style={[styles.buttonWrap, bgColor, Size, Margin]}>
           <Text style={[titleColor, styles.title]}>{title}</Text>

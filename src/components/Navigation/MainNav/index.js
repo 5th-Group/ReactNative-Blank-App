@@ -3,6 +3,7 @@ import React from 'react';
 
 import HomeNavigate from '../HomeNavigate';
 import LoginNavigate from '../LoginNav';
+import Detail from '../../../screens/Detail';
 
 const Nav = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ const Navigate = () => {
       }}>
       <Nav.Screen name="LoginNavigate" component={LoginNavigate} />
       <Nav.Screen name="HomeNavigate" component={HomeNavigate} />
+      <Nav.Screen name="Detail" component={Detail} />
     </Nav.Navigator>
   );
 };
