@@ -1,6 +1,6 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
-import {constants} from '../../constants';
+import {COLORS, constants, FONTS} from '../../constants/constants';
 
 const width = Dimensions.get('window').width - 40;
 
@@ -16,17 +16,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     paddingLeft: 60,
-    borderColor: constants.primaryColor,
-    fontSize: constants.TextMed,
+    borderColor: COLORS.primary,
+    ...FONTS.h2,
   },
   icon: {
     position: 'relative',
     top: -50,
     left: 15,
-  },
-  title: {
-    fontFamily: constants.FontSemiBold,
-    fontSize: constants.TextMed,
   },
 });
 

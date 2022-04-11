@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-import {constants} from '../../constants';
+import {constants} from '../../constants/constants';
 
 const styles = StyleSheet.create({
   wrap: {
@@ -9,12 +9,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     padding: 20,
     paddingTop: 50,
-    backgroundColor: 'white',
   },
   box1: {
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginBottom: 30,
+    marginBottom: 20,
   },
   box2: {
     justifyContent: 'center',
@@ -31,14 +30,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     alignSelf: 'center',
-    marginBottom: 30,
   },
   box5: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     alignSelf: 'center',
-    marginBottom: 30,
   },
   // ETC
   title: {

@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  SafeAreaView,
   Image,
   Text,
   View,
@@ -8,117 +7,129 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
 import Icon2 from 'react-native-vector-icons/AntDesign';
 
-import Poster from '../../components/Poster/index';
+// CONST
 import {style} from './styles';
-import {constants} from '../../constants';
+import {COLORS, SIZES, FONTS} from '../../constants/constants';
+import {bookCategory} from '../../constants/constants';
+import {dummyData} from '../../constants/constants';
+
+// Components
+import Poster from '../../components/Poster/Poster';
 
 const Home = ({navigation}) => {
+  // Renders
+
+  //
+  const renderGreetingAndAvt = (userName = 'Welcome back, Bi!', userAvt) => {
+    return (
+      <>
+        <Text style={{...FONTS.h2}}>{userName}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Login');
+          }}>
+          <Image
+            style={style.avt}
+            source={require('../../assets/Images/avt.jpg')}
+          />
+        </TouchableOpacity>
+      </>
+    );
+  };
+  //
+  // SearchBar
+  const renderSearchBar = () => {
+    return (
+      <>
+        <TextInput style={style.input} placeholder="Search"></TextInput>
+        <Icon2
+          style={style.icon}
+          name="search1"
+          size={SIZES.body1}
+          color="#c4c4c4"></Icon2>
+      </>
+    );
+  };
+  //
+  // BookCategory
+  const renderCategory = () => {
+    return (
+      <>
+        {bookCategory.map((item, index) => {
+          return (
+            <Text key={index} style={style.textColor}>
+              {item}
+            </Text>
+          );
+        })}
+      </>
+    );
+  };
+  //
+  //Book
+  const renderBooks = () => {
+    return dummyData.map((item, index) => {
+      return (
+        <Poster
+          key={index}
+          title={item.title}
+          author={item.author}
+          image={item.image}
+          navigation={navigation}
+          item={item}></Poster>
+      );
+    });
+  };
   return (
+    // Wrapper
     <View style={style.wrap}>
       <ScrollView
         contentContainerStyle={style.contentContainerStyle}
         showsVerticalScrollIndicator={false}>
-        {/* Avatar */}
+        {/* Avatar  and Greetings*/}
         <View style={style.boxOne}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Login');
-            }}>
-            <Image
-              style={style.avt}
-              source={require('../../assets/Images/avt.jpg')}
-            />
-          </TouchableOpacity>
+          {/* RenderFn */}
+          {renderGreetingAndAvt()}
+          {/* RenderFn */}
         </View>
         {/* Title */}
         <View style={style.boxTwo}>
-          <Text style={style.text}>Welcome back, Bi!</Text>
-          <Text style={style.title}>What do you want to read today?</Text>
+          <Text style={{...FONTS.largeTitle, color: COLORS.primary}}>
+            What do you want to read today?
+          </Text>
         </View>
         {/* Search */}
         <View style={style.boxThree}>
-          <TextInput style={style.input} placeholder="Search"></TextInput>
-          <Icon2
-            style={style.icon}
-            name="search1"
-            size={30}
-            color="#c4c4c4"></Icon2>
+          {/* RenderFn */}
+          {renderSearchBar()}
+          {/* RenderFn */}
         </View>
         {/* Book categories*/}
         <View style={style.boxFour}>
           <View style={style.category}>
-            <Text style={style.textColor}>Novel</Text>
-            <Text style={style.textColor}>Science</Text>
-            <Text style={style.textColor}>Romance</Text>
-            <Text style={style.textColor}>Sci-fi</Text>
+            {/* RenderFn */}
+            {renderCategory()}
+            {/* RenderFn */}
           </View>
+          {/* Line Divider */}
           <View style={style.line}></View>
+          {/* Line Divider */}
         </View>
         {/* Book silde */}
         <View style={style.boxFive}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <Poster
-              navigation={navigation}
-              image={require('../../assets/Images/Poster/1.png')}
-              title="Catcher in the Rye "
-              author="J.D Salinger"
-            />
-            <Poster
-              navigation={navigation}
-              image={require('../../assets/Images/Poster/2.jpg')}
-              title="Away"
-              author="J.D Salinger"
-            />
-            <Poster
-              navigation={navigation}
-              image={require('../../assets/Images/Poster/3.jpg')}
-              title="Journey to the past"
-              author="J.D Salinger"
-            />
-            <Poster
-              navigation={navigation}
-              image={require('../../assets/Images/Poster/4.jpg')}
-              title="Journey to the past"
-              author="J.D Salinger"
-            />
-            <Poster
-              navigation={navigation}
-              image={require('../../assets/Images/Poster/3.jpg')}
-              title="Journey to the past"
-              author="J.D Salinger"
-            />
-            <Poster
-              navigation={navigation}
-              image={require('../../assets/Images/Poster/3.jpg')}
-              title="Journey to the past"
-              author="J.D Salinger"
-            />
-            <Poster
-              navigation={navigation}
-              image={require('../../assets/Images/Poster/3.jpg')}
-              title="Journey to the past"
-              author="J.D Salinger"
-            />
-            <Poster
-              navigation={navigation}
-              image={require('../../assets/Images/Poster/3.jpg')}
-              title="Journey to the past"
-              author="J.D Salinger"
-            />
-            <Poster
-              navigation={navigation}
-              image={require('../../assets/Images/Poster/3.jpg')}
-              title="Journey to the past"
-              author="J.D Salinger"
-            />
+            {/* Render Book */}
+            {renderBooks()}
+            {/* Render Book */}
           </ScrollView>
         </View>
         {/* Box 6 */}
         <View style={style.boxSix}>
-          <Text style={style.titleMed}>New Arrival</Text>
+          <Text style={{...FONTS.largeTitle, color: COLORS.primary}}>
+            New Arrival
+          </Text>
           <View style={style.line}></View>
           <ScrollView
             alwaysBounceVertical={true}
@@ -158,7 +169,9 @@ const Home = ({navigation}) => {
         </View>
         {/* Box 7 */}
         <View style={style.boxSeven}>
-          <Text style={style.titleMed}>Best Seller</Text>
+          <Text style={{...FONTS.largeTitle, color: COLORS.primary}}>
+            Best Seller
+          </Text>
           <View style={style.line}></View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <Poster
@@ -194,7 +207,9 @@ const Home = ({navigation}) => {
           </ScrollView>
         </View>
         <View style={style.boxSeven}>
-          <Text style={style.titleMed}>Upcoming</Text>
+          <Text style={{...FONTS.largeTitle, color: COLORS.primary}}>
+            Upcoming
+          </Text>
           <View style={style.line}></View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <Poster

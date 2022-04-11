@@ -1,7 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {constants} from '../../constants';
-
-const {primaryColor, FontSemiBold} = constants;
+import {COLORS, SIZES, FONTS} from '../../constants/constants';
 
 const styles = StyleSheet.create({
   buttonWrap: {
@@ -10,7 +8,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    backgroundColor: primaryColor,
+    backgroundColor: COLORS.primary,
     // Shadow
     shadowColor: '#000',
     shadowOffset: {
@@ -23,27 +21,22 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   noneColor: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
     borderWidth: 2,
-    borderColor: primaryColor,
+    borderColor: COLORS.primary,
   },
   color: {
-    backgroundColor: primaryColor,
+    backgroundColor: COLORS.primary,
   },
   noneColorTitle: {
-    color: 'white',
-    fontFamily: FontSemiBold,
+    ...FONTS.h1,
+    color: COLORS.white,
   },
   colorTitle: {
-    color: primaryColor,
-    fontFamily: FontSemiBold,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  // Text
-  title: {
-    fontSize: constants.TextMed,
-    fontFamily: constants.FontExtraBold,
+    ...FONTS.h1,
+    color: COLORS.primary,
   },
 });
 

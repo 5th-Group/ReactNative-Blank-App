@@ -1,19 +1,24 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 
-import styles from './styles';
-import Form from '../../components/Form';
+// Components
+import Form from '../../components/Form/Form';
+import Button from '../../components/Button/Button';
 
-import Button from '../../components/Button';
-import {constants} from '../../constants';
+// Const
+import {constants} from '../../constants/constants';
+import {FONTS, COLORS, SIZES} from '../../constants/constants';
+import styles from './styles';
 
 const Signup = ({navigation}) => {
   return (
     <View style={styles.wrap}>
       {/* Header */}
       <View style={styles.box1}>
-        <Text style={styles.title}>Signup</Text>
-        <Text style={styles.text}>
+        <Text style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
+          Signup
+        </Text>
+        <Text style={{...FONTS.body2}}>
           Create an account to access all the features!
         </Text>
       </View>
@@ -36,18 +41,12 @@ const Signup = ({navigation}) => {
       </View>
       {/* Text */}
       <View style={styles.box4}>
-        <Text style={styles.text}>Already have an account? </Text>
+        <Text style={{...FONTS.body2}}>Already have an account? </Text>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Login');
           }}>
-          <Text
-            style={[
-              styles.text,
-              {
-                color: constants.primaryColor,
-              },
-            ]}>
+          <Text style={{...FONTS.body2, color: constants.primaryColor}}>
             Login
           </Text>
         </TouchableOpacity>

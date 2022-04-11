@@ -2,18 +2,20 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {constants} from '../../../constants';
-import Home from '../../../screens/Home';
-import Settings from '../../../screens/Settings';
-import Profile from '../../../screens/Profile';
-import Cart from '../../../screens/Cart';
+// Components
+import Home from '../../../screens/Home/Home';
+import Settings from '../../../screens/Settings/Setting';
+import Profile from '../../../screens/Profile/Profile';
+import Cart from '../../../screens/Cart/Cart';
 
-const HomeNav = createBottomTabNavigator();
-
+// CONST
+import {COLORS} from '../../../constants/constants';
 const homeName = 'Home';
 const cartName = 'Cart';
 const settingsName = 'Settings';
 const profileName = 'Profile';
+
+const HomeNav = createBottomTabNavigator();
 
 const HomeNavigate = () => {
   return (
@@ -52,7 +54,7 @@ const HomeNavigate = () => {
               <Ionicons
                 name={iconName}
                 size={35}
-                color={focused ? constants.primaryColor : color}
+                color={focused ? COLORS.primary : color}
               />
             );
           },

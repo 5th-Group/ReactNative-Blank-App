@@ -1,19 +1,21 @@
 import {StyleSheet} from 'react-native';
-import {constants} from '../../constants';
+import {constants} from '../../constants/constants';
+
+import {SIZES, COLORS} from '../../constants/constants';
 
 const style = StyleSheet.create({
   // Poster
   posterWrap: {
     borderWidth: 2,
-    borderColor: constants.OutlineColor,
+    borderColor: COLORS.fadeColor,
     borderRadius: 10,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
     marginHorizontal: 10,
     marginVertical: 20,
     paddingHorizontal: 20,
     paddingVertical: 20,
     // Shadow
-    shadowColor: '#000',
+    shadowColor: COLORS.shadow,
     shadowOffset: {
       width: 0,
       height: 10,
@@ -27,22 +29,12 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     marginTop: 10,
   },
-  //   ETC
-
-  textSmall: {
-    fontSize: constants.TextSmall,
-    color: constants.black,
-  },
-  title: {
-    color: constants.primaryColor,
-    fontSize: constants.TextMed + 3,
-    fontFamily: 'Metropolis-Medium',
-  },
   poster: {
     width: 230,
     height: 350,
     borderRadius: 5,
   },
+  //   ETC
 });
 
 export default style;

@@ -1,14 +1,10 @@
-import {StyleSheet, Dimensions} from 'react-native';
-
-import {constants} from '../../constants';
-
-const width = Dimensions.get('window').width - 40;
+import {StyleSheet} from 'react-native';
+import {FONTS, SIZES, COLORS} from '../../constants/constants';
 
 export const style = StyleSheet.create({
   wrap: {
     paddingHorizontal: 20,
     flex: 1,
-    backgroundColor: 'white',
   },
   contentContainerStyle: {
     paddingBottom: 80,
@@ -16,10 +12,9 @@ export const style = StyleSheet.create({
   //   Box 1
   boxOne: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     height: 40,
-    overflow: 'visible',
     marginTop: 40,
   },
   //   Box 2
@@ -49,9 +44,14 @@ export const style = StyleSheet.create({
   },
   line: {
     marginTop: 5,
-    width: '100%',
+    width: SIZES.width,
     height: 2,
-    backgroundColor: constants.primaryColor,
+    backgroundColor: COLORS.primary,
+  },
+  textColor: {
+    color: COLORS.primary,
+    fontSize: SIZES.h2,
+    ...FONTS.h2thin,
   },
   //   Box 5
   boxFive: {
@@ -74,26 +74,7 @@ export const style = StyleSheet.create({
   },
 
   //   ETC
-  text: {
-    color: constants.black,
-    fontSize: constants.TextMed,
-    fontFamily: constants.FontLight,
-  },
-  title: {
-    color: constants.primaryColor,
-    fontSize: constants.TextBig,
-    fontFamily: 'Metropolis-Semibold',
-  },
-  titleMed: {
-    color: constants.primaryColor,
-    fontSize: 40,
-    fontFamily: constants.FontSemiBold,
-  },
-  textColor: {
-    color: constants.primaryColor,
-    fontSize: constants.TextMed,
-    fontFamily: constants.FontLight,
-  },
+
   avt: {
     width: 60,
     height: 60,
@@ -101,11 +82,11 @@ export const style = StyleSheet.create({
   },
   input: {
     height: 60,
-    fontSize: constants.TextMed,
+    fontSize: SIZES.h2,
     paddingLeft: 60,
-    width: width,
+    width: SIZES.width - 40,
     borderRadius: 10,
-    backgroundColor: '#f4f4f4',
+    backgroundColor: 'white',
     borderColor: 'rgba(15,194,192, 0.3)',
     borderWidth: 1.5,
     shadowColor: '#000',

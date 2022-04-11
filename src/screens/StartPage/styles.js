@@ -1,12 +1,11 @@
 import {StyleSheet} from 'react-native';
 
-import {constants} from '../../constants';
+import {constants} from '../../constants/constants';
 
 const style = StyleSheet.create({
   wrap: {
     flex: 1,
     paddingHorizontal: 20,
-    backgroundColor: 'white',
     justifyContent: 'center',
   },
   //   Box 1

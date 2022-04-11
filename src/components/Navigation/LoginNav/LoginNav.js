@@ -1,14 +1,15 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
-import StartPage from '../../../screens/StartPage';
-import Login from '../../../screens/Login';
-import Signup from '../../../screens/Signup';
-import ForgotPassword from '../../../screens/ForgotPassword';
-import {constants} from '../../../constants';
+import StartPage from '../../../screens/StartPage/StartPage';
+import Login from '../../../screens/Login/Login';
+import Signup from '../../../screens/Signup/Signup';
+import ForgotPassword from '../../../screens/ForgotPassword/ForgotPassword';
 
+// Components
 const LoginNav = createNativeStackNavigator();
 
+// CONST
 const homeName = 'Home';
 const cartName = 'Cart';
 const settingsName = 'Settings';

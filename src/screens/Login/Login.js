@@ -1,10 +1,14 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 
+// Components
+import Form from '../../components/Form/Form';
+import Button from '../../components/Button/Button';
+
+// CONST
 import styles from './styles';
-import Form from '../../components/Form';
-import Button from '../../components/Button';
-import {constants} from '../../constants';
+import {constants} from '../../constants/constants';
+import {SIZES, COLORS, FONTS} from '../../constants/constants';
 
 const Login = ({navigation}) => {
   // Handle
@@ -16,8 +20,10 @@ const Login = ({navigation}) => {
     <View style={styles.wrap}>
       {/* Header */}
       <View style={styles.box1}>
-        <Text style={styles.title}>Login</Text>
-        <Text style={styles.text}>
+        <Text style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
+          Login
+        </Text>
+        <Text style={{...FONTS.body2}}>
           Login now to track all your favourite books, explore the book world!
         </Text>
       </View>
@@ -32,13 +38,7 @@ const Login = ({navigation}) => {
           onPress={() => {
             navigation.navigate('ForgotPassword');
           }}>
-          <Text
-            style={[
-              styles.text,
-              {
-                color: constants.primaryColor,
-              },
-            ]}>
+          <Text style={{...FONTS.body2, color: constants.primaryColor}}>
             Forgot password?
           </Text>
         </TouchableOpacity>

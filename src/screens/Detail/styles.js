@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
-
-import {constants} from '../../constants';
+import {COLORS} from '../../constants/constants';
 
 export const style = StyleSheet.create({
   wrap: {
@@ -17,13 +16,10 @@ export const style = StyleSheet.create({
   image: {
     width: 250,
     height: 400,
-    alignSelf: 'center',
-    borderRadius: 10,
   },
   Detail: {
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: 30,
   },
   // Book rating
   Rating: {
@@ -31,23 +27,13 @@ export const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 20,
-    backgroundColor: 'rgba(0,0,0,0.3)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     borderRadius: 10,
   },
   ratingItem: {
     paddingHorizontal: 10,
     alignItems: 'center',
     width: 170,
-  },
-  itemText: {
-    fontSize: constants.h2 - 2,
-    fontFamily: constants.FontBold,
-    color: 'white',
-  },
-  itemTitle: {
-    fontSize: constants.h3 + 1,
-    fontFamily: constants.FontSemiBold,
-    color: 'white',
   },
 
   // Description
@@ -61,13 +47,11 @@ export const style = StyleSheet.create({
   author: {
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    // backgroundColor: 'red',
   },
   overview: {
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     marginTop: 10,
-    // backgroundColor: 'blue',
   },
   // Sticky Button
   bottomButton: {
@@ -109,21 +93,6 @@ export const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     marginBottom: 20,
-  },
-
-  //   ETC
-  text: {
-    color: constants.black,
-    fontFamily: constants.FontLight,
-    fontSize: constants.TextMed,
-    lineHeight: 25,
-  },
-
-  title: {
-    color: constants.primaryColor,
-    fontSize: constants.TextMed + 10,
-    fontFamily: constants.FontSemiBold,
-    marginBottom: 5,
   },
 });
 

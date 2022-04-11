@@ -2,9 +2,9 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 
 import styles from './styles';
-import Form from '../../components/Form';
-import Button from '../../components/Button';
-import {constants} from '../../constants';
+import Form from '../../components/Form/Form';
+import Button from '../../components/Button/Button';
+import {constants} from '../../constants/constants';
 
 const ForgotPassword = ({navigation}) => {
   return (

@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-import {constants} from '../../constants';
+import {constants} from '../../constants/constants';
 
 const styles = StyleSheet.create({
   wrap: {
@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     padding: 20,
     paddingTop: 50,
-    backgroundColor: 'white',
   },
   box1: {
     justifyContent: 'center',

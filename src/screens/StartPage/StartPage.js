@@ -1,11 +1,10 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 
+// Components
 import style from './styles';
-import {constants} from '../../constants';
-import Button from '../../components/Button';
-
-const {FontExtraBold, FontLight, primaryColor} = constants;
+import Button from '../../components/Button/Button';
+import {COLORS, FONTS, SIZES} from '../../constants/constants';
 
 const StartPage = ({navigation}) => {
   // Handle
@@ -28,8 +27,19 @@ const StartPage = ({navigation}) => {
       </View>
       {/* Title */}
       <View style={style.boxTwo}>
-        <Text style={style.title}>Buy your favourite books</Text>
-        <Text style={style.text}>
+        <Text
+          style={{
+            ...FONTS.largeTitleBold,
+            textAlign: 'center',
+            color: COLORS.primary,
+          }}>
+          Buy your favourite books
+        </Text>
+        <Text
+          style={{
+            ...FONTS.body2,
+            textAlign: 'center',
+          }}>
           All your favourites book in one place, buy any book, staying at home,
           on travelling, or anywhere else
         </Text>
