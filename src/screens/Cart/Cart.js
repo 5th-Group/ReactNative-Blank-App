@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, ScrollView} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {getTotal} from '../../features/Cart/cartSlice';
 
 // Components
 import CartItem from '../../components/CartItem/CartItem';
@@ -7,46 +9,46 @@ import Button from '../../components/Button/Button';
 
 // CONST
 import style from './styles';
-import {COLORS, FONTS, IMAGES} from '../../constants/constants';
+import {COLORS, FONTS} from '../../constants/constants';
 
 const Cart = () => {
+  // const
+  const cart = useSelector(state => state.cart);
+  const items = useSelector(state => state.cart.item);
+  const total = useSelector(state => state.cart.total);
+  const quantity = useSelector(state => state.cart.quantity);
+  const disPatch = useDispatch();
+  // Handle
+  useEffect(() => {
+    disPatch(getTotal());
+  }, [cart]);
   return (
     <View style={style.wrap}>
       {/* Header */}
-      <View style={style.header}>
-        <Text style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
-          My Cart
-        </Text>
-        <Text style={{...FONTS.body2}}>3 items</Text>
-      </View>
 
       {/* Body */}
       <View style={style.body}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <CartItem
-            price={300}
-            title="Catcher in the Rye"
-            image={IMAGES.post1}></CartItem>
-          <CartItem
-            price={400}
-            title="Catcher in the Rye"
-            image={IMAGES.post2}></CartItem>
-          <CartItem
-            price={500}
-            title="Catcher in the Rye"
-            image={IMAGES.post3}></CartItem>
-          <CartItem
-            price={500}
-            title="Catcher in the Rye"
-            image={IMAGES.post3}></CartItem>
-          <CartItem
-            price={500}
-            title="Catcher in the Rye"
-            image={IMAGES.post3}></CartItem>
-          <CartItem
-            price={500}
-            title="Catcher in the Rye"
-            image={IMAGES.post3}></CartItem>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: 20}}>
+          <View style={{...style.header, paddingTop: 20}}>
+            <Text style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
+              My Cart
+            </Text>
+            <Text style={{...FONTS.body2}}>{`${quantity} ${
+              quantity <= 1 ? 'item' : 'items'
+            } `}</Text>
+          </View>
+          {items.map((item, index) => {
+            return (
+              <CartItem
+                key={index}
+                item={item}
+                price={item.price}
+                title={item.title}
+                image={item.image}></CartItem>
+            );
+          })}
         </ScrollView>
       </View>
       {/* Bottom */}
@@ -58,9 +60,10 @@ const Cart = () => {
             }}>
             Total
           </Text>
-          <Text style={{...FONTS.h2}}>$2000</Text>
+          <Text
+            style={{...FONTS.h2, color: COLORS.primary}}>{`$${total}`}</Text>
         </View>
-        <View style={{flex: 3}}>
+        <View>
           <Button
             title="Checkout"
             color={true}

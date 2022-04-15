@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {addProduct} from '../../features/Cart/cartSlice';
 import {
   ScrollView,
   Text,
@@ -8,7 +10,8 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Shadow} from 'react-native-shadow-2';
 
 // Components
@@ -16,11 +19,28 @@ import Button from '../../components/Button/Button';
 
 // CONST
 import style from './styles';
-import {COLORS, constants, FONTS, UTILS} from '../../constants/constants';
+import {COLORS, FONTS, SIZES, UTILS} from '../../constants/constants';
 
 export const Detail = ({navigation, route}) => {
-  // Handle
+  // Const
+  const [quantity, setQuantity] = useState(1);
   const {item} = route.params;
+  const disPatch = useDispatch();
+  const testitem = useSelector(state => state.cart.item);
+  // Handle
+  // Quantity
+  const handleQuantity = type => {
+    if (type === 'dec') {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+  // Add Item
+  const handleAddItem = () => {
+    console.log(testitem);
+    disPatch(addProduct({...item, quantity}));
+  };
   // Renders
   const renderBookDetailUpper = item => {
     return (
@@ -92,25 +112,45 @@ export const Detail = ({navigation, route}) => {
       <>
         <View style={style.count}>
           <View style={style.quantity}>
-            <AntDesign
-              name="minuscircleo"
-              size={30}
-              color={constants.primaryColor}></AntDesign>
+            <TouchableOpacity
+              disabled={quantity == 1 ? true : false}
+              onPress={() => {
+                handleQuantity('dec');
+              }}>
+              <FontAwesome
+                name="minus-circle"
+                color={quantity != 1 ? COLORS.primary : COLORS.lightGray4}
+                size={SIZES.h1Half}></FontAwesome>
+            </TouchableOpacity>
             <View>
-              <Text style={{...FONTS.body1}}>2</Text>
+              <Text style={{...FONTS.h2}}>{quantity}</Text>
             </View>
-            <AntDesign
-              name="pluscircleo"
-              size={30}
-              color={constants.primaryColor}></AntDesign>
+            <TouchableOpacity
+              onPress={() => {
+                handleQuantity('inc');
+              }}>
+              <FontAwesome
+                name="plus-circle"
+                color={COLORS.primary}
+                size={SIZES.h1Half}></FontAwesome>
+            </TouchableOpacity>
           </View>
           <View style={style.total}>
             <Text style={{...FONTS.body2}}>Total: </Text>
-            <Text style={{...FONTS.h2, color: COLORS.primary}}> $300.99</Text>
+            <Text
+              style={{
+                ...FONTS.h2,
+                color: COLORS.primary,
+              }}>{`$${item.price * quantity}`}</Text>
           </View>
         </View>
         <View style={style.button}>
-          <Button title="Add to Cart" color={true} size={{w: 'full', h: 70}} />
+          <Button
+            onPress={handleAddItem}
+            title="Add to Cart"
+            color={true}
+            size={{w: 'full', h: 70}}
+          />
         </View>
       </>
     );
@@ -143,6 +183,23 @@ export const Detail = ({navigation, route}) => {
             backgroundColor: 'rgba(240,240,232,0.9)',
           }}></View>
         {/* Color overlay */}
+        <View
+          style={{
+            alignSelf: 'flex-start',
+            position: 'relative',
+            top: 10,
+            left: 10,
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Home');
+            }}>
+            <Ionicons
+              name="chevron-back"
+              color={COLORS.lightGray}
+              size={SIZES.h1Hyper}></Ionicons>
+          </TouchableOpacity>
+        </View>
         <View style={style.Detail}>
           {/* DetailUpper */}
           {renderBookDetailUpper(item)}

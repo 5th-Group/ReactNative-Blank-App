@@ -1,6 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useSelector} from 'react-redux';
 
 // Components
 import Home from '../../../screens/Home/Home';
@@ -18,6 +19,9 @@ const profileName = 'Profile';
 const HomeNav = createBottomTabNavigator();
 
 const HomeNavigate = () => {
+  // Const
+  const quantity = useSelector(state => state.cart.quantity);
+
   return (
     <HomeNav.Navigator
       initialRouteName="Home"
@@ -62,7 +66,18 @@ const HomeNavigate = () => {
       }}>
       <HomeNav.Screen name="Home" component={Home} />
       <HomeNav.Screen name="Profile" component={Profile} />
-      <HomeNav.Screen name="Cart" component={Cart} />
+      <HomeNav.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          tabBarBadge: quantity >= 1 ? quantity : null,
+          tabBarBadgeStyle: {
+            marginTop: 15,
+            borderWidth: 1,
+            borderColor: 'white',
+          },
+        }}
+      />
       <HomeNav.Screen name="Settings" component={Settings} />
     </HomeNav.Navigator>
   );

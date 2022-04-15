@@ -1,27 +1,27 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {StatusBar} from 'react-native';
-import Navigate from './src/components/Navigation/MainNav/MainNav';
-import {constants} from './src/constants/constants';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// Components
+import Navigate from './src/components/Navigation/MainNav/MainNav';
+
+// CONST
+import {COLORS} from './src/constants/constants';
+import {Provider} from 'react-redux';
+import {store} from './src/store/store';
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <StatusBar
-        animated={true}
-        backgroundColor={constants.primaryColor}
-        hidden={false}
-      />
-      <Navigate></Navigate>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <StatusBar
+          animated={true}
+          backgroundColor={COLORS.primary}
+          hidden={false}
+        />
+        <Navigate></Navigate>
+      </NavigationContainer>
+    </Provider>
   );
 };
 

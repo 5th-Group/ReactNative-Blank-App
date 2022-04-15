@@ -9,7 +9,7 @@ export const style = StyleSheet.create({
   scroll: {},
   // Info
   cover: {
-    height: 650,
+    height: 660,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -78,7 +78,10 @@ export const style = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: COLORS.lightGray2,
+    borderRadius: 100,
   },
+
   total: {
     width: 140,
     flexDirection: 'row',

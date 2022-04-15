@@ -13,8 +13,9 @@
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.2",
+    "@reduxjs/toolkit": "^1.8.1",
     "axios": "^0.26.1",
-    "metro": "^0.69.1",
+    "metro": "^0.70.1",
     "react": "17.0.2",
     "react-native": "0.67.4",
     "react-native-base64": "^0.2.1",
@@ -22,7 +23,8 @@
     "react-native-screens": "^3.13.1",
     "react-native-shadow-2": "^6.0.3",
     "react-native-svg": "^12.3.0",
-    "react-native-vector-icons": "^9.1.0"
+    "react-native-vector-icons": "^9.1.0",
+    "react-redux": "^7.2.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

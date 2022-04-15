@@ -26,26 +26,29 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   //   Left
-  left: {},
+  left: {
+    flex: 1,
+    overflow: 'hidden',
+  },
   image: {
-    width: 150,
-    height: 130,
-    borderRadius: 10,
+    width: '100%',
+    height: 140,
   },
   count: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    width: 100,
+    width: 90,
+    borderRadius: 50,
+    backgroundColor: COLORS.lightGray2,
   },
   //   Mid
   mid: {
-    flex: 1,
-    width: 250,
+    width: 270,
     height: 150,
     justifyContent: 'space-around',
     alignItems: 'flex-start',
-    paddingVertical: 20,
+    paddingVertical: 8,
   },
   //   Right
   right: {

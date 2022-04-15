@@ -150,8 +150,13 @@ export const FONTS = {
 };
 
 // Dummy data
+let id = 0;
+const idGenerate = () => {
+  return (id += 1);
+};
 export const dummyData = [
   {
+    id: idGenerate(),
     title: 'Catcher in the Rye',
     author: 'J.D Stanlinger',
     lange: 'English',
@@ -162,6 +167,7 @@ export const dummyData = [
     Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
   },
   {
+    id: idGenerate(),
     title: 'Away',
     author: 'Sylvia Walker',
     lange: 'English',
@@ -172,6 +178,7 @@ export const dummyData = [
     Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
   },
   {
+    id: idGenerate(),
     title: 'Journey to the past',
     author: 'Stephen Henry',
     lange: 'English',
@@ -182,6 +189,7 @@ export const dummyData = [
     Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
   },
   {
+    id: idGenerate(),
     title: 'Heilung',
     author: 'Mara Franzis',
     lange: 'English',
@@ -192,6 +200,7 @@ export const dummyData = [
     Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
   },
   {
+    id: idGenerate(),
     title: 'The Astronaut',
     author: 'Masima',
     lange: 'English',
@@ -202,6 +211,7 @@ export const dummyData = [
     Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
   },
   {
+    id: idGenerate(),
     title: 'The Darkest Hour',
     author: 'Alfred Churchill',
     lange: 'English',
@@ -212,6 +222,7 @@ export const dummyData = [
     Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
   },
   {
+    id: idGenerate(),
     title: 'Aliens',
     author: 'Marius Sulla',
     lange: 'English',
@@ -222,6 +233,7 @@ export const dummyData = [
     Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
   },
   {
+    id: idGenerate(),
     title: 'The girl behind',
     author: 'Adamantha Smith',
     lange: 'English',
@@ -232,6 +244,7 @@ export const dummyData = [
     Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
   },
   {
+    id: idGenerate(),
     title: 'Stalkers of chernobyl',
     author: 'Adria Moore',
     lange: 'English',
@@ -242,6 +255,7 @@ export const dummyData = [
     Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
   },
   {
+    id: idGenerate(),
     title: 'Dark day',
     author: 'Alex Doe',
     lange: 'English',

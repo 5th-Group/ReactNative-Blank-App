@@ -58,7 +58,7 @@ const Button = ({title, color, navigate, size, margin, onPress}) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          onPress();
+          onPress ? onPress() : null;
         }}
         style={[styles.buttonWrap, bgColor, Size, Margin]}>
         <Text style={[titleColor, FONTS.h2]}>{title}</Text>
