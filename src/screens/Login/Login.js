@@ -7,7 +7,6 @@ import Button from '../../components/Button/Button';
 
 // CONST
 import styles from './styles';
-import {constants} from '../../constants/constants';
 import {SIZES, COLORS, FONTS} from '../../constants/constants';
 
 const Login = ({navigation}) => {
@@ -38,7 +37,7 @@ const Login = ({navigation}) => {
           onPress={() => {
             navigation.navigate('ForgotPassword');
           }}>
-          <Text style={{...FONTS.body2, color: constants.primaryColor}}>
+          <Text style={{...FONTS.body2, color: COLORS.primary}}>
             Forgot password?
           </Text>
         </TouchableOpacity>
@@ -54,20 +53,12 @@ const Login = ({navigation}) => {
       </View>
       {/* Register */}
       <View style={styles.box4}>
-        <Text style={styles.text}>Don't have an account? </Text>
+        <Text style={{...FONTS.body2}}>Don't have an account? </Text>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Signup');
           }}>
-          <Text
-            style={[
-              styles.text,
-              {
-                color: constants.primaryColor,
-              },
-            ]}>
-            Register
-          </Text>
+          <Text style={{...FONTS.body2, color: COLORS.primary}}>Register</Text>
         </TouchableOpacity>
       </View>
       {/* Image */}

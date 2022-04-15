@@ -28,7 +28,7 @@ const Home = ({navigation}) => {
         <Text style={{...FONTS.h2}}>{userName}</Text>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Login');
+            navigation.navigate('Profile');
           }}>
           <Image
             style={style.avt}

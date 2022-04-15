@@ -39,16 +39,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   // ETC
-  title: {
-    fontFamily: constants.FontExtraBold,
-    fontSize: constants.TextBig,
-    color: constants.primaryColor,
-  },
-  text: {
-    fontFamily: constants.FontLight,
-    fontSize: constants.TextMed,
-    color: constants.black,
-  },
   image: {
     width: 500,
     height: 300,

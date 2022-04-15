@@ -1,7 +1,5 @@
 import {StyleSheet} from 'react-native';
 
-import {constants} from '../../constants/constants';
-
 const style = StyleSheet.create({
   wrap: {
     flex: 1,
@@ -14,7 +12,6 @@ const style = StyleSheet.create({
     alignItems: 'center',
     overflow: 'visible',
     marginTop: 10,
-    // paddingBottom: 100,
   },
   //   Box 2
   boxTwo: {
@@ -58,18 +55,6 @@ const style = StyleSheet.create({
   avt: {
     width: 500,
     height: 550,
-  },
-  title: {
-    fontFamily: constants.FontExtraBold,
-    fontSize: constants.TextBig,
-    color: constants.primaryColor,
-    textAlign: 'center',
-  },
-  text: {
-    fontFamily: constants.FontLight,
-    fontSize: constants.TextMed,
-    color: constants.black,
-    textAlign: 'center',
   },
 });
 

@@ -6,7 +6,6 @@ import Form from '../../components/Form/Form';
 import Button from '../../components/Button/Button';
 
 // Const
-import {constants} from '../../constants/constants';
 import {FONTS, COLORS, SIZES} from '../../constants/constants';
 import styles from './styles';
 
@@ -46,9 +45,7 @@ const Signup = ({navigation}) => {
           onPress={() => {
             navigation.navigate('Login');
           }}>
-          <Text style={{...FONTS.body2, color: constants.primaryColor}}>
-            Login
-          </Text>
+          <Text style={{...FONTS.body2, color: COLORS.primary}}>Login</Text>
         </TouchableOpacity>
       </View>
       {/* Image */}

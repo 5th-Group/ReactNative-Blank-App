@@ -1,7 +1,5 @@
 import {StyleSheet} from 'react-native';
 
-import {constants} from '../../constants/constants';
-
 const styles = StyleSheet.create({
   wrap: {
     flex: 1,
@@ -38,16 +36,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   // ETC
-  title: {
-    fontFamily: constants.FontExtraBold,
-    fontSize: constants.TextBig,
-    color: constants.primaryColor,
-  },
-  text: {
-    fontFamily: constants.FontLight,
-    fontSize: constants.TextMed,
-    color: constants.black,
-  },
   image: {
     width: 480,
     height: 500,

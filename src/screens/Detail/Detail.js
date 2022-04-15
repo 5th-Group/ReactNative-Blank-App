@@ -27,7 +27,9 @@ export const Detail = ({navigation, route}) => {
   const {item} = route.params;
   const disPatch = useDispatch();
   const testitem = useSelector(state => state.cart.item);
+
   // Handle
+
   // Quantity
   const handleQuantity = type => {
     if (type === 'dec') {
@@ -36,11 +38,13 @@ export const Detail = ({navigation, route}) => {
       setQuantity(quantity + 1);
     }
   };
+
   // Add Item
   const handleAddItem = () => {
     console.log(testitem);
     disPatch(addProduct({...item, quantity}));
   };
+
   // Renders
   const renderBookDetailUpper = item => {
     return (
@@ -49,6 +53,7 @@ export const Detail = ({navigation, route}) => {
         <View style={{...UTILS.shadow, borderRadius: 20, overflow: 'hidden'}}>
           <Image resizeMode="cover" style={style.image} source={item.image} />
         </View>
+
         {/* Book name and Author */}
         <Text
           style={{
@@ -62,12 +67,14 @@ export const Detail = ({navigation, route}) => {
       </>
     );
   };
+
   // BookRating
   const renderBookRating = () => {
     const shortLang = item.lange.substring(0, 3).toUpperCase();
     return (
       <>
         <View style={style.ratingItem}>
+          {/* Rating */}
           <Text style={{...FONTS.body2, color: COLORS.white}}>
             {item.Rating}
           </Text>
@@ -81,7 +88,8 @@ export const Detail = ({navigation, route}) => {
               borderLeftWidth: 2.5,
             }}></View>
         </View>
-        {/*  */}
+
+        {/* Page count */}
         <View style={style.ratingItem}>
           <Text style={{...FONTS.body2, color: COLORS.white}}>
             {item.pageCount}
@@ -96,12 +104,12 @@ export const Detail = ({navigation, route}) => {
               borderLeftWidth: 2,
             }}></View>
         </View>
-        {/*  */}
+
+        {/* Lang */}
         <View style={style.ratingItem}>
           <Text style={{...FONTS.body2, color: COLORS.white}}>{shortLang}</Text>
           <Text style={{...FONTS.h2, color: COLORS.white}}>Language</Text>
         </View>
-        {/*  */}
       </>
     );
   };

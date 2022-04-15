@@ -4,15 +4,20 @@ import {View, Text, TouchableOpacity, Image} from 'react-native';
 import styles from './styles';
 import Form from '../../components/Form/Form';
 import Button from '../../components/Button/Button';
-import {constants} from '../../constants/constants';
+
+// CONST
+import {COLORS, FONTS} from '../../constants/constants';
 
 const ForgotPassword = ({navigation}) => {
   return (
     <View style={styles.wrap}>
       {/* Headers */}
+
       <View style={styles.box1}>
-        <Text style={styles.title}>Forgot Password?</Text>
-        <Text style={styles.text}>
+        <Text style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
+          Forgot Password?
+        </Text>
+        <Text style={{...FONTS.body2}}>
           Recover your password if you have forgot your password!
         </Text>
       </View>
