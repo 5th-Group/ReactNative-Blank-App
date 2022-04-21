@@ -10,10 +10,6 @@ import ForgotPassword from '../../../screens/ForgotPassword/ForgotPassword';
 const LoginNav = createNativeStackNavigator();
 
 // CONST
-const homeName = 'Home';
-const cartName = 'Cart';
-const settingsName = 'Settings';
-const profileName = 'Profile';
 
 const LoginNavigate = () => {
   return (

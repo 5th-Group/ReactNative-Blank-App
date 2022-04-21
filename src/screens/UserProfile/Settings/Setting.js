@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 // CONST
 import style from './styles';
-import {COLORS, SIZES, FONTS} from '../../constants/constants';
+import {FONTS, SIZES, COLORS} from '../../../constants/constants';
 
 const Settings = () => {
   return (

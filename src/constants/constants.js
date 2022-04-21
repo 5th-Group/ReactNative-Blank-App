@@ -25,22 +25,9 @@ export const COLORS = {
   lightGreen: '#31Ad66',
 };
 
-export const UTILS = {
-  shadow: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-
-    elevation: 12,
-  },
-};
-
 export const IMAGES = {
   // Images
+  avt: require('../assets/Images/avt.jpg'),
   post1: require('../assets/Images/Poster/1.png'),
   post2: require('../assets/Images/Poster/2.jpg'),
   post3: require('../assets/Images/Poster/3.jpg'),
@@ -58,7 +45,7 @@ export const SIZES = {
   base: 8,
   font: 14,
   radius: 12,
-  padding: 24,
+  padding: 20,
   padding2: 36,
 
   // font sizes
@@ -81,6 +68,8 @@ export const SIZES = {
 };
 
 export const FONTS = {
+  bold: 'Metropolis-Bold',
+  regular: 'Metropolis-Regular',
   largeTitle: {
     fontFamily: 'Metropolis-Regular',
     fontSize: SIZES.largeTitle,
@@ -117,6 +106,25 @@ export const FONTS = {
     fontFamily: 'Metropolis-Regular',
     fontSize: SIZES.body4,
     lineHeight: 22,
+  },
+};
+
+export const UTILS = {
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+
+    elevation: 12,
+  },
+  Form: {
+    width: width,
+    height: 70,
+    ...FONTS.h2,
   },
 };
 

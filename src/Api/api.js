@@ -1,7 +1,8 @@
 import axios from 'axios';
+import apiConfig from './apiConfig';
 
 const apiInstance = axios.create({
-  baseURL: 'https://swift-lib.herokuapp.com',
+  baseURL: apiConfig.baseURL,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -11,17 +11,35 @@ import Icon2 from 'react-native-vector-icons/AntDesign';
 
 // CONST
 import {style} from './styles';
-import {COLORS, SIZES, FONTS} from '../../constants/constants';
+import {COLORS, SIZES, FONTS, IMAGES} from '../../constants/constants';
 import {bookCategory} from '../../constants/constants';
 import {dummyData} from '../../constants/constants';
+import api from '../../api/apiV1';
 
 // Components
 import Poster from '../../components/Poster/Poster';
 
 const Home = ({navigation}) => {
+  // Const
+  const [lang, setLang] = useState(null);
+  // Api Call
+  // useEffect(() => {
+  //   const getBooks = async () => {
+  //     try {
+  //       const data = await api.getAll();
+  //       if (data) {
+  //         setLang(data.data);
+  //       }
+  //     } catch (error) {
+  //       console.log(`Error:${error}`);
+  //     }
+  //   };
+  //   getBooks();
+  // }, []);
+
   // Renders
 
-  //
+  //Greeting
   const renderGreetingAndAvt = (userName = 'Welcome back, Bi!', userAvt) => {
     return (
       <>
@@ -77,8 +95,7 @@ const Home = ({navigation}) => {
           title={item.title}
           author={item.author}
           image={item.image}
-          navigation={navigation}
-          item={item}></Poster>
+          navigation={navigation}></Poster>
       );
     });
   };

@@ -8,16 +8,19 @@ import Detail from '../../../screens/Detail/Detail';
 const Nav = createNativeStackNavigator();
 
 const Navigate = () => {
+  // Const
+  const LoginNav = 'LoginNavigate';
+  const HomeNav = 'HomeNavigate';
   return (
     <Nav.Navigator
-      initialRouteName="LoginNavigate"
+      initialRouteName={HomeNav}
       screenOptions={({route}) => {
         return {
           headerShown: false,
         };
       }}>
-      <Nav.Screen name="LoginNavigate" component={LoginNavigate} />
-      <Nav.Screen name="HomeNavigate" component={HomeNavigate} />
+      <Nav.Screen name={LoginNav} component={LoginNavigate} />
+      <Nav.Screen name={HomeNav} component={HomeNavigate} />
       <Nav.Screen name="Detail" component={Detail} />
     </Nav.Navigator>
   );

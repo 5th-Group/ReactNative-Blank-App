@@ -24,9 +24,6 @@ const Cart = () => {
   }, [cart]);
   return (
     <View style={style.wrap}>
-      {/* Header */}
-
-      {/* Body */}
       <View style={style.body}>
         <ScrollView
           showsVerticalScrollIndicator={false}

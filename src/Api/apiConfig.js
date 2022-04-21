@@ -1,5 +1,5 @@
 const apiConfig = {
-  baseURL: 'urlPlaceholder',
+  baseURL: 'https://swift-lib.herokuapp.com',
   apiKey: 'apiPlaceholder',
 };
 

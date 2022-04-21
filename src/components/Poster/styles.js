@@ -6,6 +6,7 @@ import {SIZES, COLORS} from '../../constants/constants';
 const style = StyleSheet.create({
   // Poster
   posterWrap: {
+    flex: 1,
     borderWidth: 2,
     borderColor: COLORS.fadeColor,
     borderRadius: 10,
@@ -14,6 +15,8 @@ const style = StyleSheet.create({
     marginVertical: 20,
     paddingHorizontal: 20,
     paddingVertical: 20,
+    width: 274,
+
     // Shadow
     shadowColor: COLORS.shadow,
     shadowOffset: {
@@ -28,6 +31,9 @@ const style = StyleSheet.create({
   posterTitle: {
     flexDirection: 'column',
     marginTop: 10,
+    flexWrap: 'wrap',
+    flex: 1,
+    // width: '100%',
   },
   poster: {
     width: 230,
