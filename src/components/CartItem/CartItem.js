@@ -37,7 +37,7 @@ const CartItem = ({title, image, price, item}) => {
           style={{
             width: 90,
             alignSelf: 'center',
-            borderRadius: 8,
+            borderRadius: SIZES.radius,
             overflow: 'hidden',
           }}>
           <Image resizeMode="cover" style={styles.image} source={image} />

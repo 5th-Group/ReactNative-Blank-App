@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
+import {SIZES} from '../../constants/constants';
 
 const style = StyleSheet.create({
   wrap: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingHorizontal: 20,
   },
   // Header
   header: {

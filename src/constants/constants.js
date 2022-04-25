@@ -7,6 +7,10 @@ export const COLORS = {
   secondary: '#4f4477',
   third: '#7e90b0',
   fadeColor: 'rgba(15,194,192, 0.3)',
+  success: '#40e6a3',
+  primaryRGBA: opacity => {
+    return `rgba(15,194,192, ${opacity})`;
+  },
   // colors
   shadow: '#000',
   black: '#1E1B26',
@@ -46,7 +50,8 @@ export const SIZES = {
   font: 14,
   radius: 12,
   padding: 20,
-  padding2: 36,
+  padding2: 30,
+  padding3: 40,
 
   // font sizes
   largeTitle: 50,
@@ -118,8 +123,17 @@ export const UTILS = {
     },
     shadowOpacity: 0.37,
     shadowRadius: 7.49,
-
     elevation: 12,
+  },
+  shadow2: {
+    shadowColor: COLORS.shadow,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
   },
   Form: {
     width: width,
@@ -245,8 +259,6 @@ export const dummyData = [
     Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
   },
 ];
-
-export const bookCategory = ['Novel', 'Science', 'Romance', 'Sci-fi'];
 
 const appTheme = {COLORS, SIZES, FONTS};
 

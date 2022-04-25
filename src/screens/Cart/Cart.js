@@ -9,7 +9,7 @@ import Button from '../../components/Button/Button';
 
 // CONST
 import style from './styles';
-import {COLORS, FONTS} from '../../constants/constants';
+import {COLORS, FONTS, SIZES} from '../../constants/constants';
 
 const Cart = () => {
   // const
@@ -27,7 +27,10 @@ const Cart = () => {
       <View style={style.body}>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingBottom: 20}}>
+          contentContainerStyle={{
+            paddingBottom: SIZES.padding,
+            paddingHorizontal: SIZES.padding,
+          }}>
           <View style={{...style.header, paddingTop: 20}}>
             <Text style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
               My Cart

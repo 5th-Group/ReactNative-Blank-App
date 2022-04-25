@@ -10,12 +10,12 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Shadow} from 'react-native-shadow-2';
 
 // Components
 import Button from '../../components/Button/Button';
+import BackIcon from '../../components/Back-Icon/BackIcon';
 
 // CONST
 import style from './styles';
@@ -26,7 +26,6 @@ export const Detail = ({navigation, route}) => {
   const [quantity, setQuantity] = useState(1);
   const {item} = route.params;
   const disPatch = useDispatch();
-  const testitem = useSelector(state => state.cart.item);
 
   // Handle
 
@@ -41,8 +40,12 @@ export const Detail = ({navigation, route}) => {
 
   // Add Item
   const handleAddItem = () => {
-    console.log(testitem);
     disPatch(addProduct({...item, quantity}));
+  };
+
+  // Navigate
+  const navigateBack = () => {
+    navigation.goBack();
   };
 
   // Renders
@@ -50,7 +53,12 @@ export const Detail = ({navigation, route}) => {
     return (
       <>
         {/* Book cover */}
-        <View style={{...UTILS.shadow, borderRadius: 20, overflow: 'hidden'}}>
+        <View
+          style={{
+            ...UTILS.shadow,
+            borderRadius: SIZES.padding,
+            overflow: 'hidden',
+          }}>
           <Image resizeMode="cover" style={style.image} source={item.image} />
         </View>
 
@@ -58,12 +66,23 @@ export const Detail = ({navigation, route}) => {
         <Text
           style={{
             ...FONTS.h1,
-            color: COLORS.primary,
-            marginTop: 20,
+            color: COLORS.white,
+            marginTop: SIZES.padding,
+            textShadowColor: COLORS.lightGray4,
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 2,
           }}>
           {item.title}
         </Text>
-        <Text style={{...FONTS.body2, marginBottom: 20}}>{item.author}</Text>
+        <Text
+          style={{
+            ...FONTS.body2,
+            marginBottom: SIZES.padding - 10,
+            fontFamily: FONTS.bold,
+            color: COLORS.primary,
+          }}>
+          {item.author}
+        </Text>
       </>
     );
   };
@@ -84,7 +103,7 @@ export const Detail = ({navigation, route}) => {
           <View
             style={{
               flex: 1,
-              borderLeftColor: 'white',
+              borderLeftColor: COLORS.white,
               borderLeftWidth: 2.5,
             }}></View>
         </View>
@@ -170,6 +189,7 @@ export const Detail = ({navigation, route}) => {
       <View style={style.cover}>
         {/* Background */}
         <ImageBackground
+          blurRadius={8}
           source={item.image}
           resizeMode="cover"
           style={{
@@ -188,25 +208,16 @@ export const Detail = ({navigation, route}) => {
             right: 0,
             bottom: 0,
             left: 0,
-            backgroundColor: 'rgba(240,240,232,0.9)',
+            backgroundColor: 'rgba(0,0,0,0.5)',
           }}></View>
         {/* Color overlay */}
         <View
           style={{
             alignSelf: 'flex-start',
-            position: 'relative',
-            top: 10,
-            left: 10,
+            margin: SIZES.padding,
+            // paddingBottom: 20,
           }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Home');
-            }}>
-            <Ionicons
-              name="chevron-back"
-              color={COLORS.lightGray}
-              size={SIZES.h1Hyper}></Ionicons>
-          </TouchableOpacity>
+          <BackIcon onPress={navigateBack}></BackIcon>
         </View>
         <View style={style.Detail}>
           {/* DetailUpper */}

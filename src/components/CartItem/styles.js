@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-import {COLORS} from '../../constants/constants';
+import {COLORS, SIZES} from '../../constants/constants';
 
 const styles = StyleSheet.create({
   wrap: {
@@ -8,13 +8,12 @@ const styles = StyleSheet.create({
     height: 170,
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingRight: 60,
-    marginTop: 20,
-    backgroundColor: 'white',
-    borderWidth: 2,
-    borderColor: COLORS.primary,
     flexDirection: 'row',
-    borderRadius: 30,
+    paddingRight: SIZES.padding * 3,
+    marginTop: SIZES.padding,
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.primary,
+    borderRadius: SIZES.radius,
     // Shadow
     shadowColor: COLORS.shadow,
     shadowOffset: {
@@ -48,12 +47,10 @@ const styles = StyleSheet.create({
     height: 150,
     justifyContent: 'space-around',
     alignItems: 'flex-start',
-    paddingVertical: 8,
+    paddingVertical: SIZES.base,
   },
   //   Right
-  right: {
-    // backgroundColor: 'red',
-  },
+  right: {},
 });
 
 export default styles;

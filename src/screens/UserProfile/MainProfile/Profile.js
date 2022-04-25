@@ -1,35 +1,21 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Octicons from 'react-native-vector-icons/Octicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // CONST
-import {FONTS, SIZES, COLORS, IMAGES} from '../../../constants/constants';
+import {
+  FONTS,
+  SIZES,
+  COLORS,
+  IMAGES,
+  UTILS,
+} from '../../../constants/constants';
 
 // Component
+import handleIcon from '../../../components/Icon/Icon';
+
 const Option = ({title, iconName, iconBrand, onPress}) => {
-  // handleIcon
-  const handleIcon = (icon, name) => {
-    const components = {
-      Octicons,
-      MaterialCommunityIcons,
-      Ionicons,
-      Entypo,
-      Feather,
-      AntDesign,
-      MaterialIcons,
-    };
-    const SpecificStory = components[icon];
-    return (
-      <SpecificStory name={name} size={SIZES.h1Half} color={COLORS.primary} />
-    );
-  };
   return (
     <TouchableOpacity
       onPress={onPress ? onPress : null}
@@ -44,7 +30,7 @@ const Option = ({title, iconName, iconBrand, onPress}) => {
       {/* Left */}
 
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        {handleIcon(iconBrand, iconName)}
+        {handleIcon(iconBrand, iconName, SIZES.h1Half, COLORS.primary)}
         <Text
           style={{
             ...FONTS.body1,
@@ -70,9 +56,19 @@ const Option = ({title, iconName, iconBrand, onPress}) => {
 // Main
 const Profile = ({navigation}) => {
   // Handle
+  // Setting
   const settingNavigate = () => {
     navigation.navigate('Settings');
   };
+  // OrderHistory
+  const orderNavigate = () => {
+    navigation.navigate('OrderHistory');
+  };
+  // EditUser
+  const editUserNavigate = () => {
+    navigation.navigate('EditUser');
+  };
+
   // Render
 
   // Header
@@ -83,6 +79,7 @@ const Profile = ({navigation}) => {
           justifyContent: 'space-around',
           alignItems: 'flex-start',
           width: '100%',
+          marginBottom: SIZES.padding,
         }}>
         <View>
           <Text style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
@@ -103,8 +100,12 @@ const Profile = ({navigation}) => {
           justifyContent: 'space-between',
           alignItems: 'center',
           width: '100%',
-          // backgroundColor: 'blue',
           height: 135,
+          padding: SIZES.base,
+          backgroundColor: COLORS.white,
+          borderRadius: SIZES.radius,
+          ...UTILS.shadow,
+          marginBottom: SIZES.padding,
         }}>
         {/* Avatar */}
 
@@ -116,7 +117,6 @@ const Profile = ({navigation}) => {
             overflow: 'hidden',
             marginRight: SIZES.padding,
             borderRadius: 50,
-            // backgroundColor: 'red',
           }}>
           <Image
             style={{width: 100, height: 100, alignSelf: 'center'}}
@@ -127,7 +127,6 @@ const Profile = ({navigation}) => {
 
         <View
           style={{
-            // backgroundColor: 'red',
             justifyContent: 'flex-start',
             flex: 1,
             justifyContent: 'space-between',
@@ -142,7 +141,7 @@ const Profile = ({navigation}) => {
           style={{
             paddingRight: SIZES.padding,
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={editUserNavigate}>
             <FontAwesome5
               name="edit"
               size={SIZES.h1Half}
@@ -156,26 +155,41 @@ const Profile = ({navigation}) => {
   // Options
   const renderOptions = () => {
     return (
-      <View
-        style={{
-          justifyContent: 'flex-start',
-          width: '100%',
-        }}>
-        <Text style={{...FONTS.h1, color: COLORS.primary}}>Account</Text>
-        <Option
-          iconBrand="Octicons"
-          title="My Orders"
-          iconName="checklist"></Option>
-        <Option
-          onPress={settingNavigate}
-          iconBrand="Ionicons"
-          title="Settings"
-          iconName="settings-outline"></Option>
-        <Option
-          iconBrand="Entypo"
-          title="Saved Addresses"
-          iconName="location"></Option>
-      </View>
+      <>
+        <Text
+          style={{
+            ...FONTS.h1,
+            color: COLORS.primary,
+            alignSelf: 'flex-start',
+            marginBottom: SIZES.padding - 10,
+          }}>
+          Account
+        </Text>
+        <View
+          style={{
+            justifyContent: 'flex-start',
+            width: '100%',
+            backgroundColor: COLORS.white,
+            borderRadius: SIZES.radius,
+            ...UTILS.shadow,
+            overflow: 'hidden',
+          }}>
+          <Option
+            onPress={orderNavigate}
+            iconBrand="Octicons"
+            title="My Orders"
+            iconName="checklist"></Option>
+          <Option
+            onPress={settingNavigate}
+            iconBrand="Ionicons"
+            title="Settings"
+            iconName="settings-outline"></Option>
+          <Option
+            iconBrand="Entypo"
+            title="Saved Addresses"
+            iconName="location"></Option>
+        </View>
+      </>
     );
   };
   return (

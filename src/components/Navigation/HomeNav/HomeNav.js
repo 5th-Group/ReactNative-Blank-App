@@ -9,7 +9,7 @@ import Cart from '../../../screens/Cart/Cart';
 import ProfileNavigate from '../ProfileNav/ProfileNav';
 
 // CONST
-import {COLORS} from '../../../constants/constants';
+import {COLORS, SIZES} from '../../../constants/constants';
 const HomeNav = createBottomTabNavigator();
 
 const HomeNavigate = () => {
@@ -62,7 +62,7 @@ const HomeNavigate = () => {
         return (
           <Ionicons
             name={iconName}
-            size={35}
+            size={SIZES.h1p}
             color={focused ? COLORS.primary : color}
           />
         );

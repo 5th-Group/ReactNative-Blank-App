@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLORS} from '../../constants/constants';
+import {COLORS, SIZES} from '../../constants/constants';
 
 export const style = StyleSheet.create({
   wrap: {
@@ -11,27 +11,28 @@ export const style = StyleSheet.create({
   cover: {
     height: 660,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   image: {
-    width: 250,
-    height: 400,
+    width: 200,
+    height: 300,
   },
   Detail: {
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginBottom: SIZES.padding,
   },
   // Book rating
   Rating: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 20,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    borderRadius: 10,
+    paddingVertical: SIZES.padding,
+    backgroundColor: COLORS.primaryRGBA(0.4),
+    borderRadius: SIZES.radius,
   },
   ratingItem: {
-    paddingHorizontal: 10,
+    paddingHorizontal: SIZES.padding - 10,
     alignItems: 'center',
     width: 170,
   },

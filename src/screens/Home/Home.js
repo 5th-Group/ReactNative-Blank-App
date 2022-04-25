@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+
 import {
   Image,
   Text,
@@ -11,9 +12,10 @@ import Icon2 from 'react-native-vector-icons/AntDesign';
 
 // CONST
 import {style} from './styles';
-import {COLORS, SIZES, FONTS, IMAGES} from '../../constants/constants';
-import {bookCategory} from '../../constants/constants';
+import {COLORS, SIZES, FONTS, IMAGES, UTILS} from '../../constants/constants';
 import {dummyData} from '../../constants/constants';
+import {category} from '../../constants/data';
+import handleIcon from '../../components/Icon/Icon';
 import api from '../../api/apiV1';
 
 // Components
@@ -36,6 +38,9 @@ const Home = ({navigation}) => {
   //   };
   //   getBooks();
   // }, []);
+
+  // States
+  const [selectedItem, setSelectedItem] = useState(null);
 
   // Renders
 
@@ -66,7 +71,7 @@ const Home = ({navigation}) => {
           style={style.icon}
           name="search1"
           size={SIZES.body1}
-          color="#c4c4c4"></Icon2>
+          color={COLORS.primary}></Icon2>
       </>
     );
   };
@@ -74,15 +79,48 @@ const Home = ({navigation}) => {
   // BookCategory
   const renderCategory = () => {
     return (
-      <>
-        {bookCategory.map((item, index) => {
+      <ScrollView
+        contentContainerStyle={{paddingHorizontal: SIZES.padding}}
+        horizontal
+        showsHorizontalScrollIndicator={false}>
+        {category.map(({id, title, icon}) => {
+          const selected = title == selectedItem;
+          const color = selected ? COLORS.white : COLORS.primary;
           return (
-            <Text key={index} style={style.textColor}>
-              {item}
-            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedItem(title);
+              }}
+              key={id}
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginRight: SIZES.padding,
+                marginBottom: SIZES.padding - 10,
+                backgroundColor: selected ? COLORS.primary : COLORS.white,
+                paddingHorizontal: SIZES.padding - 10,
+                paddingVertical: SIZES.padding - 15,
+                borderRadius: SIZES.radius - 5,
+                ...UTILS.shadow2,
+              }}>
+              <View
+                style={{
+                  marginRight: SIZES.padding - 10,
+                }}>
+                {handleIcon(icon.brand, icon.idleIcon, SIZES.h1Half, color)}
+              </View>
+              <Text
+                style={{
+                  ...FONTS.h2thin,
+                  color: selected ? COLORS.white : COLORS.lightGray1,
+                }}>
+                {title}
+              </Text>
+            </TouchableOpacity>
           );
         })}
-      </>
+      </ScrollView>
     );
   };
   //
@@ -95,6 +133,7 @@ const Home = ({navigation}) => {
           title={item.title}
           author={item.author}
           image={item.image}
+          item={item}
           navigation={navigation}></Poster>
       );
     });
@@ -106,7 +145,7 @@ const Home = ({navigation}) => {
         contentContainerStyle={style.contentContainerStyle}
         showsVerticalScrollIndicator={false}>
         {/* Avatar  and Greetings*/}
-        <View style={style.boxOne}>
+        <View style={{...style.boxOne, paddingHorizontal: SIZES.padding}}>
           {/* RenderFn */}
           {renderGreetingAndAvt()}
           {/* RenderFn */}
@@ -125,18 +164,19 @@ const Home = ({navigation}) => {
         </View>
         {/* Book categories*/}
         <View style={style.boxFour}>
-          <View style={style.category}>
-            {/* RenderFn */}
-            {renderCategory()}
-            {/* RenderFn */}
-          </View>
+          {/* RenderFn */}
+          {renderCategory()}
+          {/* RenderFn */}
           {/* Line Divider */}
           <View style={style.line}></View>
           {/* Line Divider */}
         </View>
         {/* Book silde */}
         <View style={style.boxFive}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <ScrollView
+            contentContainerStyle={{paddingHorizontal: SIZES.padding - 10}}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}>
             {/* Render Book */}
             {renderBooks()}
             {/* Render Book */}
@@ -144,12 +184,17 @@ const Home = ({navigation}) => {
         </View>
         {/* Box 6 */}
         <View style={style.boxSix}>
-          <Text style={{...FONTS.largeTitle, color: COLORS.primary}}>
+          <Text
+            style={{
+              ...FONTS.largeTitle,
+              color: COLORS.primary,
+              marginLeft: SIZES.padding,
+            }}>
             New Arrival
           </Text>
           <View style={style.line}></View>
           <ScrollView
-            alwaysBounceVertical={true}
+            contentContainerStyle={{paddingHorizontal: SIZES.padding - 10}}
             horizontal={true}
             showsHorizontalScrollIndicator={false}>
             <Poster

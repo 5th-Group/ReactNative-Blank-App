@@ -3,11 +3,10 @@ import {FONTS, SIZES, COLORS} from '../../constants/constants';
 
 export const style = StyleSheet.create({
   wrap: {
-    paddingHorizontal: 20,
     flex: 1,
   },
   contentContainerStyle: {
-    paddingBottom: 80,
+    paddingBottom: SIZES.padding * 4,
   },
   //   Box 1
   boxOne: {
@@ -21,32 +20,27 @@ export const style = StyleSheet.create({
   boxTwo: {
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginTop: 30,
+    marginTop: SIZES.padding2,
+    paddingHorizontal: SIZES.padding,
   },
   //   Box 3
   boxThree: {
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginTop: 30,
+    marginTop: SIZES.padding2,
     position: 'relative',
+    paddingHorizontal: SIZES.padding,
   },
   //   Box 4
   boxFour: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginTop: 30,
-  },
-  category: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    width: '100%',
+    marginTop: SIZES.padding + 10,
   },
   line: {
     marginTop: 5,
-    width: SIZES.width,
     height: 2,
+    width: SIZES.width - 40,
     backgroundColor: COLORS.primary,
+    marginHorizontal: SIZES.padding,
   },
   textColor: {
     color: COLORS.primary,
@@ -58,13 +52,12 @@ export const style = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    // padding: 10,
   },
   //   Box 6
   boxSix: {
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginTop: 30,
+    marginTop: SIZES.padding2,
   },
   //   Box 7
   boxSeven: {
@@ -81,14 +74,13 @@ export const style = StyleSheet.create({
     borderRadius: 50,
   },
   input: {
-    height: 60,
+    height: SIZES.padding * 3,
     fontSize: SIZES.h2,
-    paddingLeft: 60,
+    paddingLeft: SIZES.padding * 3,
     width: SIZES.width - 40,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    borderColor: 'rgba(15,194,192, 0.3)',
-    borderWidth: 1.5,
+    borderRadius: SIZES.radius,
+    backgroundColor: COLORS.white,
+    // Shadow
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -101,7 +93,7 @@ export const style = StyleSheet.create({
   },
   icon: {
     top: 15,
-    left: 15,
+    left: 35,
     position: 'absolute',
     zIndex: 100,
   },
