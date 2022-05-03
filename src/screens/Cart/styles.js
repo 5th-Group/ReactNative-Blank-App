@@ -16,7 +16,7 @@ const style = StyleSheet.create({
   },
   // Body
   body: {
-    height: 860,
+    height: 910,
     width: '100%',
   },
   // Bottom
@@ -28,7 +28,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    margin: 10,
+    margin: SIZES.padding - 10,
   },
 });
 

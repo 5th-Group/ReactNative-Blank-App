@@ -1,32 +1,56 @@
 import React from 'react';
 import {View, Text, TextInput} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // CONST
 import {FONTS, COLORS, SIZES} from '../../constants/constants';
+import handleIcon from '../Icon/Icon';
 import styles from './styles';
 
-const Form = ({value, setValue, title, icon, pair, secure, children}) => {
-  return (
-    <View style={styles.wrap}>
-      <Text style={{...FONTS.h2}}>{title}</Text>
-      <View style={styles.input}>{children}</View>
-      <Ionicons
-        style={styles.icon}
-        name={icon}
-        size={30}
-        onPress={() => {
-          console.log(isPair());
-        }}
-        color={COLORS.primary}></Ionicons>
+const Form = ({
+  value,
+  setValue,
+  title,
+  iconBrand,
+  iconName,
+  secure,
+  name,
+  isError,
+  formErrors,
+  placeholder,
+  onPressIn,
+}) => {
+  // Handle
 
-      {pair ? (
-        <TextInput
-          secureTextEntry={secure}
-          value={value}
-          onChangeText={setValue}
-          style={styles.input}></TextInput>
-      ) : null}
+  return (
+    <View style={{...styles.wrap, paddingVertical: 10}}>
+      <Text style={{...FONTS.h2}}>{title}</Text>
+      <View style={{...styles.icon}}>
+        {iconBrand &&
+          handleIcon(iconBrand, iconName, SIZES.padding2, COLORS.primary)}
+      </View>
+      <TextInput
+        onPressIn={() => {
+          onPressIn ? onPressIn() : null;
+        }}
+        placeholder={placeholder}
+        secureTextEntry={secure}
+        value={value}
+        onChangeText={e => {
+          setValue(e, name);
+        }}
+        style={styles.input}></TextInput>
+
+      {isError && formErrors[name] && (
+        <Text
+          style={{
+            ...FONTS.body2,
+            color: COLORS.red,
+            marginTop: 5,
+            marginBottom: 5,
+          }}>
+          {formErrors[name]}
+        </Text>
+      )}
     </View>
   );
 };

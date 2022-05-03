@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     ...FONTS.h2,
   },
   icon: {
-    position: 'relative',
-    top: -50,
+    position: 'absolute',
+    top: 65,
     left: 15,
   },
 });

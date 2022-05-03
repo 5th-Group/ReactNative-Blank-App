@@ -6,7 +6,7 @@ export const style = StyleSheet.create({
     flex: 1,
   },
   contentContainerStyle: {
-    paddingBottom: SIZES.padding * 4,
+    paddingBottom: SIZES.padding * 5,
   },
   //   Box 1
   boxOne: {

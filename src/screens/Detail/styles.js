@@ -9,9 +9,10 @@ export const style = StyleSheet.create({
   scroll: {},
   // Info
   cover: {
-    height: 660,
+    height: 620,
     alignItems: 'center',
     justifyContent: 'flex-start',
+    backgroundColor: 'red',
   },
   image: {
     width: 200,
@@ -21,6 +22,7 @@ export const style = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: SIZES.padding,
+    zIndex: 10,
   },
   // Book rating
   Rating: {
@@ -28,8 +30,10 @@ export const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: SIZES.padding,
-    backgroundColor: COLORS.primaryRGBA(0.4),
+    // backgroundColor: COLORS.primaryRGBA(0.4),
+    backgroundColor: COLORS.white,
     borderRadius: SIZES.radius,
+    zIndex: 10,
   },
   ratingItem: {
     paddingHorizontal: SIZES.padding - 10,
@@ -60,19 +64,21 @@ export const style = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 170,
+    height: 200,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    backgroundColor: 'white',
-    paddingHorizontal: 20,
+    backgroundColor: COLORS.white,
+    paddingHorizontal: SIZES.padding,
   },
   // Upper
   count: {
-    flex: 1,
-    width: '100%',
+    width: SIZES.width - 40,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    // height: 50,
+    paddingTop: 20,
+    // backgroundColor: 'red',
   },
   quantity: {
     width: 100,
@@ -92,11 +98,11 @@ export const style = StyleSheet.create({
   // Down
   button: {
     flex: 1,
-    width: '100%',
+    width: SIZES.width,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    marginBottom: 20,
+    marginBottom: SIZES.padding,
   },
 });
 

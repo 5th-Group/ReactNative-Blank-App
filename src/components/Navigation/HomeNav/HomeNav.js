@@ -40,7 +40,7 @@ const HomeNavigate = () => {
       tabBarStyle: {
         height: 80,
         position: 'absolute',
-        bottom: 16,
+        bottom: 20,
         right: 16,
         left: 16,
         borderRadius: 10,
@@ -72,7 +72,7 @@ const HomeNavigate = () => {
 
   return (
     <HomeNav.Navigator
-      initialRouteName={ProfileComp}
+      initialRouteName={HomeComp}
       screenOptions={({route}) => {
         return handleIcon(route);
       }}>

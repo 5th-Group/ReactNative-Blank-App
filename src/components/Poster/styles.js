@@ -28,6 +28,13 @@ const style = StyleSheet.create({
     borderRadius: SIZES.radius,
   },
   //   ETC
+  loadingPoster: {
+    width: 274,
+    height: 350,
+    padding: SIZES.padding,
+    borderRadius: SIZES.radius,
+    backgroundColor: COLORS.white,
+  },
 });
 
 export default style;

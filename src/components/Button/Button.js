@@ -1,11 +1,14 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
 
+// Components
+import LottieView from 'lottie-react-native';
+
 // CONST
 import styles from './styles';
-import {FONTS, SIZES, COLORS} from '../../constants/constants';
+import {FONTS, SIZES, COLORS, UTILS} from '../../constants/constants';
 
-const Button = ({title, color, navigate, size, margin, onPress}) => {
+const Button = ({title, color, navigate, size, margin, onPress, disable}) => {
   // Hande Button Style
   const handleButtonStyle = color => {
     if (color) {
@@ -48,7 +51,11 @@ const Button = ({title, color, navigate, size, margin, onPress}) => {
     return (
       <TouchableOpacity
         onPress={navigate}
-        style={[styles.buttonWrap, bgColor, Size, Margin]}>
+        style={
+          !disable
+            ? [styles.buttonWrap, bgColor, Size, Margin]
+            : {...styles.buttonWrap, ...Size, backgroundColor: COLORS.lightGray}
+        }>
         <Text style={[titleColor, FONTS.h2]}>{title}</Text>
       </TouchableOpacity>
     );
@@ -60,8 +67,26 @@ const Button = ({title, color, navigate, size, margin, onPress}) => {
         onPress={() => {
           onPress ? onPress() : null;
         }}
-        style={[styles.buttonWrap, bgColor, Size, Margin]}>
-        <Text style={[titleColor, FONTS.h2]}>{title}</Text>
+        style={
+          !disable
+            ? [styles.buttonWrap, bgColor, Size, Margin]
+            : {
+                ...styles.buttonWrap,
+                ...Size,
+                backgroundColor: COLORS.lightGray3,
+                ...Margin,
+              }
+        }>
+        {!disable ? (
+          <Text style={[titleColor, FONTS.h2]}>{title}</Text>
+        ) : (
+          <View style={{...UTILS.center, width: 200, height: 200}}>
+            <LottieView
+              autoPlay
+              loop
+              source={require('../../assets/animation/loader/dotLoader.json')}></LottieView>
+          </View>
+        )}
       </TouchableOpacity>
     );
   };

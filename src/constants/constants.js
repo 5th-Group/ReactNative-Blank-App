@@ -1,18 +1,25 @@
+import React from 'react';
+import {View} from 'react-native';
 import {Dimensions} from 'react-native';
 const {width, height} = Dimensions.get('window');
 
 export const COLORS = {
   // base colors
   primary: '#0fc2c0',
-  secondary: '#4f4477',
+  secondary: '#E9412B',
   third: '#7e90b0',
   fadeColor: 'rgba(15,194,192, 0.3)',
   success: '#40e6a3',
+  backgroun: '#f2f2f2',
   primaryRGBA: opacity => {
     return `rgba(15,194,192, ${opacity})`;
   },
+  overlay: opacity => {
+    return `rgba(0,0,0,${opacity})`;
+  },
   // colors
   shadow: '#000',
+  red: '#fc3d03',
   black: '#1E1B26',
   white: '#FFFFFF',
   lightGray: '#64676D',
@@ -27,21 +34,6 @@ export const COLORS = {
   lightBlue: '#424BAF',
   darkGreen: '#213432',
   lightGreen: '#31Ad66',
-};
-
-export const IMAGES = {
-  // Images
-  avt: require('../assets/Images/avt.jpg'),
-  post1: require('../assets/Images/Poster/1.png'),
-  post2: require('../assets/Images/Poster/2.jpg'),
-  post3: require('../assets/Images/Poster/3.jpg'),
-  post4: require('../assets/Images/Poster/4.jpg'),
-  post5: require('../assets/Images/Poster/5.jpg'),
-  post6: require('../assets/Images/Poster/6.jpg'),
-  post7: require('../assets/Images/Poster/7.jpg'),
-  post8: require('../assets/Images/Poster/8.jpg'),
-  post9: require('../assets/Images/Poster/9.jpg'),
-  post10: require('../assets/Images/Poster/10.jpg'),
 };
 
 export const SIZES = {
@@ -115,6 +107,16 @@ export const FONTS = {
 };
 
 export const UTILS = {
+  absolute: {
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   shadow: {
     shadowColor: '#000',
     shadowOffset: {
@@ -135,131 +137,21 @@ export const UTILS = {
     shadowRadius: 5,
     elevation: 5,
   },
-  Form: {
-    width: width,
-    height: 70,
-    ...FONTS.h2,
-  },
 };
-
-// Dummy data
-let id = 0;
-const idGenerate = () => {
-  return (id += 1);
-};
-export const dummyData = [
-  {
-    id: idGenerate(),
-    title: 'Catcher in the Rye',
-    author: 'J.D Stanlinger',
-    lange: 'English',
-    pageCount: 500,
-    Rating: 4,
-    price: 300,
-    image: IMAGES.post1,
-    Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
-  },
-  {
-    id: idGenerate(),
-    title: 'Away',
-    author: 'Sylvia Walker',
-    lange: 'English',
-    pageCount: 350,
-    Rating: 3.5,
-    price: 257,
-    image: IMAGES.post2,
-    Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
-  },
-  {
-    id: idGenerate(),
-    title: 'Journey to the past',
-    author: 'Stephen Henry',
-    lange: 'English',
-    pageCount: 457,
-    Rating: 4.5,
-    price: 499,
-    image: IMAGES.post3,
-    Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
-  },
-  {
-    id: idGenerate(),
-    title: 'Heilung',
-    author: 'Mara Franzis',
-    lange: 'English',
-    pageCount: 375,
-    Rating: 4,
-    price: 149,
-    image: IMAGES.post4,
-    Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
-  },
-  {
-    id: idGenerate(),
-    title: 'The Astronaut',
-    author: 'Masima',
-    lange: 'English',
-    pageCount: 569,
-    Rating: 4,
-    price: 275,
-    image: IMAGES.post5,
-    Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
-  },
-  {
-    id: idGenerate(),
-    title: 'The Darkest Hour',
-    author: 'Alfred Churchill',
-    lange: 'English',
-    pageCount: 424,
-    Rating: 4.5,
-    price: 299,
-    image: IMAGES.post6,
-    Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
-  },
-  {
-    id: idGenerate(),
-    title: 'Aliens',
-    author: 'Marius Sulla',
-    lange: 'English',
-    pageCount: 376,
-    Rating: 4,
-    price: 144,
-    image: IMAGES.post7,
-    Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
-  },
-  {
-    id: idGenerate(),
-    title: 'The girl behind',
-    author: 'Adamantha Smith',
-    lange: 'English',
-    pageCount: 424,
-    Rating: 4,
-    price: 370,
-    image: IMAGES.post8,
-    Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
-  },
-  {
-    id: idGenerate(),
-    title: 'Stalkers of chernobyl',
-    author: 'Adria Moore',
-    lange: 'English',
-    pageCount: 284,
-    Rating: 4,
-    price: 499,
-    image: IMAGES.post9,
-    Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
-  },
-  {
-    id: idGenerate(),
-    title: 'Dark day',
-    author: 'Alex Doe',
-    lange: 'English',
-    pageCount: 329,
-    Rating: 4,
-    price: 600,
-    image: IMAGES.post10,
-    Desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi at,assumenda similique deleniti possimus rem suscipit, officiis averitatis minus reprehenderit asperiores obcaecati enim deserunt quistempora placeat quo nesciunt',
-  },
-];
 
 const appTheme = {COLORS, SIZES, FONTS};
 
 export default appTheme;
+
+export const Divider = () => {
+  return (
+    <View style={{width: 1, paddingVertical: 5}}>
+      <View
+        style={{
+          flex: 1,
+          borderLeftColor: COLORS.lightGray,
+          borderLeftWidth: 2,
+        }}></View>
+    </View>
+  );
+};

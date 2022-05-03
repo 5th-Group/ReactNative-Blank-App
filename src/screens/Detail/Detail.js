@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {addProduct} from '../../features/Cart/cartSlice';
 import {
   ScrollView,
   Text,
@@ -10,21 +8,26 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Shadow} from 'react-native-shadow-2';
 
 // Components
 import Button from '../../components/Button/Button';
 import BackIcon from '../../components/Back-Icon/BackIcon';
+import {Divider} from '../../constants/constants';
+import handleIcon from '../../components/Icon/Icon';
+import LinearGradient from 'react-native-linear-gradient';
+import {Shadow} from 'react-native-shadow-2';
 
 // CONST
 import style from './styles';
 import {COLORS, FONTS, SIZES, UTILS} from '../../constants/constants';
+import {useDispatch} from 'react-redux';
+import {addProduct} from '../../features/Cart/cartSlice';
 
 export const Detail = ({navigation, route}) => {
   // Const
   const [quantity, setQuantity] = useState(1);
   const {item} = route.params;
+  const {detail} = item;
   const disPatch = useDispatch();
 
   // Handle
@@ -49,30 +52,38 @@ export const Detail = ({navigation, route}) => {
   };
 
   // Renders
-  const renderBookDetailUpper = item => {
+  // Book detail
+  const renderBookDetailUpper = () => {
     return (
       <>
         {/* Book cover */}
         <View
           style={{
             ...UTILS.shadow,
-            borderRadius: SIZES.padding,
+            borderRadius: SIZES.radius,
             overflow: 'hidden',
           }}>
-          <Image resizeMode="cover" style={style.image} source={item.image} />
+          <Image
+            resizeMode="cover"
+            style={style.image}
+            source={detail.icon ? {uri: detail.icon} : ''}
+          />
         </View>
 
         {/* Book name and Author */}
         <Text
+          numberOfLines={1}
           style={{
             ...FONTS.h1,
             color: COLORS.white,
             marginTop: SIZES.padding,
+            fontSize: SIZES.h1p,
+            textAlign: 'center',
             textShadowColor: COLORS.lightGray4,
             textShadowOffset: {width: -1, height: 1},
             textShadowRadius: 2,
           }}>
-          {item.title}
+          {detail.title}
         </Text>
         <Text
           style={{
@@ -81,53 +92,39 @@ export const Detail = ({navigation, route}) => {
             fontFamily: FONTS.bold,
             color: COLORS.primary,
           }}>
-          {item.author}
+          {detail.author.length > 1 ? item.author[0].firstName : ''}
         </Text>
       </>
     );
   };
 
-  // BookRating
+  // Book Rating
   const renderBookRating = () => {
-    const shortLang = item.lange.substring(0, 3).toUpperCase();
+    const shortLangApi = detail.language.code.toUpperCase();
     return (
       <>
         <View style={style.ratingItem}>
           {/* Rating */}
-          <Text style={{...FONTS.body2, color: COLORS.white}}>
-            {item.Rating}
-          </Text>
-          <Text style={{...FONTS.h2, color: COLORS.white}}>Rating</Text>
+          <Text style={{...FONTS.body2, color: COLORS.lightGray}}>4</Text>
+          <Text style={{...FONTS.h2, color: COLORS.primary}}>Rating</Text>
         </View>
-        <View style={{width: 1, paddingVertical: 5}}>
-          <View
-            style={{
-              flex: 1,
-              borderLeftColor: COLORS.white,
-              borderLeftWidth: 2.5,
-            }}></View>
-        </View>
+        <Divider></Divider>
 
         {/* Page count */}
         <View style={style.ratingItem}>
-          <Text style={{...FONTS.body2, color: COLORS.white}}>
-            {item.pageCount}
+          <Text style={{...FONTS.body2, color: COLORS.lightGray}}>
+            {detail.pageCount}
           </Text>
-          <Text style={{...FONTS.h2, color: COLORS.white}}>Page Count</Text>
+          <Text style={{...FONTS.h2, color: COLORS.primary}}>Page Count</Text>
         </View>
-        <View style={{width: 1, paddingVertical: 5}}>
-          <View
-            style={{
-              flex: 1,
-              borderLeftColor: 'white',
-              borderLeftWidth: 2,
-            }}></View>
-        </View>
+        <Divider></Divider>
 
         {/* Lang */}
         <View style={style.ratingItem}>
-          <Text style={{...FONTS.body2, color: COLORS.white}}>{shortLang}</Text>
-          <Text style={{...FONTS.h2, color: COLORS.white}}>Language</Text>
+          <Text style={{...FONTS.body2, color: COLORS.lightGray}}>
+            {shortLangApi}
+          </Text>
+          <Text style={{...FONTS.h2, color: COLORS.primary}}>Language</Text>
         </View>
       </>
     );
@@ -138,16 +135,19 @@ export const Detail = ({navigation, route}) => {
     return (
       <>
         <View style={style.count}>
+          {/* Quantity */}
           <View style={style.quantity}>
             <TouchableOpacity
               disabled={quantity == 1 ? true : false}
               onPress={() => {
                 handleQuantity('dec');
               }}>
-              <FontAwesome
-                name="minus-circle"
-                color={quantity != 1 ? COLORS.primary : COLORS.lightGray4}
-                size={SIZES.h1Half}></FontAwesome>
+              {handleIcon(
+                'FontAwesome',
+                'minus-circle',
+                SIZES.h1Half,
+                quantity != 1 ? COLORS.primary : COLORS.lightGray4,
+              )}
             </TouchableOpacity>
             <View>
               <Text style={{...FONTS.h2}}>{quantity}</Text>
@@ -156,12 +156,16 @@ export const Detail = ({navigation, route}) => {
               onPress={() => {
                 handleQuantity('inc');
               }}>
-              <FontAwesome
-                name="plus-circle"
-                color={COLORS.primary}
-                size={SIZES.h1Half}></FontAwesome>
+              {handleIcon(
+                'FontAwesome',
+                'minus-circle',
+                SIZES.h1Half,
+                COLORS.primary,
+              )}
             </TouchableOpacity>
           </View>
+          {/* Quantity */}
+          {/* Total */}
           <View style={style.total}>
             <Text style={{...FONTS.body2}}>Total: </Text>
             <Text
@@ -170,7 +174,9 @@ export const Detail = ({navigation, route}) => {
                 color: COLORS.primary,
               }}>{`$${item.price * quantity}`}</Text>
           </View>
+          {/* Total */}
         </View>
+        {/* Add to cart Button */}
         <View style={style.button}>
           <Button
             onPress={handleAddItem}
@@ -179,6 +185,7 @@ export const Detail = ({navigation, route}) => {
             size={{w: 'full', h: 70}}
           />
         </View>
+        {/* Add to cart Button */}
       </>
     );
   };
@@ -186,54 +193,64 @@ export const Detail = ({navigation, route}) => {
   return (
     <SafeAreaView style={style.wrap}>
       {/* Book's info */}
-      <View style={style.cover}>
-        {/* Background */}
-        <ImageBackground
-          blurRadius={8}
-          source={item.image}
-          resizeMode="cover"
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-          }}
-        />
-        {/* Color overlay */}
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-          }}></View>
-        {/* Color overlay */}
-        <View
-          style={{
-            alignSelf: 'flex-start',
-            margin: SIZES.padding,
-            // paddingBottom: 20,
-          }}>
-          <BackIcon onPress={navigateBack}></BackIcon>
-        </View>
-        <View style={style.Detail}>
-          {/* DetailUpper */}
-          {renderBookDetailUpper(item)}
-          {/* DetailUpper */}
-        </View>
-        {/* Book rating */}
-        <Shadow>
-          <View style={style.Rating}>
-            {/* BookRating */}
-            {renderBookRating()}
-            {/* BookRating */}
-          </View>
-        </Shadow>
-      </View>
       <ScrollView>
+        {/* Book Upper */}
+        <View style={style.cover}>
+          {/* Linear */}
+          <LinearGradient
+            style={{
+              position: 'absolute',
+              ...UTILS.absolute,
+              zIndex: 2,
+            }}
+            colors={['transparent', COLORS.backgroun]}></LinearGradient>
+          {/* Background */}
+          <ImageBackground
+            blurRadius={2}
+            source={detail.icon ? {uri: detail.icon} : ''}
+            resizeMode="cover"
+            style={{
+              position: 'absolute',
+              ...UTILS.absolute,
+              zIndex: 1,
+            }}
+          />
+          {/* Color overlay */}
+          <View
+            style={{
+              position: 'absolute',
+              ...UTILS.absolute,
+              backgroundColor: COLORS.overlay(0.5),
+              zIndex: 1,
+            }}></View>
+          {/* Color overlay */}
+          {/* Back button */}
+          <View
+            style={{
+              alignSelf: 'flex-start',
+              margin: SIZES.padding,
+              zIndex: 20,
+            }}>
+            <BackIcon onPress={navigateBack}></BackIcon>
+          </View>
+          {/* Back button */}
+          <View style={style.Detail}>
+            {/* DetailUpper */}
+            {renderBookDetailUpper()}
+            {/* DetailUpper */}
+          </View>
+          {/* Book rating */}
+          <View style={{zIndex: 10}}>
+            <Shadow>
+              <View style={style.Rating}>
+                {/* BookRating */}
+                {renderBookRating()}
+                {/* BookRating */}
+              </View>
+            </Shadow>
+          </View>
+        </View>
+        {/* Book Upper */}
         <View style={style.Description}>
           {/* Box 3 */}
           <View style={style.author}>
@@ -271,11 +288,15 @@ export const Detail = ({navigation, route}) => {
             </Text>
           </View>
         </View>
+        {/* Somthing else */}
+        <View style={{flex: 1, ...UTILS.center, height: 300}}>
+          <Text style={{...FONTS.largeTitleBold}}>PlaceHolder</Text>
+        </View>
       </ScrollView>
 
       {/* Bottom */}
       <Shadow
-        distance={20}
+        distance={SIZES.padding}
         offset={[0, 0]}
         viewStyle={{alignSelf: 'stretch'}}
         safeRender={true}>

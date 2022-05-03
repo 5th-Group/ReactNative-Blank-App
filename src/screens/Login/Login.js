@@ -1,107 +1,235 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Image, TextInput} from 'react-native';
-import api from '../../api/apiV1';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Modal,
+} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 
 // Components
 import Form from '../../components/Form/Form';
 import Button from '../../components/Button/Button';
+import {Loader} from '../../components/Poster/Poster';
+import {LoginFail} from '../../components/Poster/Poster';
+import BackIcon from '../../components/Back-Icon/BackIcon';
+import Addresses from '../UserProfile/AddressesScreens/Address/Address';
 
 // CONST
 import styles from './styles';
 import {SIZES, COLORS, FONTS, UTILS} from '../../constants/constants';
+import {login} from '../../features/User/UserSlice';
+import {LoginForms} from '../../constants/formValidation';
+import {LoginValidate} from '../../constants/formValidation';
+import handleIcon from '../../components/Icon/Icon';
 
 const Login = ({navigation}) => {
   // States
-  const [email, setMail] = useState('');
-  const [password, setPassword] = useState('');
+  const [loginInfo, setLoginInfo] = useState({
+    username: '',
+    password: '',
+  });
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
+
+  // Const
+  const pending = useSelector(state => state.user.pending);
+  const error = useSelector(state => state.user.error);
+  const user = useSelector(state => state.user.userInfo);
+  const disPatch = useDispatch();
+
+  // Effect
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      const {username, password} = loginInfo;
+      disPatch(login({username, password}));
+      Keyboard.dismiss();
+      setLoginInfo({
+        username: '',
+        password: '',
+      });
+    }
+  }, [formErrors]);
+
   // Handle
 
   // Login
-  const handleLogin = async () => {
-    const user = {email, password};
-    try {
-      const {data} = await api.login(user);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+  const handleLogin = () => {
+    setIsSubmit(true);
+    setFormErrors(LoginValidate(loginInfo));
+    if (Object.keys(formErrors).length === 0) {
+      setIsError(false);
+    } else {
+      setIsError(true);
     }
+    console.log(Object.keys(formErrors).length === 0);
+    console.log(isSubmit);
   };
-  //
-  const test = () => {
-    navigation.navigate('HomeNavigate');
+
+  // Form handle
+  const handleForm = (e, name) => {
+    setLoginInfo({
+      ...loginInfo,
+      [name]: e,
+    });
   };
 
   return (
-    <View style={styles.wrap}>
-      {/* Header */}
-      <View style={styles.box1}>
-        <Text
-          onPress={() => {
-            test();
-          }}
-          style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
-          Login
-        </Text>
-        <Text style={{...FONTS.body2}}>
-          Login now to track all your favourite books, explore the book world!
-        </Text>
-      </View>
-      {/* Forms */}
-      <View style={styles.box2}>
-        <Form title="Email" icon="mail">
-          <TextInput
-            style={{...UTILS.Form}}
-            onChangeText={setMail}
-            value={email}></TextInput>
-        </Form>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}>
+      <View style={styles.wrap}>
+        {/* Loader */}
+        {pending && (
+          <View
+            style={{
+              position: 'absolute',
+              ...UTILS.absolute,
+              backgroundColor: COLORS.overlay(0.8),
+              zIndex: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {Loader()}
+          </View>
+        )}
+        {/* Error */}
+        {error && (
+          <Modal
+            statusBarTranslucent={true}
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}>
+            <View
+              style={{
+                flex: 1,
+                ...UTILS.center,
+                backgroundColor: COLORS.overlay(0.5),
+              }}>
+              <View
+                style={{
+                  margin: 20,
+                  backgroundColor: 'white',
+                  borderRadius: 20,
+                  paddingVertical: 50,
+                  paddingHorizontal: 20,
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity
+                  style={{
+                    padding: 20,
+                    position: 'absolute',
+                    right: 0,
+                    top: -10,
+                    zIndex: 10,
+                  }}
+                  onPress={() => setModalVisible(!modalVisible)}>
+                  {handleIcon(
+                    'AntDesign',
+                    'close',
+                    SIZES.h1Half,
+                    COLORS.primary,
+                  )}
+                </TouchableOpacity>
+                {LoginFail()}
+              </View>
+            </View>
+          </Modal>
+        )}
+        {/* Test */}
 
-        <Form title="Your Password" icon="ios-lock-closed">
-          <TextInput
-            style={{...UTILS.Form}}
-            secureTextEntry={true}
-            onChangeText={setPassword}
-            value={password}></TextInput>
-        </Form>
-        {/* Forgot button */}
-        <TouchableOpacity
-          style={{position: 'relative', top: -10}}
-          onPress={() => {
-            navigation.navigate('ForgotPassword');
-          }}>
-          <Text style={{...FONTS.body2, color: COLORS.primary}}>
-            Forgot password?
+        {/* Header */}
+        <View style={styles.box1}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'baseline',
+            }}>
+            <BackIcon
+              onPress={() => {
+                navigation.goBack();
+              }}></BackIcon>
+            <Text style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
+              Login
+            </Text>
+          </View>
+
+          <Text
+            onPress={() => {
+              console.log(user);
+              setModalVisible(!modalVisible);
+            }}
+            style={{...FONTS.body2}}>
+            Login now to track all your favourite books, explore the book world!
           </Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+        {/* Forms */}
+        <View style={{...styles.box2}}>
+          {LoginForms.map(form => {
+            return (
+              <Form
+                key={form.id}
+                isError={isError}
+                secure={form.secure}
+                formErrors={formErrors}
+                iconBrand={form.icon.brand}
+                iconName={form.icon.name}
+                name={form.name}
+                title={form.title}
+                value={loginInfo[form.name]}
+                setValue={handleForm}></Form>
+            );
+          })}
 
-      {/* Login button */}
-      <View style={styles.box3}>
-        <Button
-          // navigate={homeNavigate}
-          onPress={handleLogin}
-          title="Login"
-          color={true}
-          size={{w: 'full', h: 70}}></Button>
+          {/* Forgot button */}
+          <TouchableOpacity
+            style={{position: 'relative', top: -5}}
+            onPress={() => {
+              navigation.navigate('ForgotPassword');
+            }}>
+            <Text style={{...FONTS.body2, color: COLORS.primary}}>
+              Forgot password?
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Login button */}
+        <View style={styles.box3}>
+          <Button
+            // navigate={homeNavigate}
+            onPress={handleLogin}
+            title="Login"
+            color={true}
+            size={{w: 'full', h: 70}}></Button>
+        </View>
+        {/* Register */}
+        <View style={styles.box4}>
+          <Text style={{...FONTS.body2}}>Don't have an account? </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Signup');
+            }}>
+            <Text style={{...FONTS.body2, color: COLORS.primary}}>
+              Register
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* Image */}
+        <View style={styles.box5}>
+          <Image
+            resizeMode="contain"
+            style={styles.image}
+            source={require('../../assets/Images/6.png')}
+          />
+        </View>
       </View>
-      {/* Register */}
-      <View style={styles.box4}>
-        <Text style={{...FONTS.body2}}>Don't have an account? </Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Signup');
-          }}>
-          <Text style={{...FONTS.body2, color: COLORS.primary}}>Register</Text>
-        </TouchableOpacity>
-      </View>
-      {/* Image */}
-      <View style={styles.box5}>
-        <Image
-          resizeMode="contain"
-          style={styles.image}
-          source={require('../../assets/Images/6.png')}
-        />
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

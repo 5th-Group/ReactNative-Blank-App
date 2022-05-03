@@ -1,21 +1,15 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // CONST
-import {
-  FONTS,
-  SIZES,
-  COLORS,
-  IMAGES,
-  UTILS,
-} from '../../../constants/constants';
+import {FONTS, SIZES, COLORS, UTILS} from '../../../constants/constants';
+import {Reset} from '../../../features/User/UserSlice';
+import {useDispatch, useSelector} from 'react-redux';
 
 // Component
 import handleIcon from '../../../components/Icon/Icon';
 
-const Option = ({title, iconName, iconBrand, onPress}) => {
+const Option = ({title, iconName, iconBrand, onPress, color}) => {
   return (
     <TouchableOpacity
       onPress={onPress ? onPress : null}
@@ -30,13 +24,19 @@ const Option = ({title, iconName, iconBrand, onPress}) => {
       {/* Left */}
 
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        {handleIcon(iconBrand, iconName, SIZES.h1Half, COLORS.primary)}
+        {handleIcon(
+          iconBrand,
+          iconName,
+          SIZES.h1Half,
+          color ? color : COLORS.primary,
+        )}
         <Text
           style={{
             ...FONTS.body1,
             fontSize: SIZES.body2,
             marginLeft: SIZES.padding,
             fontFamily: FONTS.bold,
+            color: color ? color : null,
           }}>
           {title}
         </Text>
@@ -44,10 +44,12 @@ const Option = ({title, iconName, iconBrand, onPress}) => {
 
       {/* Right */}
       <View>
-        <MaterialIcons
-          name="navigate-next"
-          size={SIZES.body1}
-          color={COLORS.primary}></MaterialIcons>
+        {handleIcon(
+          'MaterialIcons',
+          'navigate-next',
+          SIZES.body1,
+          color ? color : COLORS.primary,
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -55,6 +57,9 @@ const Option = ({title, iconName, iconBrand, onPress}) => {
 
 // Main
 const Profile = ({navigation}) => {
+  // Const
+  const disPatch = useDispatch();
+  const user = useSelector(state => state.user.userInfo);
   // Handle
   // Setting
   const settingNavigate = () => {
@@ -67,6 +72,14 @@ const Profile = ({navigation}) => {
   // EditUser
   const editUserNavigate = () => {
     navigation.navigate('EditUser');
+  };
+  // SavedPlace
+  const savedPlaceNavigate = () => {
+    navigation.navigate('SavedPlace');
+  };
+  // Log out
+  const handleLogout = () => {
+    disPatch(Reset());
   };
 
   // Render
@@ -117,11 +130,20 @@ const Profile = ({navigation}) => {
             overflow: 'hidden',
             marginRight: SIZES.padding,
             borderRadius: 50,
+            alignItems: 'center',
+            borderWidth: 5,
+            borderColor: COLORS.lightGray,
           }}>
-          <Image
+          {/* <Image
             style={{width: 100, height: 100, alignSelf: 'center'}}
             resizeMode="contain"
-            source={IMAGES.avt}></Image>
+            source={IMAGES.avt}></Image> */}
+          {handleIcon(
+            'FontAwesome',
+            'user',
+            SIZES.h1Hyper + 20,
+            COLORS.lightGray,
+          )}
         </View>
         {/* Detail */}
 
@@ -131,9 +153,9 @@ const Profile = ({navigation}) => {
             flex: 1,
             justifyContent: 'space-between',
           }}>
-          <Text style={{...FONTS.h1}}>bi</Text>
-          <Text style={{...FONTS.body2}}>+0944565607</Text>
-          <Text style={{...FONTS.body2}}>nbi6731@gmail.com</Text>
+          <Text style={{...FONTS.h1}}>{user && user.lastName}</Text>
+          <Text style={{...FONTS.body2}}>{`+${user && user.phoneNumber}`}</Text>
+          <Text style={{...FONTS.body2}}>{user && user.email}</Text>
         </View>
         {/* Edit Button */}
 
@@ -142,10 +164,7 @@ const Profile = ({navigation}) => {
             paddingRight: SIZES.padding,
           }}>
           <TouchableOpacity onPress={editUserNavigate}>
-            <FontAwesome5
-              name="edit"
-              size={SIZES.h1Half}
-              color={COLORS.primary}></FontAwesome5>
+            {handleIcon('FontAwesome5', 'edit', SIZES.h1Half, COLORS.primary)}
           </TouchableOpacity>
         </View>
       </View>
@@ -185,9 +204,16 @@ const Profile = ({navigation}) => {
             title="Settings"
             iconName="settings-outline"></Option>
           <Option
+            onPress={savedPlaceNavigate}
             iconBrand="Entypo"
-            title="Saved Addresses"
+            title="My Address"
             iconName="location"></Option>
+          <Option
+            onPress={handleLogout}
+            iconBrand="Ionicons"
+            title="Log Out"
+            iconName="log-out-outline"
+            color={COLORS.red}></Option>
         </View>
       </>
     );

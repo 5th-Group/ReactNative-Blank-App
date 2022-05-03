@@ -12,7 +12,6 @@ const BackIcon = ({onPress}) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        console.log('in');
         onPress ? onPress() : null;
       }}>
       <View
@@ -22,7 +21,7 @@ const BackIcon = ({onPress}) => {
           alignItems: 'center',
           borderWidth: 2,
           marginRight: SIZES.padding,
-          borderRadius: 10,
+          borderRadius: SIZES.padding - 10,
           borderColor: COLORS.primary,
         }}>
         <View style={{position: 'relative', left: 5}}>

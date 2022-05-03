@@ -21,8 +21,8 @@ const OrderHistory = ({navigation}) => {
         style={{
           flexDirection: 'row',
           alignItems: 'baseline',
-          marginVertical: 10,
-          marginBottom: 30,
+          marginVertical: SIZES.padding - 10,
+          marginBottom: SIZES.padding + 10,
         }}>
         {/* Back icon */}
         <BackIcon onPress={navigateBack}></BackIcon>

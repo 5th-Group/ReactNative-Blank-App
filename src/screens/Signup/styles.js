@@ -1,14 +1,12 @@
 import {StyleSheet} from 'react-native';
-
-import {constants} from '../../constants/constants';
+import {SIZES} from '../../constants/constants';
 
 const styles = StyleSheet.create({
   wrap: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    padding: 20,
-    paddingTop: 70,
+    padding: SIZES.padding,
   },
   box1: {
     justifyContent: 'center',

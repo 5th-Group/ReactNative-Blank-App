@@ -1,14 +1,18 @@
-import apiInstance from './api';
+import apiInstance from './apiClient';
 
-const api = {
+const bookApi = {
   login: user => {
-    const url = '/api/users/signin';
+    const url = '/api/login';
     return apiInstance.post(url, user);
   },
-  getAll: () => {
-    const url = '/db';
+  register: user => {
+    const url = '/api/register';
+    return apiInstance.post(url, user);
+  },
+  getAllBook: () => {
+    const url = '/api';
     return apiInstance.get(url);
   },
 };
 
-export default api;
+export default bookApi;
