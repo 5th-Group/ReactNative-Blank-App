@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 
 // CONST
@@ -27,9 +28,10 @@ import handleIcon from '../../components/Icon/Icon';
 const Home = ({navigation}) => {
   // States
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   // Const
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.user.userInfo);
   const status = useSelector(state => state.book.status);
   const data = useSelector(state => state.book.book);
   const disPatch = useDispatch();
@@ -52,6 +54,27 @@ const Home = ({navigation}) => {
     getBook();
   }, [disPatch]);
 
+  // Handle
+
+  // Refresh
+  const handleRefresh = () => {
+    setIsRefresh(true);
+    const getBook = async () => {
+      try {
+        const response = await bookApiGet.getAllBook();
+        if (response.data) {
+          disPatch(getbookSuccess(response.data));
+        }
+      } catch (error) {
+        console.log(error);
+        disPatch(getbookFail());
+      }
+    };
+    getBook();
+    setTimeout(() => {
+      setIsRefresh(false);
+    }, 2000);
+  };
   // Test
 
   const test = () => {
@@ -168,6 +191,14 @@ const Home = ({navigation}) => {
     // Wrapper
     <View style={style.wrap}>
       <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefresh}
+            onRefresh={() => {
+              handleRefresh();
+            }}
+          />
+        }
         contentContainerStyle={style.contentContainerStyle}
         showsVerticalScrollIndicator={false}>
         {/* Avatar  and Greetings*/}

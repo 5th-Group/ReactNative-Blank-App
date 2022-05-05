@@ -32,7 +32,7 @@ const EditPlace = ({navigation, route}) => {
   useEffect(() => {
     if (updateStatus === 'success') {
       disPatch(resetUpdataStatus());
-      navigation.goBack();
+      // navigation.goBack();
     }
   }, [updateStatus]);
 
@@ -48,7 +48,6 @@ const EditPlace = ({navigation, route}) => {
       ...userData,
       address: [...userData.address, newAddress],
     };
-    console.log('clieced');
     disPatch(updateAddress({data: updataData, userId: userData._id}));
   };
 

@@ -275,7 +275,7 @@ export const Detail = ({navigation, route}) => {
             <View>
               <Text
                 onPress={() => {
-                  console.log(Math.round(book.averageScore * 2) / 2);
+                  console.log(id);
                 }}
                 style={{
                   ...FONTS.body2,
@@ -292,7 +292,7 @@ export const Detail = ({navigation, route}) => {
                 maxStars={5}
                 disabled={true}
                 halfStarEnabled={true}
-                rating={Math.round(book.averageScore * 2) / 2}
+                rating={book.averageScore}
               />
             </View>
           </View>

@@ -47,6 +47,7 @@ const WriteReview = ({navigation, route}) => {
       setStatus('success');
     } catch (error) {
       setStatus('error');
+      console.log(error);
     }
   };
 

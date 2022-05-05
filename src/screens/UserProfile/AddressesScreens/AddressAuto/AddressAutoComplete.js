@@ -55,10 +55,10 @@ const AddressAuto = ({navigation}) => {
   const renderFindAddress = () => {
     return (
       <GooglePlacesAutocomplete
-        keyboardShouldPersistTaps="handled"
-        ref={ref}
-        debounce={400}
-        enablePoweredByContainer={false}
+        // keyboardShouldPersistTaps="handled"
+        // ref={ref}
+        // debounce={400}
+        // enablePoweredByContainer={false}
         styles={{
           container: {
             width: '100%',
@@ -82,8 +82,9 @@ const AddressAuto = ({navigation}) => {
             ...FONTS.h2,
           },
         }}
-        placeholder="Where are you?"
+        placeholder="Search"
         onPress={(data, details = null) => {
+          console.log('hear');
           disPatch(addAddress({long: data.description}));
           navigation.goBack();
         }}
@@ -110,7 +111,3 @@ const AddressAuto = ({navigation}) => {
 };
 
 export default AddressAuto;
-
-const CustomForm = () => {
-  return View;
-};
