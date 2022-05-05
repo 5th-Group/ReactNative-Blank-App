@@ -1,34 +1,27 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import bookApi from '../../api/apiV1';
-
-// Async
-export const getAllBook = createAsyncThunk('users/getAllBook', async () => {
-  const response = await bookApi.getAllBook();
-  return response.data;
-});
+import {createSlice} from '@reduxjs/toolkit';
 
 const bookSlice = createSlice({
   name: 'book',
   initialState: {
-    book: [],
+    book: null,
     status: 'idle',
   },
-  reducers: {},
-  extraReducers: {
-    // Get Book
-    [getAllBook.pending]: state => {
+  reducers: {
+    getbookStart: state => {
       state.status = 'loading';
     },
-    [getAllBook.fulfilled]: (state, action) => {
-      state.book = [...action.payload];
+    getbookSuccess: (state, action) => {
       state.status = 'success';
+      state.book = action.payload;
     },
-    [getAllBook.rejected]: state => {
+    getbookFail: state => {
       state.status = 'error';
     },
   },
 });
 
 // EXPORTS
+
+export const {getbookStart, getbookSuccess, getbookFail} = bookSlice.actions;
 
 export default bookSlice.reducer;

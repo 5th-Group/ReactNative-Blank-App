@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
 import MapView from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';
@@ -13,7 +13,7 @@ import {
 
 // Initialize the module (needs to be done only once)
 
-const Map = () => {
+const Map = ({setLocation}) => {
   // Const
   const addressStatus = useSelector(state => state.address.status);
   const coord = useSelector(state => state.address.coord);
@@ -33,18 +33,25 @@ const Map = () => {
         const street = json.results[1].address_components[1].long_name;
         const short = `${number} ${street}`;
         const address = {long: long, short: short};
-        disPatch(addAddress(address));
+        setLocation(address);
       })
-      .catch(error => console.warn(error));
+      .catch(error => {
+        console.log(error.origin);
+      });
   };
 
   // AddAddress
-  const handleAddAddress = async Region => {
-    handleGetAddress({latitude: Region.latitude, longitude: Region.longitude});
+  const handleAddAddress = Region => {
+    handleGetAddress({
+      latitude: Region.latitude,
+      longitude: Region.longitude,
+    });
     disPatch(
       addCoord({
         latitude: Region.latitude,
         longitude: Region.longitude,
+        latitudeDelta: Region.latitudeDelta,
+        longitudeDelta: Region.longitudeDelta,
       }),
     );
   };
@@ -52,7 +59,9 @@ const Map = () => {
   return (
     <View style={{flex: 1}}>
       <MapView
-        onRegionChange={Region => {
+        zoomEnabled={true}
+        zoomTapEnabled={true}
+        onPanDrag={(coordinate, position) => {
           disPatch(pendingAddress());
         }}
         onRegionChangeComplete={Region => {
@@ -64,8 +73,8 @@ const Map = () => {
         region={{
           latitude: coord.latitude,
           longitude: coord.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta: coord.latitudeDelta,
+          longitudeDelta: coord.longitudeDelta,
         }}></MapView>
     </View>
   );

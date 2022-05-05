@@ -7,14 +7,14 @@ import LottieView from 'lottie-react-native';
 import style from './styles';
 import handleIcon from '../Icon/Icon';
 
-const Poster = ({image, title, author, navigation, item, score}) => {
+const Poster = ({image, title, author, navigation, id, score}) => {
   img = image ? image : '';
   return (
     <View style={{flex: 1}}>
       <TouchableOpacity
         style={{...style.posterWrap}}
         onPress={() => {
-          navigation.navigate('Detail', {item: item});
+          navigation.navigate('Detail', {id: id});
         }}>
         {/* Rating score */}
         <View

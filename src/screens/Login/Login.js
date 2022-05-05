@@ -9,22 +9,25 @@ import {
   Modal,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import axios from 'axios';
 
 // Components
+import {Loader, LoginFail} from '../../components/Poster/Poster';
 import Form from '../../components/Form/Form';
 import Button from '../../components/Button/Button';
-import {Loader} from '../../components/Poster/Poster';
-import {LoginFail} from '../../components/Poster/Poster';
 import BackIcon from '../../components/Back-Icon/BackIcon';
-import Addresses from '../UserProfile/AddressesScreens/Address/Address';
 
 // CONST
 import styles from './styles';
-import {SIZES, COLORS, FONTS, UTILS} from '../../constants/constants';
-import {login} from '../../features/User/UserSlice';
-import {LoginForms} from '../../constants/formValidation';
-import {LoginValidate} from '../../constants/formValidation';
 import handleIcon from '../../components/Icon/Icon';
+import {SIZES, COLORS, FONTS, UTILS} from '../../constants/constants';
+import {LoginForms, LoginValidate} from '../../constants/formValidation';
+import {
+  loginSuccess,
+  loginFail,
+  loginStart,
+  resetStatus,
+} from '../../features/User/UserSlice';
 
 const Login = ({navigation}) => {
   // States
@@ -35,11 +38,10 @@ const Login = ({navigation}) => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   // Const
-  const pending = useSelector(state => state.user.pending);
-  const error = useSelector(state => state.user.error);
+  const status = useSelector(state => state.user.status);
   const user = useSelector(state => state.user.userInfo);
   const disPatch = useDispatch();
 
@@ -47,7 +49,26 @@ const Login = ({navigation}) => {
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       const {username, password} = loginInfo;
-      disPatch(login({username, password}));
+      const login = async () => {
+        disPatch(loginStart());
+        try {
+          const response = await axios.post(
+            'https://swift-lib.herokuapp.com/api/login',
+            {
+              username,
+              password,
+            },
+          );
+          disPatch(
+            loginSuccess({
+              ...response.data,
+            }),
+          );
+        } catch (error) {
+          disPatch(loginFail());
+        }
+      };
+      login();
       Keyboard.dismiss();
       setLoginInfo({
         username: '',
@@ -55,6 +76,13 @@ const Login = ({navigation}) => {
       });
     }
   }, [formErrors]);
+
+  useEffect(() => {
+    if (status === 'error') {
+      setModalVisible(true);
+      disPatch(resetStatus());
+    }
+  }, [status]);
 
   // Handle
 
@@ -67,8 +95,6 @@ const Login = ({navigation}) => {
     } else {
       setIsError(true);
     }
-    console.log(Object.keys(formErrors).length === 0);
-    console.log(isSubmit);
   };
 
   // Form handle
@@ -86,7 +112,7 @@ const Login = ({navigation}) => {
       }}>
       <View style={styles.wrap}>
         {/* Loader */}
-        {pending && (
+        {status === 'loading' && (
           <View
             style={{
               position: 'absolute',
@@ -100,7 +126,7 @@ const Login = ({navigation}) => {
           </View>
         )}
         {/* Error */}
-        {error && (
+        {
           <Modal
             statusBarTranslucent={true}
             animationType="fade"
@@ -114,22 +140,22 @@ const Login = ({navigation}) => {
               }}>
               <View
                 style={{
-                  margin: 20,
-                  backgroundColor: 'white',
+                  margin: SIZES.padding,
+                  backgroundColor: COLORS.white,
                   borderRadius: 20,
                   paddingVertical: 50,
-                  paddingHorizontal: 20,
+                  paddingHorizontal: SIZES.padding,
                   alignItems: 'center',
                 }}>
                 <TouchableOpacity
                   style={{
-                    padding: 20,
+                    padding: SIZES.padding,
                     position: 'absolute',
                     right: 0,
                     top: -10,
                     zIndex: 10,
                   }}
-                  onPress={() => setModalVisible(!modalVisible)}>
+                  onPress={() => setModalVisible(false)}>
                   {handleIcon(
                     'AntDesign',
                     'close',
@@ -141,7 +167,7 @@ const Login = ({navigation}) => {
               </View>
             </View>
           </Modal>
-        )}
+        }
         {/* Test */}
 
         {/* Header */}
@@ -163,7 +189,6 @@ const Login = ({navigation}) => {
           <Text
             onPress={() => {
               console.log(user);
-              setModalVisible(!modalVisible);
             }}
             style={{...FONTS.body2}}>
             Login now to track all your favourite books, explore the book world!
@@ -174,6 +199,7 @@ const Login = ({navigation}) => {
           {LoginForms.map(form => {
             return (
               <Form
+                auto={form.name === 'username'}
                 key={form.id}
                 isError={isError}
                 secure={form.secure}
@@ -208,7 +234,7 @@ const Login = ({navigation}) => {
             color={true}
             size={{w: 'full', h: 70}}></Button>
         </View>
-        {/* Register */}
+        {/* Register Button */}
         <View style={styles.box4}>
           <Text style={{...FONTS.body2}}>Don't have an account? </Text>
           <TouchableOpacity

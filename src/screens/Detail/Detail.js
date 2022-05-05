@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {
   ScrollView,
   Text,
@@ -16,19 +17,63 @@ import {Divider} from '../../constants/constants';
 import handleIcon from '../../components/Icon/Icon';
 import LinearGradient from 'react-native-linear-gradient';
 import {Shadow} from 'react-native-shadow-2';
+import {Loader} from '../../components/Poster/Poster';
+import StarRating from 'react-native-star-rating';
 
 // CONST
 import style from './styles';
 import {COLORS, FONTS, SIZES, UTILS} from '../../constants/constants';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addProduct} from '../../features/Cart/cartSlice';
+import bookApiGet from '../../api/apiV2';
 
 export const Detail = ({navigation, route}) => {
+  // State
+  const [book, setBook] = useState(null);
+  const [status, setStatus] = useState('idle');
   // Const
   const [quantity, setQuantity] = useState(1);
-  const {item} = route.params;
-  const {detail} = item;
+  const {id} = route.params;
+  const user = useSelector(state => state.user.userInfo);
   const disPatch = useDispatch();
+
+  // Effect
+  // useEffect(() => {
+  //   const getBook = async () => {
+  //     setStatus('loading');
+  //     try {
+  //       const response = await bookApiGet.getBook(id);
+  //       console.log(response.data.detail.title);
+  //       setBook(response.data);
+  //       setStatus('success');
+  //     } catch (error) {
+  //       setStatus('error');
+  //     }
+  //   };
+  //   getBook();
+  // }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+      const getBookk = async () => {
+        setStatus('loading');
+        try {
+          const response = await bookApiGet.getBook(id);
+          if (isActive) {
+            setBook(response.data);
+            setStatus('success');
+          }
+        } catch (e) {
+          setStatus('error');
+        }
+      };
+      getBookk();
+      return () => {
+        isActive = false;
+      };
+    }, [id]),
+  );
 
   // Handle
 
@@ -66,10 +111,9 @@ export const Detail = ({navigation, route}) => {
           <Image
             resizeMode="cover"
             style={style.image}
-            source={detail.icon ? {uri: detail.icon} : ''}
+            source={{uri: book.detail.icon}}
           />
         </View>
-
         {/* Book name and Author */}
         <Text
           numberOfLines={1}
@@ -83,7 +127,7 @@ export const Detail = ({navigation, route}) => {
             textShadowOffset: {width: -1, height: 1},
             textShadowRadius: 2,
           }}>
-          {detail.title}
+          {book.detail.title}
         </Text>
         <Text
           style={{
@@ -92,7 +136,7 @@ export const Detail = ({navigation, route}) => {
             fontFamily: FONTS.bold,
             color: COLORS.primary,
           }}>
-          {detail.author.length > 1 ? item.author[0].firstName : ''}
+          {book.detail.author.length > 1 ? book.detail.author[0].firstName : ''}
         </Text>
       </>
     );
@@ -100,12 +144,18 @@ export const Detail = ({navigation, route}) => {
 
   // Book Rating
   const renderBookRating = () => {
-    const shortLangApi = detail.language.code.toUpperCase();
+    const shortLangApi = book.detail.language.code.toUpperCase();
     return (
       <>
         <View style={style.ratingItem}>
           {/* Rating */}
-          <Text style={{...FONTS.body2, color: COLORS.lightGray}}>4</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text
+              style={{...FONTS.body2, color: COLORS.lightGray, marginRight: 5}}>
+              {book.averageScore.toFixed(2)}
+            </Text>
+            {handleIcon('FontAwesome', 'star', SIZES.h1, COLORS.secondary)}
+          </View>
           <Text style={{...FONTS.h2, color: COLORS.primary}}>Rating</Text>
         </View>
         <Divider></Divider>
@@ -113,7 +163,7 @@ export const Detail = ({navigation, route}) => {
         {/* Page count */}
         <View style={style.ratingItem}>
           <Text style={{...FONTS.body2, color: COLORS.lightGray}}>
-            {detail.pageCount}
+            {book.detail.pageCount}
           </Text>
           <Text style={{...FONTS.h2, color: COLORS.primary}}>Page Count</Text>
         </View>
@@ -172,7 +222,7 @@ export const Detail = ({navigation, route}) => {
               style={{
                 ...FONTS.h2,
                 color: COLORS.primary,
-              }}>{`$${item.price * quantity}`}</Text>
+              }}>{`$${book.price * quantity}`}</Text>
           </View>
           {/* Total */}
         </View>
@@ -189,126 +239,279 @@ export const Detail = ({navigation, route}) => {
       </>
     );
   };
+  // Comment Section
+  const renderCommentSection = () => {
+    return (
+      <View style={{...UTILS.center}}>
+        {/* Rate Box */}
+        <View
+          style={{
+            ...UTILS.shadow2,
+            width: SIZES.width - 40,
+            backgroundColor: COLORS.white,
+            height: 300,
+            padding: 30,
+            borderRadius: SIZES.radius,
+            justifyContent: 'space-between',
+            marginVertical: SIZES.padding,
+          }}>
+          <Text style={{...FONTS.h1}}>Rate & Reviews</Text>
+          {/* Rate Score */}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontFamily: FONTS.bold,
+                fontSize: SIZES.h1Hyper + 30,
+                marginRight: SIZES.padding,
+                color: COLORS.secondary,
+              }}>
+              {book.averageScore.toFixed(2)}
+            </Text>
+
+            <View>
+              <Text
+                onPress={() => {
+                  console.log(Math.round(book.averageScore * 2) / 2);
+                }}
+                style={{
+                  ...FONTS.body2,
+                }}>{`Average Score (${book.review.length})`}</Text>
+              <StarRating
+                emptyStar={'star-o'}
+                emptyStarColor={COLORS.secondary}
+                fullStar={'star'}
+                fullStarColor={COLORS.secondary}
+                halfStar={'star-half-full'}
+                halfStarColor={COLORS.secondary}
+                iconSet={'FontAwesome'}
+                animation="pulse"
+                maxStars={5}
+                disabled={true}
+                halfStarEnabled={true}
+                rating={Math.round(book.averageScore * 2) / 2}
+              />
+            </View>
+          </View>
+          <Button
+            onPress={() => {
+              navigation.navigate('WriteReview', {
+                detail: book.detail,
+                id: book._id,
+              });
+            }}
+            title="Write Review"
+            size={{h: 70, w: '100%'}}></Button>
+        </View>
+        {/* Rate Box */}
+        {/* Reviews Site */}
+        <View
+          style={{
+            width: SIZES.width - 40,
+          }}>
+          <Text style={{...FONTS.h1, marginBottom: 10, color: COLORS.primary}}>
+            All reviews
+          </Text>
+          {book.review.map(review => {
+            return (
+              <Review
+                key={review._id}
+                user={user}
+                review={review.review}
+                reviewer={review.reviewer.lastName}
+                rateScore={review.ratedScore}></Review>
+            );
+          })}
+        </View>
+        {/* Reviews Site */}
+      </View>
+    );
+  };
 
   return (
-    <SafeAreaView style={style.wrap}>
-      {/* Book's info */}
-      <ScrollView>
-        {/* Book Upper */}
-        <View style={style.cover}>
-          {/* Linear */}
-          <LinearGradient
-            style={{
-              position: 'absolute',
-              ...UTILS.absolute,
-              zIndex: 2,
-            }}
-            colors={['transparent', COLORS.backgroun]}></LinearGradient>
-          {/* Background */}
-          <ImageBackground
-            blurRadius={2}
-            source={detail.icon ? {uri: detail.icon} : ''}
-            resizeMode="cover"
-            style={{
-              position: 'absolute',
-              ...UTILS.absolute,
-              zIndex: 1,
-            }}
-          />
-          {/* Color overlay */}
-          <View
-            style={{
-              position: 'absolute',
-              ...UTILS.absolute,
-              backgroundColor: COLORS.overlay(0.5),
-              zIndex: 1,
-            }}></View>
-          {/* Color overlay */}
-          {/* Back button */}
-          <View
-            style={{
-              alignSelf: 'flex-start',
-              margin: SIZES.padding,
-              zIndex: 20,
-            }}>
-            <BackIcon onPress={navigateBack}></BackIcon>
-          </View>
-          {/* Back button */}
-          <View style={style.Detail}>
-            {/* DetailUpper */}
-            {renderBookDetailUpper()}
-            {/* DetailUpper */}
-          </View>
-          {/* Book rating */}
-          <View style={{zIndex: 10}}>
-            <Shadow>
-              <View style={style.Rating}>
-                {/* BookRating */}
-                {renderBookRating()}
-                {/* BookRating */}
+    <>
+      {status === 'success' ? (
+        <SafeAreaView style={style.wrap}>
+          {/* Book's info */}
+          <ScrollView>
+            {/* Book Upper */}
+            <View style={style.cover}>
+              {/* Linear */}
+              <LinearGradient
+                style={{
+                  position: 'absolute',
+                  ...UTILS.absolute,
+                  zIndex: 2,
+                }}
+                colors={['transparent', COLORS.backgroun]}></LinearGradient>
+              {/* Background */}
+              <ImageBackground
+                blurRadius={2}
+                source={{uri: book.detail.icon}}
+                resizeMode="cover"
+                style={{
+                  position: 'absolute',
+                  ...UTILS.absolute,
+                  zIndex: 1,
+                }}
+              />
+              {/* Color overlay */}
+              <View
+                style={{
+                  position: 'absolute',
+                  ...UTILS.absolute,
+                  backgroundColor: COLORS.overlay(0.5),
+                  zIndex: 1,
+                }}></View>
+              {/* Color overlay */}
+              {/* Back button */}
+              <View
+                style={{
+                  alignSelf: 'flex-start',
+                  margin: SIZES.padding,
+                  zIndex: 20,
+                }}>
+                <BackIcon onPress={navigateBack}></BackIcon>
               </View>
-            </Shadow>
-          </View>
-        </View>
-        {/* Book Upper */}
-        <View style={style.Description}>
-          {/* Box 3 */}
-          <View style={style.author}>
-            <Text style={{...FONTS.h1, color: COLORS.primary}}>
-              About the author
-            </Text>
-            <Text style={{...FONTS.body2}}>
-              An homage to what it means to be Korean American with delectable
-              recipes that explore how new culinary traditions can be forged to
-              honor both your past and your present. "This is such an important
-              book. I savored every word and want to cook every
-              recipe!"--Nigella Lawson, author of Cook, Eat, Repeat
-            </Text>
-          </View>
-          {/* Box 4 */}
-          <View style={style.overview}>
-            <Text style={{...FONTS.h1, color: COLORS.primary}}>Overview</Text>
-            <Text style={{...FONTS.body2}}>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime
-              autem, ipsum voluptates dignissimos soluta vero itaque eveniet
-              repudiandae ducimus nihil ut magni iusto odio cumque sed
-              temporibus, in ad officia?
-            </Text>
-            <Text style={{...FONTS.body2}}>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime
-              autem, ipsum voluptates dignissimos soluta vero itaque eveniet
-              repudiandae ducimus nihil ut magni iusto odio cumque sed
-              temporibus, in ad officia?
-            </Text>
-            <Text style={{...FONTS.body2}}>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime
-              autem, ipsum voluptates dignissimos soluta vero itaque eveniet
-              repudiandae ducimus nihil ut magni iusto odio cumque sed
-              temporibus, in ad officia?
-            </Text>
-          </View>
-        </View>
-        {/* Somthing else */}
-        <View style={{flex: 1, ...UTILS.center, height: 300}}>
-          <Text style={{...FONTS.largeTitleBold}}>PlaceHolder</Text>
-        </View>
-      </ScrollView>
+              {/* Back button */}
+              <View style={style.Detail}>
+                {/* DetailUpper */}
+                {renderBookDetailUpper()}
+                {/* DetailUpper */}
+              </View>
+              {/* Book rating */}
+              <View style={{zIndex: 10}}>
+                <Shadow>
+                  <View style={style.Rating}>
+                    {/* BookRating */}
+                    {renderBookRating()}
+                    {/* BookRating */}
+                  </View>
+                </Shadow>
+              </View>
+            </View>
+            {/* Book Upper */}
+            <View style={style.Description}>
+              {/* Box 3 */}
+              <View style={style.author}>
+                <Text style={{...FONTS.h1, color: COLORS.primary}}>
+                  About the author
+                </Text>
+                <Text style={{...FONTS.body2}}>
+                  An homage to what it means to be Korean American with
+                  delectable recipes that explore how new culinary traditions
+                  can be forged to honor both your past and your present. "This
+                  is such an important book. I savored every word and want to
+                  cook every recipe!"--Nigella Lawson, author of Cook, Eat,
+                  Repeat
+                </Text>
+              </View>
+              {/* Box 4 */}
+              <View style={style.overview}>
+                <Text style={{...FONTS.h1, color: COLORS.primary}}>
+                  Overview
+                </Text>
+                <Text style={{...FONTS.body2}}>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Maxime autem, ipsum voluptates dignissimos soluta vero itaque
+                  eveniet repudiandae ducimus nihil ut magni iusto odio cumque
+                  sed temporibus, in ad officia?
+                </Text>
+                <Text style={{...FONTS.body2}}>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Maxime autem, ipsum voluptates dignissimos soluta vero itaque
+                  eveniet repudiandae ducimus nihil ut magni iusto odio cumque
+                  sed temporibus, in ad officia?
+                </Text>
+                <Text style={{...FONTS.body2}}>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Maxime autem, ipsum voluptates dignissimos soluta vero itaque
+                  eveniet repudiandae ducimus nihil ut magni iusto odio cumque
+                  sed temporibus, in ad officia?
+                </Text>
+              </View>
+            </View>
+            {/* Somthing else */}
+            {renderCommentSection()}
+          </ScrollView>
 
-      {/* Bottom */}
-      <Shadow
-        distance={SIZES.padding}
-        offset={[0, 0]}
-        viewStyle={{alignSelf: 'stretch'}}
-        safeRender={true}>
-        {/* Buttons */}
-        <View style={style.bottomButton}>
-          {/* RenderButton */}
-          {renderButtons()}
-          {/* RenderButton */}
+          {/* Bottom */}
+          <Shadow
+            distance={SIZES.padding}
+            offset={[0, 0]}
+            viewStyle={{alignSelf: 'stretch'}}
+            safeRender={true}>
+            {/* Buttons */}
+            <View style={style.bottomButton}>
+              {/* RenderButton */}
+              {renderButtons()}
+              {/* RenderButton */}
+            </View>
+          </Shadow>
+        </SafeAreaView>
+      ) : (
+        <View
+          style={{
+            position: 'absolute',
+            ...UTILS.absolute,
+            backgroundColor: COLORS.overlay(0.8),
+            zIndex: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          {Loader()}
         </View>
-      </Shadow>
-    </SafeAreaView>
+      )}
+    </>
   );
 };
 
 export default Detail;
+
+const Review = ({review, rateScore, reviewer, user}) => {
+  return (
+    <View
+      style={{
+        width: SIZES.width - 40,
+        justifyContent: 'flex-start',
+        paddingBottom: 30,
+        borderBottomWidth: 2,
+        borderColor: COLORS.lightGray3,
+        marginBottom: 20,
+      }}>
+      <View
+        style={{flexDirection: 'row', marginBottom: 30, alignItems: 'center'}}>
+        <Text style={{...FONTS.body2, marginRight: 50}}>Đánh giá</Text>
+        <StarRating
+          starSize={20}
+          emptyStar={'star-o'}
+          emptyStarColor={COLORS.secondary}
+          fullStar={'star'}
+          fullStarColor={COLORS.secondary}
+          halfStar={'star-half-full'}
+          halfStarColor={COLORS.secondary}
+          iconSet={'FontAwesome'}
+          animation="pulse"
+          maxStars={5}
+          starStyle={{
+            marginRight: 5,
+          }}
+          disabled={true}
+          halfStarEnabled={true}
+          rating={rateScore}
+        />
+      </View>
+      <View style={{marginBottom: 20}}>
+        <Text style={{...FONTS.body2, color: COLORS.gray}}>{review}</Text>
+      </View>
+      <View>
+        <Text style={{...FONTS.body2, color: COLORS.primary}}>
+          {reviewer === user.lastName ? `${reviewer} (You)` : reviewer}
+        </Text>
+      </View>
+    </View>
+  );
+};

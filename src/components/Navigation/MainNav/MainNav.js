@@ -10,13 +10,14 @@ import EditUser from '../../../screens/UserProfile/EditUser/EditUser';
 import Profile from '../../../screens/UserProfile/MainProfile/Profile';
 import Checkout from '../../../screens/CheckOut/CheckOut';
 import SavedPlace from '../../../screens/UserProfile/AddressesScreens/SavedPlaces/savedPlaces';
-import EditPlace from '../../../screens/UserProfile/EditPlace/EditPlace';
-import Address from '../../../screens/UserProfile/AddressesScreens/Address/Address';
+import EditPlace from '../../../screens/UserProfile/AddressesScreens/EditPlace/EditPlace';
+import FindMap from '../../../screens/UserProfile/AddressesScreens/FindMap/FindMap';
+import AddressAuto from '../../../screens/UserProfile/AddressesScreens/AddressAuto/AddressAutoComplete';
+import WriteReview from '../../../screens/WriteReview/WriteReview';
 
 const Nav = createNativeStackNavigator();
 
 const Navigate = () => {
-  // Const
   const HomeNav = 'HomeNavigate';
   const DetailComp = 'Detail';
   const OrderHistoryComp = 'OrderHistory';
@@ -26,11 +27,13 @@ const Navigate = () => {
   const CheckoutComp = 'Checkout';
   const SavedPlaceComp = 'SavedPlace';
   const EditPlaceComp = 'EditPlace';
-  const AddressComp = 'Address';
+  const FindMapComp = 'FindMap';
+  const AddressAutoComp = 'AddressAuto';
+  const WriteReviewComp = 'WriteReview';
 
   return (
     <Nav.Navigator
-      initialRouteName={AddressComp}
+      initialRouteName={HomeNav}
       screenOptions={({route}) => {
         return {
           headerShown: false,
@@ -45,7 +48,9 @@ const Navigate = () => {
       <Nav.Screen name={CheckoutComp} component={Checkout} />
       <Nav.Screen name={SavedPlaceComp} component={SavedPlace} />
       <Nav.Screen name={EditPlaceComp} component={EditPlace} />
-      <Nav.Screen name={AddressComp} component={Address} />
+      <Nav.Screen name={FindMapComp} component={FindMap} />
+      <Nav.Screen name={AddressAutoComp} component={AddressAuto} />
+      <Nav.Screen name={WriteReviewComp} component={WriteReview} />
     </Nav.Navigator>
   );
 };

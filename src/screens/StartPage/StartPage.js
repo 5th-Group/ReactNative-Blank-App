@@ -49,14 +49,14 @@ const StartPage = ({navigation}) => {
         <Button
           margin={10}
           title="Sign up"
-          color={true}
+          color={false}
           navigate={NavigateSignup}
           size={{w: 230, h: 70}}
         />
         <Button
           margin={10}
           title="Log in"
-          color={false}
+          color={true}
           navigate={NavigateLogin}
           size={{w: 230, h: 70}}
         />

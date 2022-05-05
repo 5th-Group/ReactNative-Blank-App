@@ -7,6 +7,7 @@ import handleIcon from '../Icon/Icon';
 import styles from './styles';
 
 const Form = ({
+  auto,
   value,
   setValue,
   title,
@@ -18,27 +19,38 @@ const Form = ({
   formErrors,
   placeholder,
   onPressIn,
+  width,
+  height,
+  multiline,
 }) => {
   // Handle
 
   return (
-    <View style={{...styles.wrap, paddingVertical: 10}}>
+    <View style={{...styles.wrap, paddingVertical: SIZES.padding - 10}}>
       <Text style={{...FONTS.h2}}>{title}</Text>
       <View style={{...styles.icon}}>
         {iconBrand &&
           handleIcon(iconBrand, iconName, SIZES.padding2, COLORS.primary)}
       </View>
       <TextInput
+        autoFocus={auto}
+        multiline={multiline}
         onPressIn={() => {
           onPressIn ? onPressIn() : null;
         }}
         placeholder={placeholder}
         secureTextEntry={secure}
         value={value}
+        maxLength={35}
         onChangeText={e => {
-          setValue(e, name);
+          name ? setValue(e, name) : setValue(e);
         }}
-        style={styles.input}></TextInput>
+        style={{
+          width: width ? width : SIZES.width - 40,
+          ...styles.input,
+          height: height ? height : 70,
+          paddingLeft: iconBrand ? 60 : 20,
+        }}></TextInput>
 
       {isError && formErrors[name] && (
         <Text

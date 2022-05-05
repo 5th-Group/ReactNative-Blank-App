@@ -11,6 +11,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 
+//
 import cartReducer from '../features/Cart/cartSlice';
 import userReducer from '../features/User/UserSlice';
 import bookReducer from '../features/Books/bookSlice';
@@ -36,9 +37,8 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      immutableCheck: false,
+      serializableCheck: false,
     }),
 });
 

@@ -1,11 +1,11 @@
 import axios from 'axios';
 import apiConfig from './apiConfig';
 
-const apiInstance = axios.create({
+const apiGet = axios.create({
   baseURL: apiConfig.baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-export default apiInstance;
+export default apiGet;

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, PermissionsAndroid} from 'react-native';
 import Map from '../../../../components/Map/Map';
 import {useDispatch, useSelector} from 'react-redux';
@@ -13,7 +13,7 @@ import handleIcon from '../../../../components/Icon/Icon';
 // Const
 import {SIZES, FONTS, COLORS, UTILS} from '../../../../constants/constants';
 import {
-  addCoord,
+  addCoord2,
   pendingAddress,
   addAddress,
 } from '../../../../features/Address/AddressSlice';
@@ -21,12 +21,12 @@ import {
 // Init
 Geocoder.init('AIzaSyBU1Jbhsl9TQZ3dIZZNI6zsdyyFe_2oPlU');
 
-const Address = () => {
+const FindMap = ({navigation}) => {
+  // State
+  const [location, setLocation] = useState(null);
   // Const
   const disPatch = useDispatch();
   const addressStatus = useSelector(state => state.address.status);
-  const longAddress = useSelector(state => state.address.address.long);
-  const shortAddress = useSelector(state => state.address.address.short);
   const coord = useSelector(state => state.address.coord);
 
   // Handle
@@ -46,7 +46,7 @@ const Address = () => {
         const address = {long: long, short: short};
         disPatch(addAddress(address));
       })
-      .catch(error => console.warn(error));
+      .catch(error => console.log(error));
   };
 
   // Effect
@@ -82,12 +82,13 @@ const Address = () => {
       disPatch(pendingAddress());
       Geolocation.getCurrentPosition(
         position => {
+          console.log(position);
           handleGetAddress({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
           disPatch(
-            addCoord({
+            addCoord2({
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
             }),
@@ -106,14 +107,12 @@ const Address = () => {
       console.log('log');
       console.log(coord.latitude);
     };
-    // if (coord.latitude) {
-    //   handleGetAddress(coord);
-    // }
+
     getOneTimeLocation();
   }, []);
   return (
     <View style={{flex: 1}}>
-      <Map />
+      <Map setLocation={setLocation} />
       {/* Marker */}
       <View
         style={{
@@ -137,6 +136,7 @@ const Address = () => {
           padding: SIZES.padding,
           ...UTILS.shadow,
         }}>
+        {/* Address */}
         <View
           style={{
             backgroundColor: COLORS.backgroun,
@@ -158,7 +158,7 @@ const Address = () => {
           </View>
           <View style={{flex: 9}}>
             <Text style={{...FONTS.h2, fontSize: SIZES.h2 - 3}}>
-              {shortAddress}
+              {location ? location.short : ''}
             </Text>
             <Text
               numberOfLines={2}
@@ -166,12 +166,17 @@ const Address = () => {
                 ...FONTS.body2,
                 fontSize: SIZES.h2 - 3,
               }}>
-              {longAddress}
+              {location ? location.long : ''}
             </Text>
           </View>
         </View>
+        {/* Button */}
         <View style={{marginTop: 10}}>
           <Button
+            onPress={() => {
+              disPatch(addAddress(location));
+              navigation.goBack();
+            }}
             disable={addressStatus === 'pending' ? true : false}
             title="Confirm"
             color={true}
@@ -182,4 +187,4 @@ const Address = () => {
   );
 };
 
-export default Address;
+export default FindMap;

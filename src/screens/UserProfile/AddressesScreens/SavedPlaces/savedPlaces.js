@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
-  StyleSheet,
+  RefreshControl,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 
 // Components
 import handleIcon from '../../../../components/Icon/Icon';
@@ -15,13 +16,25 @@ import BackIcon from '../../../../components/Back-Icon/BackIcon';
 import {FONTS, SIZES, COLORS, UTILS} from '../../../../constants/constants';
 
 const SavedPlace = ({navigation}) => {
+  // States
+  const [isRefresh, setIsRefresh] = useState(false);
+
+  // Const
+  const address = useSelector(state => state.user.userInfo.address);
   // Handle
+  // Refresh
+  const handleRefresh = () => {
+    setIsRefresh(true);
+    setTimeout(() => {
+      setIsRefresh(false);
+    }, 2000);
+  };
   const navigateBack = () => {
     navigation.goBack();
   };
   // Navigate
-  const navigateEditPlace = () => {
-    navigation.navigate('EditPlace');
+  const navigateEditPlace = address => {
+    navigation.navigate('EditPlace', {address: address});
   };
   // Render
   // Header
@@ -51,25 +64,14 @@ const SavedPlace = ({navigation}) => {
   const renderAddress = () => {
     return (
       <View style={{width: SIZES.width - 40}}>
-        <Place
-          onPress={navigateEditPlace}
-          title="Home"
-          address="262/20, Lạc Long Quân, Phường 10, Quận 11, TP.HCM"></Place>
-        <Place
-          title="Home"
-          address="262/20, Lạc Long Quân, Phường 10, Quận 11, TP.HCM"></Place>
-        <Place
-          title="Home"
-          address="262/20, Lạc Long Quân, Phường 10, Quận 11, TP.HCM"></Place>
-        <Place
-          title="Home"
-          address="262/20, Lạc Long Quân, Phường 10, Quận 11, TP.HCM"></Place>
-        <Place
-          title="Home"
-          address="262/20, Lạc Long Quân, Phường 10, Quận 11, TP.HCM"></Place>
-        <Place
-          title="Home"
-          address="262/20, Lạc Long Quân, Phường 10, Quận 11, TP.HCM"></Place>
+        {address.map((address, index) => {
+          return (
+            <Place
+              key={index}
+              onPress={navigateEditPlace}
+              address={address}></Place>
+          );
+        })}
       </View>
     );
   };
@@ -80,6 +82,14 @@ const SavedPlace = ({navigation}) => {
         flex: 1,
       }}>
       <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefresh}
+            onRefresh={() => {
+              handleRefresh();
+            }}
+          />
+        }
         contentContainerStyle={{
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
@@ -95,12 +105,12 @@ const SavedPlace = ({navigation}) => {
 
 export default SavedPlace;
 
-const Place = ({title, address, onPress}) => {
+const Place = ({title = 'Untitled', address, onPress}) => {
   return (
     <View>
       <TouchableOpacity
         onPress={() => {
-          onPress ? onPress() : null;
+          onPress ? onPress(address) : null;
         }}
         style={{
           padding: SIZES.padding - 10,

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, SIZES, FONTS} from '../../constants/constants';
+import {COLORS, SIZES, FONTS, UTILS} from '../../constants/constants';
 
 const styles = StyleSheet.create({
   buttonWrap: {

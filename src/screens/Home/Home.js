@@ -12,12 +12,16 @@ import {
 import {style} from './styles';
 import {COLORS, SIZES, FONTS, UTILS} from '../../constants/constants';
 import {category} from '../../constants/data';
-import {getAllBook} from '../../features/Books/bookSlice';
 import {useDispatch, useSelector} from 'react-redux';
+import {
+  getbookStart,
+  getbookFail,
+  getbookSuccess,
+} from '../../features/Books/bookSlice';
+import bookApiGet from '../../api/apiV2';
 
 // Components
-import Poster from '../../components/Poster/Poster';
-import {LoadingPoster, Error} from '../../components/Poster/Poster';
+import Poster, {LoadingPoster, Error} from '../../components/Poster/Poster';
 import handleIcon from '../../components/Icon/Icon';
 
 const Home = ({navigation}) => {
@@ -25,7 +29,7 @@ const Home = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   // Const
-  const user = useSelector(state => state.user.userInfo);
+  const user = useSelector(state => state.user);
   const status = useSelector(state => state.book.status);
   const data = useSelector(state => state.book.book);
   const disPatch = useDispatch();
@@ -33,14 +37,26 @@ const Home = ({navigation}) => {
   // Effect
   // Api Call
   useEffect(() => {
-    disPatch(getAllBook());
-  }, []);
+    const getBook = async () => {
+      disPatch(getbookStart());
+      try {
+        const response = await bookApiGet.getAllBook();
+        if (response.data) {
+          disPatch(getbookSuccess(response.data));
+        }
+      } catch (error) {
+        console.log(error);
+        disPatch(getbookFail());
+      }
+    };
+    getBook();
+  }, [disPatch]);
 
   // Test
 
   const test = () => {
     // console.log(data[1].detail);
-    // console.log(user);
+    console.log(user);
   };
 
   // Renders
@@ -139,10 +155,10 @@ const Home = ({navigation}) => {
         <Poster
           key={item._id}
           title={item.detail.title}
-          author={data.length}
+          author="Author"
           image={item.detail.icon}
           score={item.averageScore}
-          item={item}
+          id={item._id}
           navigation={navigation}></Poster>
       );
     });

@@ -1,8 +1,6 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 
-import {COLORS, constants, FONTS} from '../../constants/constants';
-
-const width = Dimensions.get('window').width - 40;
+import {COLORS, FONTS} from '../../constants/constants';
 
 const styles = StyleSheet.create({
   wrap: {
@@ -11,11 +9,9 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: 5,
-    width: width,
-    height: 70,
     borderWidth: 2,
     borderRadius: 10,
-    paddingLeft: 60,
+    paddingRight: 20,
     borderColor: COLORS.primary,
     ...FONTS.h2,
   },

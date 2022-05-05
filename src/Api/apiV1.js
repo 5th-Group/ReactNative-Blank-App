@@ -1,18 +1,16 @@
-import apiInstance from './apiClient';
+import apiPost from './apiClientPost';
 
-const bookApi = {
-  login: user => {
-    const url = '/api/login';
-    return apiInstance.post(url, user);
+const bookApiPost = {
+  // Post Review
+  postReview: (review, bookid) => {
+    const url = `/api/review/${bookid}/new`;
+    return apiPost.post(url, review);
   },
-  register: user => {
-    const url = '/api/register';
-    return apiInstance.post(url, user);
-  },
-  getAllBook: () => {
-    const url = '/api';
-    return apiInstance.get(url);
+  // UpdateAddress
+  updateAddress: (update, userId) => {
+    const url = `/api/user/${userId}/update`;
+    return apiPost.put(url, update);
   },
 };
 
-export default bookApi;
+export default bookApiPost;

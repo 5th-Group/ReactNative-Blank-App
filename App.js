@@ -3,6 +3,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {PersistGate} from 'redux-persist/integration/react';
+import {enableLatestRenderer} from 'react-native-maps';
+
+enableLatestRenderer();
 
 // Components
 import Auth from './src/screens/Auth/Auth';
@@ -11,6 +14,8 @@ import Auth from './src/screens/Auth/Auth';
 import {COLORS} from './src/constants/constants';
 import {Provider} from 'react-redux';
 import {store, persistor} from './src/store/store';
+import {injectStore} from './src/api/apiClientPost';
+injectStore(store);
 
 const App = () => {
   useEffect(() => {

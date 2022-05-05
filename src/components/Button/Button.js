@@ -8,7 +8,16 @@ import LottieView from 'lottie-react-native';
 import styles from './styles';
 import {FONTS, SIZES, COLORS, UTILS} from '../../constants/constants';
 
-const Button = ({title, color, navigate, size, margin, onPress, disable}) => {
+const Button = ({
+  title,
+  color,
+  navigate,
+  size,
+  margin,
+  onPress,
+  disable,
+  danger,
+}) => {
   // Hande Button Style
   const handleButtonStyle = color => {
     if (color) {
@@ -69,7 +78,15 @@ const Button = ({title, color, navigate, size, margin, onPress, disable}) => {
         }}
         style={
           !disable
-            ? [styles.buttonWrap, bgColor, Size, Margin]
+            ? {
+                ...styles.buttonWrap,
+                ...bgColor,
+                borderColor: danger
+                  ? COLORS.secondary
+                  : bgColor.backgroundColor,
+                ...Size,
+                ...Margin,
+              }
             : {
                 ...styles.buttonWrap,
                 ...Size,
@@ -78,7 +95,14 @@ const Button = ({title, color, navigate, size, margin, onPress, disable}) => {
               }
         }>
         {!disable ? (
-          <Text style={[titleColor, FONTS.h2]}>{title}</Text>
+          <Text
+            style={{
+              ...titleColor,
+              ...FONTS.h2,
+              color: danger ? COLORS.secondary : titleColor.color,
+            }}>
+            {title}
+          </Text>
         ) : (
           <View style={{...UTILS.center, width: 200, height: 200}}>
             <LottieView
