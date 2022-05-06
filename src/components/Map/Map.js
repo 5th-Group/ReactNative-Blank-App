@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import MapView from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';

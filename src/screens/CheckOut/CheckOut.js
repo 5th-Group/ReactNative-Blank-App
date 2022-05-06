@@ -16,30 +16,36 @@ import {postOrder} from '../../api/apiFixPost';
 import BackIcon from '../../components/Back-Icon/BackIcon';
 import handleIcon from '../../components/Icon/Icon';
 import Button from '../../components/Button/Button';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 const Checkout = ({navigation, route}) => {
   // States
-  const order = [];
-  // const
+  let listProduct = [];
+  const [order, setOrder] = useState({});
+
+  // Redux
   const total = useSelector(state => state.cart.total);
-  const {items} = route.params;
+  const token = useSelector(state => state.user.accessToken);
   const {address} = useSelector(state => state.user.userInfo);
+  // Const
+  const disPatch = useDispatch();
+  const {items} = route.params;
 
   // Effect
   useEffect(() => {
     items.forEach(item => {
-      order.push({
+      listProduct.push({
         productDetail: item.id,
         price: item.price,
         quantity: item.quantity,
       });
     });
+    setOrder({products: listProduct});
   }, []);
 
   // Handle
   const handlePostOrder = () => {
-    postOrder();
+    postOrder(order, token);
   };
   // Render
 
@@ -223,6 +229,7 @@ const Checkout = ({navigation, route}) => {
             <Text style={{...FONTS.h2}}>{`${total + 50}₫`}</Text>
           </View>
           <Button
+            onPress={handlePostOrder}
             title="Submit"
             color={true}
             size={{h: 70, w: 'full'}}></Button>

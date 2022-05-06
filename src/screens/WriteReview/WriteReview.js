@@ -11,6 +11,7 @@ import StarRating from 'react-native-star-rating';
 import {SIZES, FONTS, UTILS, COLORS} from '../../constants/constants';
 import {useSelector} from 'react-redux';
 import bookApiPost from '../../api/apiV1';
+import {postReview} from '../../api/apiFixPost';
 
 const WriteReview = ({navigation, route}) => {
   // States
@@ -18,6 +19,9 @@ const WriteReview = ({navigation, route}) => {
     ratedScore: 1,
   });
   const [status, setStatus] = useState('idle');
+
+  // Redux
+  const token = useSelector(state => state.user.accessToken);
   // Const
   const {detail, id} = route.params;
 
@@ -40,15 +44,8 @@ const WriteReview = ({navigation, route}) => {
   };
 
   // Post review
-  const handlePostReview = async () => {
-    setStatus('posting');
-    try {
-      await bookApiPost.postReview(review, id);
-      setStatus('success');
-    } catch (error) {
-      setStatus('error');
-      console.log(error);
-    }
+  const handlePostReview = () => {
+    postReview(review, id, token);
   };
 
   // Render
@@ -132,6 +129,7 @@ const WriteReview = ({navigation, route}) => {
                 halfStarColor={COLORS.secondary}
                 iconSet={'FontAwesome'}
                 animation="pulse"
+                starColor={COLORS.secondary}
                 maxStars={5}
                 rating={review.ratedScore}
                 selectedStar={rating => {

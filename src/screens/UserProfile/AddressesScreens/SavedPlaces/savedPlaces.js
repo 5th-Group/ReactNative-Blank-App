@@ -19,8 +19,10 @@ const SavedPlace = ({navigation}) => {
   // States
   const [isRefresh, setIsRefresh] = useState(false);
 
-  // Const
+  // Redux
   const address = useSelector(state => state.user.userInfo.address);
+  // Const
+
   // Handle
   // Refresh
   const handleRefresh = () => {
@@ -29,9 +31,11 @@ const SavedPlace = ({navigation}) => {
       setIsRefresh(false);
     }, 2000);
   };
+
   const navigateBack = () => {
     navigation.goBack();
   };
+
   // Navigate
   const navigateEditPlace = address => {
     navigation.navigate('EditPlace', {address: address});
@@ -51,12 +55,27 @@ const SavedPlace = ({navigation}) => {
         <BackIcon onPress={navigateBack}></BackIcon>
         {/* Title */}
         <Text
+          onPress={() => {
+            console.log(address.length);
+          }}
           style={{
             ...FONTS.largeTitleBold,
             color: COLORS.primary,
           }}>
           My Address
         </Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('AddAddress');
+          }}
+          style={{marginLeft: SIZES.padding * 4}}>
+          {handleIcon(
+            'AntDesign',
+            'plussquareo',
+            SIZES.h1Hyper,
+            COLORS.primary,
+          )}
+        </TouchableOpacity>
       </View>
     );
   };
@@ -64,14 +83,16 @@ const SavedPlace = ({navigation}) => {
   const renderAddress = () => {
     return (
       <View style={{width: SIZES.width - 40}}>
-        {address.map((address, index) => {
-          return (
-            <Place
-              key={index}
-              onPress={navigateEditPlace}
-              address={address}></Place>
-          );
-        })}
+        {address.length > 1 &&
+          address.map(({type, location}, index) => {
+            return (
+              <Place
+                key={index}
+                title={type}
+                onPress={navigateEditPlace}
+                address={location}></Place>
+            );
+          })}
       </View>
     );
   };

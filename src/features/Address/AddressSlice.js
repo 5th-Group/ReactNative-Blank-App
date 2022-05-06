@@ -11,7 +11,7 @@ const addressSlice = createSlice({
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     },
-    address: {short: null, long: null},
+    address: {short: '', long: ''},
     status: '',
   },
   reducers: {

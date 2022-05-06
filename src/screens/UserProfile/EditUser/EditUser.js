@@ -30,12 +30,15 @@ const EditUser = ({navigation}) => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [isError, setIsError] = useState(false);
-  // Const
-  const disPatch = useDispatch();
+
+  // Reudux
   const userData = useSelector(state => state.user.userInfo);
   const token = useSelector(state => state.user.accessToken);
   const updateStatus = useSelector(state => state.user.updateStatus);
   const status = useSelector(state => state.user.status);
+
+  // Const
+  const disPatch = useDispatch();
 
   // Handle
   const navigateBack = () => {
@@ -106,7 +109,7 @@ const EditUser = ({navigation}) => {
         {/* Title */}
         <Text
           onPress={() => {
-            console.log(token);
+            console.log(userData);
           }}
           style={{
             ...FONTS.largeTitleBold,

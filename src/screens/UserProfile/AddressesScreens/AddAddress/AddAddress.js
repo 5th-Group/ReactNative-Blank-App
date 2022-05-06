@@ -1,56 +1,69 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {View, Text, ScrollView} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 
-// Components
-import handleIcon from '../../../../components/Icon/Icon';
+//Components
 import BackIcon from '../../../../components/Back-Icon/BackIcon';
 import Form from '../../../../components/Form/Form';
+import handleIcon from '../../../../components/Icon/Icon';
 import Button from '../../../../components/Button/Button';
 
-// CONST
-import {FONTS, SIZES, COLORS, UTILS} from '../../../../constants/constants';
-import {useSelector, useDispatch} from 'react-redux';
+// Const
+import {SIZES, FONTS, COLORS, UTILS} from '../../../../constants/constants';
+import {useDispatch, useSelector} from 'react-redux';
 import {addAddress} from '../../../../features/Address/AddressSlice';
-import {
-  updateAddress,
-  resetUpdataStatus,
-} from '../../../../features/User/UserSlice';
+import {postAddress} from '../../../../api/apiFixPost';
 
-const EditPlace = ({navigation, route}) => {
+const AddAddress = ({navigation}) => {
+  // States
+  const [address, setAddress] = useState({
+    type: '',
+    location: '',
+  });
+
   // Redux
   const addressRedux = useSelector(state => state.address.address.long);
-  let userData = useSelector(state => state.user.userInfo);
-  const updateStatus = useSelector(state => state.user.updateStatus);
+  const token = useSelector(state => state.user.accessToken);
 
   // Const
-  const {address} = route.params;
   const disPatch = useDispatch();
 
   // Effect
   useEffect(() => {
-    disPatch(addAddress({long: address}));
+    if (addressRedux !== '') {
+      disPatch(addAddress({long: ''}));
+    }
   }, []);
 
-  useEffect(() => {
-    if (updateStatus === 'success') {
-      disPatch(resetUpdataStatus());
-      // navigation.goBack();
-    }
-  }, [updateStatus]);
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+      const Active = () => {
+        setAddress({
+          ...address,
+          location: addressRedux,
+        });
+      };
+      Active();
+      return () => {
+        isActive = false;
+      };
+    }, [id]),
+  );
 
-  // Handle
-  const navigateBack = () => {
-    navigation.goBack();
-  };
+  //   Handle
   // Update Address
-  const handleUpdateAddress = () => {
-    const oldAddress = userData.address.indexOf(address);
-    let newAddress = (userData.address[oldAddress] = addressRedux);
-    const updataData = {
-      ...userData,
-      address: [...userData.address, newAddress],
-    };
-    disPatch(updateAddress({data: updataData, userId: userData._id}));
+  const handleAddAddress = () => {
+    console.log(address);
+    postAddress(address, token, disPatch);
+  };
+
+  //   Address format
+  const handleAddressInfo = (e, name) => {
+    setAddress({
+      ...address,
+      [name]: e,
+    });
   };
 
   // Render
@@ -65,18 +78,20 @@ const EditPlace = ({navigation, route}) => {
           marginBottom: SIZES.padding + 10,
         }}>
         {/* Back icon */}
-        <BackIcon onPress={navigateBack}></BackIcon>
+        <BackIcon
+          onPress={() => {
+            navigation.goBack();
+          }}></BackIcon>
         {/* Title */}
         <Text
           onPress={() => {
-            navigation.navigate('FindMap');
-            console.log(updateStatus);
+            console.log(addressRedux);
           }}
           style={{
             ...FONTS.largeTitleBold,
             color: COLORS.primary,
           }}>
-          Edit Address
+          Add Address
         </Text>
       </View>
     );
@@ -87,11 +102,14 @@ const EditPlace = ({navigation, route}) => {
     return (
       <View>
         <Form
+          value={address.name}
+          name="type"
+          setValue={handleAddressInfo}
           iconBrand="MaterialCommunityIcons"
           iconName="office-building-marker"
           title="Name"
           placeholder="Work"></Form>
-
+        {/* Address */}
         <View
           style={{
             justifyContent: 'center',
@@ -118,8 +136,8 @@ const EditPlace = ({navigation, route}) => {
                 navigation.navigate('AddressAuto');
               }}
               numberOfLines={1}
-              style={{...FONTS.h2}}>
-              {addressRedux}
+              style={{...FONTS.h2, color: '#969696'}}>
+              {addressRedux === '' ? 'Address' : addressRedux}
             </Text>
           </View>
         </View>
@@ -138,16 +156,32 @@ const EditPlace = ({navigation, route}) => {
           justifyContent: 'center',
         }}>
         <Button
-          danger={true}
-          title="Remove"
-          size={{h: 70, w: 240}}
-          margin={10}></Button>
-        <Button
-          onPress={handleUpdateAddress}
+          onPress={() => {
+            navigation.navigate('FindMap');
+          }}
           color={true}
-          title="Save Address"
-          size={{h: 70, w: 240}}
-          margin={10}></Button>
+          title="Search on map"
+          size={{h: 70, w: 'full'}}></Button>
+      </View>
+    );
+  };
+
+  //   Absolute Button
+  const renderAbsoluteButton = () => {
+    return (
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          ...UTILS.center,
+          width: SIZES.width,
+          paddingVertical: 30,
+        }}>
+        <Button
+          onPress={handleAddAddress}
+          color={false}
+          title="Add"
+          size={{h: 70, w: 'full'}}></Button>
       </View>
     );
   };
@@ -168,8 +202,9 @@ const EditPlace = ({navigation, route}) => {
         {renderEditForm()}
         {renderBottomButton()}
       </ScrollView>
+      {renderAbsoluteButton()}
     </View>
   );
 };
 
-export default EditPlace;
+export default AddAddress;

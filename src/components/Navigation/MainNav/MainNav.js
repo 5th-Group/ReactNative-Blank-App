@@ -14,6 +14,7 @@ import EditPlace from '../../../screens/UserProfile/AddressesScreens/EditPlace/E
 import FindMap from '../../../screens/UserProfile/AddressesScreens/FindMap/FindMap';
 import AddressAuto from '../../../screens/UserProfile/AddressesScreens/AddressAuto/AddressAutoComplete';
 import WriteReview from '../../../screens/WriteReview/WriteReview';
+import AddAddress from '../../../screens/UserProfile/AddressesScreens/AddAddress/AddAddress';
 
 const Nav = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ const Navigate = () => {
   const FindMapComp = 'FindMap';
   const AddressAutoComp = 'AddressAuto';
   const WriteReviewComp = 'WriteReview';
+  const AddAddressComp = 'AddAddress';
 
   return (
     <Nav.Navigator
@@ -51,6 +53,7 @@ const Navigate = () => {
       <Nav.Screen name={FindMapComp} component={FindMap} />
       <Nav.Screen name={AddressAutoComp} component={AddressAuto} />
       <Nav.Screen name={WriteReviewComp} component={WriteReview} />
+      <Nav.Screen name={AddAddressComp} component={AddAddress} />
     </Nav.Navigator>
   );
 };

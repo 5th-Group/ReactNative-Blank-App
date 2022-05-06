@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 
 // Components
@@ -7,8 +7,29 @@ import BackIcon from '../../../components/Back-Icon/BackIcon';
 
 // CONST
 import {FONTS, SIZES, COLORS, UTILS} from '../../../constants/constants';
+import {getOrder} from '../../../api/apiFixPost';
+import {useSelector} from 'react-redux';
 
 const OrderHistory = ({navigation}) => {
+  // States
+  const [orderHistory, setOrderHistory] = useState([]);
+
+  // Redux
+  const token = useSelector(state => state.user.accessToken);
+
+  // Effect
+  useEffect(() => {
+    const getOrderHistory = async () => {
+      try {
+        const response = await getOrder(token);
+        console.log(response);
+        setOrderHistory(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getOrderHistory();
+  }, []);
   // Handle
   const navigateBack = () => {
     navigation.goBack();
@@ -42,12 +63,16 @@ const OrderHistory = ({navigation}) => {
   const renderOrders = () => {
     return (
       <View style={{flex: 1, width: '100%'}}>
-        <OrderItem></OrderItem>
-        <OrderItem></OrderItem>
-        <OrderItem></OrderItem>
-        <OrderItem></OrderItem>
-        <OrderItem></OrderItem>
-        <OrderItem></OrderItem>
+        {orderHistory.map((order, index) => {
+          return (
+            <OrderItem
+              key={index}
+              total={order.totalPrice}
+              orderId={order._id}
+              product={order.products}
+              status={order.status}></OrderItem>
+          );
+        })}
       </View>
     );
   };
@@ -71,7 +96,7 @@ const OrderHistory = ({navigation}) => {
   );
 };
 
-const OrderItem = () => {
+const OrderItem = ({orderId, total, status, product}) => {
   return (
     <View
       style={{
@@ -94,16 +119,21 @@ const OrderItem = () => {
         }}>
         <View>
           <View style={{marginBottom: 10}}>
-            <Text style={{...FONTS.h2}}>#12381283712836</Text>
+            <Text style={{...FONTS.h2}}>{orderId}</Text>
           </View>
           <View>
-            <Text style={{...FONTS.h2}}>4 items</Text>
-            <Text style={{...FONTS.body2}}>Test item x2</Text>
-            <Text style={{...FONTS.body2}}>Test item x4</Text>
-            <Text style={{...FONTS.body2}}>Test item x5</Text>
+            <Text style={{...FONTS.h2}}>{`${product.length} items`}</Text>
+            {product.map(({productDetail, quantity}) => {
+              return (
+                <Text
+                  style={{
+                    ...FONTS.body2,
+                  }}>{`${productDetail.detail.title} x${quantity}`}</Text>
+              );
+            })}
           </View>
         </View>
-        <Text style={{...FONTS.h1, color: COLORS.primary}}>$20</Text>
+        <Text style={{...FONTS.h1, color: COLORS.primary}}>{`${total}đ`}</Text>
       </View>
       <View
         style={{
@@ -114,10 +144,10 @@ const OrderItem = () => {
         <Text
           style={{
             ...FONTS.h2,
-            color: COLORS.success,
+            color: COLORS.secondary,
             fontFamily: FONTS.bold,
           }}>
-          Delivered
+          {status}
         </Text>
         <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}>
           <View>
