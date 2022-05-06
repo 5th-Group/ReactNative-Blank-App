@@ -23,6 +23,7 @@ const Form = ({
   height,
   multiline,
   keyboard,
+  onEndEditing,
 }) => {
   // Handle
 
@@ -34,6 +35,9 @@ const Form = ({
           handleIcon(iconBrand, iconName, SIZES.padding2, COLORS.primary)}
       </View>
       <TextInput
+        onEndEditing={() => {
+          onEndEditing ? onEndEditing() : null;
+        }}
         keyboardType={keyboard ? keyboard : null}
         autoFocus={auto}
         multiline={multiline}

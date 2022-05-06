@@ -11,6 +11,7 @@ import React, {useState, useEffect} from 'react';
 // Const
 import {SIZES, FONTS, COLORS, UTILS} from '../../constants/constants';
 import {postOrder} from '../../api/apiFixPost';
+import {clearCart} from '../../features/Cart/cartSlice';
 
 // Components
 import BackIcon from '../../components/Back-Icon/BackIcon';
@@ -27,6 +28,7 @@ const Checkout = ({navigation, route}) => {
   const total = useSelector(state => state.cart.total);
   const token = useSelector(state => state.user.accessToken);
   const {address} = useSelector(state => state.user.userInfo);
+
   // Const
   const disPatch = useDispatch();
   const {items} = route.params;
@@ -45,6 +47,8 @@ const Checkout = ({navigation, route}) => {
 
   // Handle
   const handlePostOrder = () => {
+    navigation.goBack();
+    disPatch(clearCart());
     postOrder(order, token);
   };
   // Render
@@ -207,7 +211,7 @@ const Checkout = ({navigation, route}) => {
                 justifyContent: 'space-between',
               }}>
               <Text style={{...FONTS.body2}}>Taxes</Text>
-              <Text style={{...FONTS.h2}}>$50</Text>
+              <Text style={{...FONTS.h2}}>$50000₫</Text>
             </View>
           </View>
         </View>
@@ -226,7 +230,7 @@ const Checkout = ({navigation, route}) => {
               marginBottom: 10,
             }}>
             <Text style={{...FONTS.h2}}>Total</Text>
-            <Text style={{...FONTS.h2}}>{`${total + 50}₫`}</Text>
+            <Text style={{...FONTS.h2}}>{`${total + 50000}₫`}</Text>
           </View>
           <Button
             onPress={handlePostOrder}

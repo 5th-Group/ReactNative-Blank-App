@@ -57,8 +57,8 @@ const AddressAuto = ({navigation}) => {
       <GooglePlacesAutocomplete
         // keyboardShouldPersistTaps="handled"
         // ref={ref}
-        // debounce={400}
-        // enablePoweredByContainer={false}
+        debounce={400}
+        enablePoweredByContainer={false}
         styles={{
           container: {
             width: '100%',

@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 // CONST
 import {FONTS, SIZES, COLORS, UTILS} from '../../../constants/constants';
-import {Reset} from '../../../features/User/UserSlice';
+import {logOut} from '../../../features/User/UserSlice';
 import {useDispatch, useSelector} from 'react-redux';
 
 // Component
@@ -57,10 +57,13 @@ const Option = ({title, iconName, iconBrand, onPress, color}) => {
 
 // Main
 const Profile = ({navigation}) => {
-  // Const
-  const disPatch = useDispatch();
+  // Redux
   const user = useSelector(state => state.user.userInfo);
   const token = useSelector(state => state.user.accessToken);
+
+  // Const
+  const disPatch = useDispatch();
+
   // Handle
   // Setting
   const settingNavigate = () => {
@@ -80,7 +83,7 @@ const Profile = ({navigation}) => {
   };
   // Log out
   const handleLogout = () => {
-    disPatch(Reset());
+    disPatch(logOut());
   };
 
   // Render

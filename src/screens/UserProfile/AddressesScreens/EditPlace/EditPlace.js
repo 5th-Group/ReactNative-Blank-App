@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 
 // Components
@@ -10,17 +10,21 @@ import Button from '../../../../components/Button/Button';
 // CONST
 import {FONTS, SIZES, COLORS, UTILS} from '../../../../constants/constants';
 import {useSelector, useDispatch} from 'react-redux';
+
+// Action
+import {resetStatus} from '../../../../features/User/UserSlice';
 import {addAddress} from '../../../../features/Address/AddressSlice';
-import {
-  updateAddress,
-  resetUpdataStatus,
-} from '../../../../features/User/UserSlice';
+import {putAddress} from '../../../../api/apiFixPost';
 
 const EditPlace = ({navigation, route}) => {
+  // States
+  const [type, setType] = useState();
+
   // Redux
   const addressRedux = useSelector(state => state.address.address.long);
-  let userData = useSelector(state => state.user.userInfo);
-  const updateStatus = useSelector(state => state.user.updateStatus);
+  const name = useSelector(state => state.address.address.name);
+  const userStatus = useSelector(state => state.user.status);
+  const token = useSelector(state => state.user.accesToken);
 
   // Const
   const {address} = route.params;
@@ -28,29 +32,30 @@ const EditPlace = ({navigation, route}) => {
 
   // Effect
   useEffect(() => {
-    disPatch(addAddress({long: address}));
+    disPatch(addAddress({long: address.location, name: address.type}));
   }, []);
 
   useEffect(() => {
-    if (updateStatus === 'success') {
-      disPatch(resetUpdataStatus());
-      // navigation.goBack();
+    if (userStatus === 'success') {
+      disPatch(resetStatus());
+      navigation.goBack();
     }
-  }, [updateStatus]);
+  }, [userStatus]);
 
   // Handle
   const navigateBack = () => {
     navigation.goBack();
   };
+
+  // Handle Add Type
+  const handleAddType = () => {
+    disPatch(addAddress({name: address.type}));
+  };
+
   // Update Address
   const handleUpdateAddress = () => {
-    const oldAddress = userData.address.indexOf(address);
-    let newAddress = (userData.address[oldAddress] = addressRedux);
-    const updataData = {
-      ...userData,
-      address: [...userData.address, newAddress],
-    };
-    disPatch(updateAddress({data: updataData, userId: userData._id}));
+    const location = {address: {type: name, location: addressRedux}};
+    putAddress(location, token, disPatch);
   };
 
   // Render
@@ -68,10 +73,7 @@ const EditPlace = ({navigation, route}) => {
         <BackIcon onPress={navigateBack}></BackIcon>
         {/* Title */}
         <Text
-          onPress={() => {
-            navigation.navigate('FindMap');
-            console.log(updateStatus);
-          }}
+          onPress={() => {}}
           style={{
             ...FONTS.largeTitleBold,
             color: COLORS.primary,
@@ -87,10 +89,13 @@ const EditPlace = ({navigation, route}) => {
     return (
       <View>
         <Form
+          onEndEditing={handleAddType}
+          value={type}
+          setValue={setType}
           iconBrand="MaterialCommunityIcons"
           iconName="office-building-marker"
           title="Name"
-          placeholder="Work"></Form>
+          placeholder={name}></Form>
 
         <View
           style={{
@@ -118,8 +123,11 @@ const EditPlace = ({navigation, route}) => {
                 navigation.navigate('AddressAuto');
               }}
               numberOfLines={1}
-              style={{...FONTS.h2}}>
-              {addressRedux}
+              style={{
+                ...FONTS.h2,
+                color: addressRedux.length > 1 ? COLORS.black : '#969696',
+              }}>
+              {addressRedux === '' ? 'Address' : addressRedux}
             </Text>
           </View>
         </View>
@@ -136,6 +144,29 @@ const EditPlace = ({navigation, route}) => {
           width: SIZES.width - 40,
           flexDirection: 'row',
           justifyContent: 'center',
+        }}>
+        <Button
+          onPress={() => {
+            navigation.navigate('FindMap');
+          }}
+          color={true}
+          title="Search on map"
+          size={{h: 70, w: 'full'}}></Button>
+      </View>
+    );
+  };
+
+  //   Absolute Button
+  const renderAbsoluteButton = () => {
+    return (
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          ...UTILS.center,
+          width: SIZES.width,
+          paddingVertical: 30,
+          flexDirection: 'row',
         }}>
         <Button
           danger={true}
@@ -168,6 +199,7 @@ const EditPlace = ({navigation, route}) => {
         {renderEditForm()}
         {renderBottomButton()}
       </ScrollView>
+      {renderAbsoluteButton()}
     </View>
   );
 };

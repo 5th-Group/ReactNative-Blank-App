@@ -17,7 +17,7 @@ import {Divider} from '../../constants/constants';
 import handleIcon from '../../components/Icon/Icon';
 import LinearGradient from 'react-native-linear-gradient';
 import {Shadow} from 'react-native-shadow-2';
-import {Loader} from '../../components/Poster/Poster';
+import {LoadingDanceDot} from '../../components/Poster/Poster';
 import StarRating from 'react-native-star-rating';
 
 // CONST
@@ -32,9 +32,12 @@ export const Detail = ({navigation, route}) => {
   const [book, setBook] = useState(null);
   const [status, setStatus] = useState('idle');
   const [quantity, setQuantity] = useState(1);
+
+  // Redux
+  const user = useSelector(state => state.user.userInfo);
+
   // Const
   const {id} = route.params;
-  const user = useSelector(state => state.user.userInfo);
   const disPatch = useDispatch();
 
   // Effect
@@ -43,7 +46,6 @@ export const Detail = ({navigation, route}) => {
       setStatus('loading');
       try {
         const response = await bookApiGet.getBook(id);
-        console.log(response.data.detail.title);
         setBook(response.data);
         setStatus('success');
       } catch (error) {
@@ -466,17 +468,7 @@ export const Detail = ({navigation, route}) => {
           </Shadow>
         </SafeAreaView>
       ) : (
-        <View
-          style={{
-            position: 'absolute',
-            ...UTILS.absolute,
-            backgroundColor: COLORS.overlay(0.8),
-            zIndex: 10,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          {Loader()}
-        </View>
+        LoadingDanceDot()
       )}
     </>
   );

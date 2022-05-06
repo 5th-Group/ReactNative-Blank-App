@@ -11,7 +11,7 @@ const addressSlice = createSlice({
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     },
-    address: {short: '', long: ''},
+    address: {short: '', long: '', name: ''},
     status: '',
   },
   reducers: {
@@ -37,27 +37,14 @@ const addressSlice = createSlice({
       state.address = {...state.address, ...action.payload};
     },
 
-    pendingAddress: state => {
-      state.status = 'pending';
+    setAddressStatusLoading: state => {
+      state.status = 'loading';
     },
-  },
-  extraReducers: {
-    // Get Book
-    // [getAllBook.pending]: state => {
-    //   state.status = 'loading';
-    // },
-    // [getAllBook.fulfilled]: (state, action) => {
-    //   state.book = [...action.payload];
-    //   state.status = 'success';
-    // },
-    // [getAllBook.rejected]: state => {
-    //   state.status = 'error';
-    // },
   },
 });
 
 // EXPORTS
 
-export const {addCoord, addCoord2, pendingAddress, addAddress} =
+export const {addCoord, addCoord2, setAddressStatusLoading, addAddress} =
   addressSlice.actions;
 export default addressSlice.reducer;

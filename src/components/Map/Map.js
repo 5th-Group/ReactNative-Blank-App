@@ -7,22 +7,22 @@ import Geocoder from 'react-native-geocoding';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   addCoord,
-  pendingAddress,
-  addAddress,
+  setAddressStatusLoading,
 } from '../../features/Address/AddressSlice';
 
 // Initialize the module (needs to be done only once)
 
 const Map = ({setLocation}) => {
-  // Const
-  const addressStatus = useSelector(state => state.address.status);
+  // Redux
   const coord = useSelector(state => state.address.coord);
+
+  // Const
   const disPatch = useDispatch();
 
   // Handle'
   // Get Address
   const handleGetAddress = region => {
-    disPatch(pendingAddress());
+    disPatch(setAddressStatusLoading());
     Geocoder.from({
       latitude: region.latitude,
       longitude: region.longitude,
@@ -62,7 +62,7 @@ const Map = ({setLocation}) => {
         zoomEnabled={true}
         zoomTapEnabled={true}
         onPanDrag={(coordinate, position) => {
-          disPatch(pendingAddress());
+          disPatch(setAddressStatusLoading());
         }}
         onRegionChangeComplete={Region => {
           handleAddAddress(Region);

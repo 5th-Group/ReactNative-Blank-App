@@ -22,7 +22,6 @@ const OrderHistory = ({navigation}) => {
     const getOrderHistory = async () => {
       try {
         const response = await getOrder(token);
-        console.log(response);
         setOrderHistory(response);
       } catch (error) {
         console.log(error);
@@ -123,9 +122,10 @@ const OrderItem = ({orderId, total, status, product}) => {
           </View>
           <View>
             <Text style={{...FONTS.h2}}>{`${product.length} items`}</Text>
-            {product.map(({productDetail, quantity}) => {
+            {product.map(({productDetail, quantity}, index) => {
               return (
                 <Text
+                  key={index}
                   style={{
                     ...FONTS.body2,
                   }}>{`${productDetail.detail.title} x${quantity}`}</Text>
@@ -133,7 +133,7 @@ const OrderItem = ({orderId, total, status, product}) => {
             })}
           </View>
         </View>
-        <Text style={{...FONTS.h1, color: COLORS.primary}}>{`${total}đ`}</Text>
+        <Text style={{...FONTS.h2, color: COLORS.primary}}>{`${total}đ`}</Text>
       </View>
       <View
         style={{

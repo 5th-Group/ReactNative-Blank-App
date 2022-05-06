@@ -1,18 +1,21 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView} from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
 
 //Components
 import BackIcon from '../../../../components/Back-Icon/BackIcon';
 import Form from '../../../../components/Form/Form';
 import handleIcon from '../../../../components/Icon/Icon';
 import Button from '../../../../components/Button/Button';
+import {LoadingDanceDot} from '../../../../components/Poster/Poster';
 
 // Const
 import {SIZES, FONTS, COLORS, UTILS} from '../../../../constants/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {addAddress} from '../../../../features/Address/AddressSlice';
 import {postAddress} from '../../../../api/apiFixPost';
+
+// Actions
+import {resetStatus} from '../../../../features/User/UserSlice';
 
 const AddAddress = ({navigation}) => {
   // States
@@ -23,7 +26,9 @@ const AddAddress = ({navigation}) => {
 
   // Redux
   const addressRedux = useSelector(state => state.address.address.long);
+  const name = useSelector(state => state.address.address.name);
   const token = useSelector(state => state.user.accessToken);
+  const userStatus = useSelector(state => state.user.status);
 
   // Const
   const disPatch = useDispatch();
@@ -31,31 +36,26 @@ const AddAddress = ({navigation}) => {
   // Effect
   useEffect(() => {
     if (addressRedux !== '') {
-      disPatch(addAddress({long: ''}));
+      disPatch(addAddress({long: '', name: ''}));
     }
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      let isActive = true;
-      const Active = () => {
-        setAddress({
-          ...address,
-          location: addressRedux,
-        });
-      };
-      Active();
-      return () => {
-        isActive = false;
-      };
-    }, [id]),
-  );
+  useEffect(() => {
+    if (userStatus === 'success') {
+      navigation.goBack();
+      disPatch(resetStatus());
+    }
+  }, [userStatus]);
 
   //   Handle
   // Update Address
   const handleAddAddress = () => {
-    console.log(address);
-    postAddress(address, token, disPatch);
+    const location = {address: [{type: name, location: addressRedux}]};
+    postAddress(location, token, disPatch);
+  };
+  // Add Type
+  const handleAddType = () => {
+    disPatch(addAddress({name: address.type}));
   };
 
   //   Address format
@@ -102,6 +102,7 @@ const AddAddress = ({navigation}) => {
     return (
       <View>
         <Form
+          onEndEditing={handleAddType}
           value={address.name}
           name="type"
           setValue={handleAddressInfo}
@@ -136,7 +137,10 @@ const AddAddress = ({navigation}) => {
                 navigation.navigate('AddressAuto');
               }}
               numberOfLines={1}
-              style={{...FONTS.h2, color: '#969696'}}>
+              style={{
+                ...FONTS.h2,
+                color: addressRedux.length > 1 ? COLORS.black : '#969696',
+              }}>
               {addressRedux === '' ? 'Address' : addressRedux}
             </Text>
           </View>
@@ -191,6 +195,7 @@ const AddAddress = ({navigation}) => {
       style={{
         flex: 1,
       }}>
+      {userStatus === 'loading' && LoadingDanceDot()}
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',

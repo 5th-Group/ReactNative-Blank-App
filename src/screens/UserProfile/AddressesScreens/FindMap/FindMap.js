@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, PermissionsAndroid} from 'react-native';
-import Map from '../../../../components/Map/Map';
 import {useDispatch, useSelector} from 'react-redux';
 import Geolocation from 'react-native-geolocation-service';
 import Geocoder from 'react-native-geocoding';
@@ -9,12 +8,13 @@ import Geocoder from 'react-native-geocoding';
 import Button from '../../../../components/Button/Button';
 import {Marker} from '../../../../components/Poster/Poster';
 import handleIcon from '../../../../components/Icon/Icon';
+import Map from '../../../../components/Map/Map';
 
 // Const
 import {SIZES, FONTS, COLORS, UTILS} from '../../../../constants/constants';
 import {
   addCoord2,
-  pendingAddress,
+  setAddressStatusLoading,
   addAddress,
 } from '../../../../features/Address/AddressSlice';
 
@@ -24,16 +24,19 @@ Geocoder.init('AIzaSyBU1Jbhsl9TQZ3dIZZNI6zsdyyFe_2oPlU');
 const FindMap = ({navigation}) => {
   // State
   const [location, setLocation] = useState(null);
-  // Const
-  const disPatch = useDispatch();
+
+  // Redux
   const addressStatus = useSelector(state => state.address.status);
   const coord = useSelector(state => state.address.coord);
+
+  // Const
+  const disPatch = useDispatch();
 
   // Handle
 
   // Get Address
   const handleGetAddress = region => {
-    disPatch(pendingAddress());
+    disPatch(setAddressStatusLoading());
     Geocoder.from({
       latitude: region.latitude,
       longitude: region.longitude,
@@ -79,7 +82,7 @@ const FindMap = ({navigation}) => {
 
     // Get Current position
     const getOneTimeLocation = () => {
-      disPatch(pendingAddress());
+      disPatch(setAddressStatusLoading());
       Geolocation.getCurrentPosition(
         position => {
           console.log(position);
@@ -177,7 +180,7 @@ const FindMap = ({navigation}) => {
               disPatch(addAddress(location));
               navigation.goBack();
             }}
-            disable={addressStatus === 'pending' ? true : false}
+            disable={addressStatus === 'loading' ? true : false}
             title="Confirm"
             color={true}
             size={{h: 70, w: 'full'}}></Button>

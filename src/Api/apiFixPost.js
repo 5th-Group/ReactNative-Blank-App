@@ -1,6 +1,11 @@
 import axios from 'axios';
 import apiConfig from './apiConfig';
-import {updateUserInfoSuccess} from '../features/User/UserSlice';
+import {
+  updateUserInfoSuccess,
+  setUserStatusError,
+  setUserStatusLoading,
+  loginSuccess,
+} from '../features/User/UserSlice';
 
 // User
 // Put User Data
@@ -10,6 +15,7 @@ export const putUserData = async (userData, token, dispatch) => {
       Authorization: `Bearer ${token}`,
     },
   };
+  dispatch(setUserStatusLoading());
   try {
     const response = await axios.put(
       `${apiConfig.baseURL}/api/user/update`,
@@ -19,6 +25,28 @@ export const putUserData = async (userData, token, dispatch) => {
     dispatch(updateUserInfoSuccess(response.data.newData));
   } catch (error) {
     console.log(error);
+    dispatch(setUserStatusError());
+  }
+};
+
+// Login
+export const login = async (user, token, dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  dispatch(setUserStatusLoading());
+  try {
+    const response = await axios.post(
+      `${apiConfig.baseURL}/api/login`,
+      user,
+      config,
+    );
+    dispatch(loginSuccess(response.data));
+  } catch (error) {
+    console.log(error);
+    dispatch(setUserStatusError());
   }
 };
 
@@ -30,14 +58,19 @@ export const putAddress = async (address, token, dispatch) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.put(
-    `${apiConfig.baseURL}/api/user/update`,
-    address,
-    config,
-  );
-  dispatch(updateUserInfoSuccess(response.data.newData));
-  console.log(response.data);
-  // return response.data;
+  dispatch(setUserStatusLoading());
+  try {
+    const response = await axios.put(
+      `${apiConfig.baseURL}/api/user/update-address`,
+      address,
+      config,
+    );
+    console.log(response.data);
+    // dispatch(updateUserInfoSuccess(response.data.newData));
+  } catch (error) {
+    dispatch(setUserStatusError());
+    console.log(error);
+  }
 };
 
 // Post Address
@@ -48,16 +81,17 @@ export const postAddress = async (address, token, dispatch) => {
       Authorization: `Bearer ${token}`,
     },
   };
+  dispatch(setUserStatusLoading());
   try {
     const response = await axios.put(
       `${apiConfig.baseURL}/api/user/update`,
       address,
       config,
     );
-    console.log(response.data);
-    // dispatch(updateUserInfoSuccess(response.data.newData));
+    dispatch(updateUserInfoSuccess(response.data.newData));
   } catch (error) {
     console.log(error);
+    dispatch(setUserStatusError());
   }
 };
 

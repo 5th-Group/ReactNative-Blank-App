@@ -1,4 +1,4 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import React, {useState, useEffect} from 'react';
 
 // Components
@@ -10,7 +10,6 @@ import StarRating from 'react-native-star-rating';
 // Const
 import {SIZES, FONTS, UTILS, COLORS} from '../../constants/constants';
 import {useSelector} from 'react-redux';
-import bookApiPost from '../../api/apiV1';
 import {postReview} from '../../api/apiFixPost';
 
 const WriteReview = ({navigation, route}) => {
@@ -22,6 +21,7 @@ const WriteReview = ({navigation, route}) => {
 
   // Redux
   const token = useSelector(state => state.user.accessToken);
+
   // Const
   const {detail, id} = route.params;
 
@@ -33,11 +33,11 @@ const WriteReview = ({navigation, route}) => {
   }, [status]);
 
   // Handle
-
-  //   Form
+  // Form
   const handleFormReview = e => {
     setReview({...review, review: e});
   };
+
   // Navigate
   const navigateBack = () => {
     navigation.goBack();

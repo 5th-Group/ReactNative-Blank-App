@@ -1,20 +1,21 @@
 import React from 'react';
 import {Image, Text, View, TouchableOpacity} from 'react-native';
 
+// Components
+import handleIcon from '../Icon/Icon';
+
 // CONST
 import {FONTS, COLORS, UTILS, SIZES} from '../../constants/constants';
 import LottieView from 'lottie-react-native';
 import style from './styles';
-import handleIcon from '../Icon/Icon';
 
 const Poster = ({image, title, author, navigation, id, score}) => {
-  img = image ? image : '';
   return (
     <View style={{flex: 1}}>
       <TouchableOpacity
         style={{...style.posterWrap}}
         onPress={() => {
-          navigation.navigate('Detail', {id: id});
+          navigation.navigate('Detail', {id});
         }}>
         {/* Rating score */}
         <View
@@ -40,7 +41,7 @@ const Poster = ({image, title, author, navigation, id, score}) => {
         <Image
           style={{...style.poster}}
           resizeMode="cover"
-          source={img ? {uri: String(img)} : null}
+          source={{uri: image}}
         />
         {/* Book Cover */}
         {/* Book info */}
@@ -92,7 +93,7 @@ export const LoadingPoster = () => {
     </View>
   );
 };
-export const Loader = () => {
+export const LoaderInfinity = () => {
   return (
     <View
       style={{
@@ -113,7 +114,7 @@ export const Loader = () => {
     </View>
   );
 };
-export const Error = () => {
+export const ErrorAstronaut = () => {
   return (
     <View
       style={{
@@ -183,5 +184,29 @@ export const Marker = () => {
       autoPlay
       loop
       source={require('../../assets/animation/marker/markerNew.json')}></LottieView>
+  );
+};
+export const LoadingDanceDot = () => {
+  return (
+    <View
+      style={{
+        flex: 1,
+        position: 'absolute',
+        backgroundColor: COLORS.white,
+        ...UTILS.absolute,
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        zIndex: 10,
+      }}>
+      <LottieView
+        style={{
+          width: 500,
+          height: 300,
+          alignSelf: 'center',
+        }}
+        autoPlay
+        loop
+        source={require('../../assets/animation/loader/danceDot.json')}></LottieView>
+    </View>
   );
 };

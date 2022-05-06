@@ -1,12 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, ScrollView, Keyboard} from 'react-native';
-import axios from 'axios';
-import apiConfig from '../../../api/apiConfig';
 
 // Components
 import BackIcon from '../../../components/Back-Icon/BackIcon';
 import Form from '../../../components/Form/Form';
 import Button from '../../../components/Button/Button';
+import {LoadingDanceDot} from '../../../components/Poster/Poster';
 
 // CONST
 import {SIZES, FONTS, COLORS, UTILS} from '../../../constants/constants';
@@ -15,13 +14,9 @@ import {
   EditInfoForm,
   EditInfoFormValidate,
 } from '../../../constants/formValidation';
-import {
-  loginStart,
-  loginFail,
-  resetStatus,
-  loginSuccess,
-  updateUserInfoSuccess,
-} from '../../../features/User/UserSlice';
+
+// Actions
+import {resetStatus} from '../../../features/User/UserSlice';
 import {putUserData} from '../../../api/apiFixPost';
 
 const EditUser = ({navigation}) => {
@@ -34,7 +29,6 @@ const EditUser = ({navigation}) => {
   // Reudux
   const userData = useSelector(state => state.user.userInfo);
   const token = useSelector(state => state.user.accessToken);
-  const updateStatus = useSelector(state => state.user.updateStatus);
   const status = useSelector(state => state.user.status);
 
   // Const
@@ -75,21 +69,18 @@ const EditUser = ({navigation}) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (status === 'success') {
+      navigation.goBack();
+      disPatch(resetStatus());
+    }
+  }, [status]);
+
   // Effect
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      const updateUserInfo = () => {
-        disPatch(loginStart());
-        try {
-          putUserData(userForm, token, disPatch);
-        } catch (error) {
-          console.log(error);
-          disPatch(loginFail());
-        }
-      };
-      updateUserInfo();
+      putUserData(userForm, token, disPatch);
       Keyboard.dismiss();
-      navigation.goBack();
     }
   }, [formErrors]);
 
@@ -161,6 +152,8 @@ const EditUser = ({navigation}) => {
       style={{
         flex: 1,
       }}>
+      {status === 'loading' && LoadingDanceDot()}
+
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',

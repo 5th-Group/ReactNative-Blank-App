@@ -9,10 +9,9 @@ import {
   Modal,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import axios from 'axios';
 
 // Components
-import {Loader, LoginFail} from '../../components/Poster/Poster';
+import {LoaderInfinity, LoginFail} from '../../components/Poster/Poster';
 import Form from '../../components/Form/Form';
 import Button from '../../components/Button/Button';
 import BackIcon from '../../components/Back-Icon/BackIcon';
@@ -22,12 +21,8 @@ import styles from './styles';
 import handleIcon from '../../components/Icon/Icon';
 import {SIZES, COLORS, FONTS, UTILS} from '../../constants/constants';
 import {LoginForms, LoginValidate} from '../../constants/formValidation';
-import {
-  loginSuccess,
-  loginFail,
-  loginStart,
-  resetStatus,
-} from '../../features/User/UserSlice';
+import {resetStatus} from '../../features/User/UserSlice';
+import {login} from '../../api/apiFixPost';
 
 const Login = ({navigation}) => {
   // States
@@ -40,35 +35,21 @@ const Login = ({navigation}) => {
   const [isError, setIsError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  // Const
-  const status = useSelector(state => state.user.status);
+  // Redux
+
+  const userStatus = useSelector(state => state.user.status);
   const user = useSelector(state => state.user.userInfo);
+  const token = useSelector(state => state.user.accessToken);
+
+  // Const
   const disPatch = useDispatch();
 
   // Effect
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       const {username, password} = loginInfo;
-      const login = async () => {
-        disPatch(loginStart());
-        try {
-          const response = await axios.post(
-            'https://swift-lib.herokuapp.com/api/login',
-            {
-              username,
-              password,
-            },
-          );
-          disPatch(
-            loginSuccess({
-              ...response.data,
-            }),
-          );
-        } catch (error) {
-          disPatch(loginFail());
-        }
-      };
-      login();
+      // Login
+      login({username, password}, token, disPatch);
       Keyboard.dismiss();
       setLoginInfo({
         username: '',
@@ -78,11 +59,11 @@ const Login = ({navigation}) => {
   }, [formErrors]);
 
   useEffect(() => {
-    if (status === 'error') {
+    if (userStatus === 'error') {
       setModalVisible(true);
       disPatch(resetStatus());
     }
-  }, [status]);
+  }, [userStatus]);
 
   // Handle
 
@@ -112,7 +93,7 @@ const Login = ({navigation}) => {
       }}>
       <View style={styles.wrap}>
         {/* Loader */}
-        {status === 'loading' && (
+        {userStatus === 'loading' && (
           <View
             style={{
               position: 'absolute',
@@ -122,7 +103,7 @@ const Login = ({navigation}) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            {Loader()}
+            {LoaderInfinity()}
           </View>
         )}
         {/* Error */}

@@ -22,7 +22,10 @@ import {
 import bookApiGet from '../../api/apiV2';
 
 // Components
-import Poster, {LoadingPoster, Error} from '../../components/Poster/Poster';
+import Poster, {
+  LoadingPoster,
+  ErrorAstronaut,
+} from '../../components/Poster/Poster';
 import handleIcon from '../../components/Icon/Icon';
 
 const Home = ({navigation}) => {
@@ -30,10 +33,12 @@ const Home = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isRefresh, setIsRefresh] = useState(false);
 
-  // Const
+  // Redux
   const user = useSelector(state => state.user.userInfo);
   const status = useSelector(state => state.book.status);
   const data = useSelector(state => state.book.book);
+
+  // Const
   const disPatch = useDispatch();
 
   // Effect
@@ -233,7 +238,7 @@ const Home = ({navigation}) => {
             {status === 'loading'
               ? LoadingPoster()
               : status === 'error'
-              ? Error()
+              ? ErrorAstronaut()
               : data && renderBooks()}
             {/* Render Book */}
           </ScrollView>

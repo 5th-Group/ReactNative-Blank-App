@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 
 // Components
 import handleIcon from '../../../../components/Icon/Icon';
@@ -14,6 +13,7 @@ import BackIcon from '../../../../components/Back-Icon/BackIcon';
 
 // CONST
 import {FONTS, SIZES, COLORS, UTILS} from '../../../../constants/constants';
+import {useSelector} from 'react-redux';
 
 const SavedPlace = ({navigation}) => {
   // States
@@ -38,7 +38,7 @@ const SavedPlace = ({navigation}) => {
 
   // Navigate
   const navigateEditPlace = address => {
-    navigation.navigate('EditPlace', {address: address});
+    navigation.navigate('EditPlace', {address});
   };
   // Render
   // Header
@@ -83,7 +83,7 @@ const SavedPlace = ({navigation}) => {
   const renderAddress = () => {
     return (
       <View style={{width: SIZES.width - 40}}>
-        {address.length > 1 &&
+        {address.length >= 1 &&
           address.map(({type, location}, index) => {
             return (
               <Place
@@ -126,12 +126,12 @@ const SavedPlace = ({navigation}) => {
 
 export default SavedPlace;
 
-const Place = ({title = 'Untitled', address, onPress}) => {
+const Place = ({title = 'Untitled', address = '', onPress}) => {
   return (
     <View>
       <TouchableOpacity
         onPress={() => {
-          onPress ? onPress(address) : null;
+          onPress ? onPress({type: title, location: address}) : null;
         }}
         style={{
           padding: SIZES.padding - 10,
