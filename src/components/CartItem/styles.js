@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   image: {
-    width: '100%',
     height: 140,
+    width: 90,
   },
   count: {
     flexDirection: 'row',

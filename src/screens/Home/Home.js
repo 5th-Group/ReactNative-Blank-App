@@ -91,15 +91,6 @@ const Home = ({navigation}) => {
         <Text style={{...FONTS.h2}}>{`Welcom back, ${
           user ? user.lastName : 'mate'
         }!`}</Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Profile');
-          }}>
-          <Image
-            style={style.avt}
-            source={require('../../assets/Images/avt.jpg')}
-          />
-        </TouchableOpacity>
       </>
     );
   };

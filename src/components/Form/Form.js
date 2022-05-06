@@ -22,6 +22,7 @@ const Form = ({
   width,
   height,
   multiline,
+  keyboard,
 }) => {
   // Handle
 
@@ -33,10 +34,11 @@ const Form = ({
           handleIcon(iconBrand, iconName, SIZES.padding2, COLORS.primary)}
       </View>
       <TextInput
+        keyboardType={keyboard ? keyboard : null}
         autoFocus={auto}
         multiline={multiline}
         onPressIn={() => {
-          onPressIn ? onPressIn() : null;
+          onPressIn ? onPressIn() : 'default';
         }}
         placeholder={placeholder}
         secureTextEntry={secure}

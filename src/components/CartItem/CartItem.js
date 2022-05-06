@@ -40,17 +40,27 @@ const CartItem = ({title, image, price, item}) => {
             borderRadius: SIZES.radius,
             overflow: 'hidden',
           }}>
-          <Image resizeMode="cover" style={styles.image} source={image} />
+          <Image
+            resizeMode="cover"
+            style={styles.image}
+            source={{uri: image}}
+          />
         </View>
       </View>
       {/* Mid */}
       <View style={styles.mid}>
-        <Text style={{...FONTS.h2, color: COLORS.primary}}>{title}</Text>
+        <Text
+          onPress={() => {
+            console.log(item);
+          }}
+          style={{...FONTS.h2, color: COLORS.primary}}>
+          {title}
+        </Text>
         <Text
           style={{
             ...FONTS.body2,
           }}>
-          {`$${price * item.quantity}`}
+          {`${price * item.quantity}₫`}
         </Text>
         <View style={[styles.count]}>
           <TouchableOpacity

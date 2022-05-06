@@ -88,7 +88,7 @@ const Cart = ({navigation}) => {
           <View>
             <Button
               onPress={() => {
-                navigation.navigate('Checkout');
+                navigation.navigate('Checkout', {items: items});
               }}
               title="Checkout"
               color={true}

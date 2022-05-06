@@ -31,49 +31,49 @@ export const Detail = ({navigation, route}) => {
   // State
   const [book, setBook] = useState(null);
   const [status, setStatus] = useState('idle');
-  // Const
   const [quantity, setQuantity] = useState(1);
+  // Const
   const {id} = route.params;
   const user = useSelector(state => state.user.userInfo);
   const disPatch = useDispatch();
 
   // Effect
-  // useEffect(() => {
-  //   const getBook = async () => {
-  //     setStatus('loading');
-  //     try {
-  //       const response = await bookApiGet.getBook(id);
-  //       console.log(response.data.detail.title);
-  //       setBook(response.data);
-  //       setStatus('success');
-  //     } catch (error) {
-  //       setStatus('error');
-  //     }
-  //   };
-  //   getBook();
-  // }, []);
+  useEffect(() => {
+    const getBook = async () => {
+      setStatus('loading');
+      try {
+        const response = await bookApiGet.getBook(id);
+        console.log(response.data.detail.title);
+        setBook(response.data);
+        setStatus('success');
+      } catch (error) {
+        setStatus('error');
+      }
+    };
+    getBook();
+  }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      let isActive = true;
-      const getBookk = async () => {
-        setStatus('loading');
-        try {
-          const response = await bookApiGet.getBook(id);
-          if (isActive) {
-            setBook(response.data);
-            setStatus('success');
-          }
-        } catch (e) {
-          setStatus('error');
-        }
-      };
-      getBookk();
-      return () => {
-        isActive = false;
-      };
-    }, [id]),
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     let isActive = true;
+  //     const getBookk = async () => {
+  //       setStatus('loading');
+  //       try {
+  //         const response = await bookApiGet.getBook(id);
+  //         if (isActive) {
+  //           setBook(response.data);
+  //           setStatus('success');
+  //         }
+  //       } catch (e) {
+  //         setStatus('error');
+  //       }
+  //     };
+  //     getBookk();
+  //     return () => {
+  //       isActive = false;
+  //     };
+  //   }, [id]),
+  // );
 
   // Handle
 
@@ -88,7 +88,16 @@ export const Detail = ({navigation, route}) => {
 
   // Add Item
   const handleAddItem = () => {
-    disPatch(addProduct({...item, quantity}));
+    console.log(typeof book.detail.icon);
+    disPatch(
+      addProduct({
+        price: book.price,
+        title: book.detail.title,
+        image: book.detail.icon,
+        id: book._id,
+        quantity,
+      }),
+    );
   };
 
   // Navigate
@@ -150,10 +159,12 @@ export const Detail = ({navigation, route}) => {
         <View style={style.ratingItem}>
           {/* Rating */}
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {/* Score */}
             <Text
               style={{...FONTS.body2, color: COLORS.lightGray, marginRight: 5}}>
-              {book.averageScore.toFixed(2)}
+              {book.averageScore.toFixed(1)}
             </Text>
+            {/* Score */}
             {handleIcon('FontAwesome', 'star', SIZES.h1, COLORS.secondary)}
           </View>
           <Text style={{...FONTS.h2, color: COLORS.primary}}>Rating</Text>
@@ -208,7 +219,7 @@ export const Detail = ({navigation, route}) => {
               }}>
               {handleIcon(
                 'FontAwesome',
-                'minus-circle',
+                'plus-circle',
                 SIZES.h1Half,
                 COLORS.primary,
               )}
@@ -221,8 +232,9 @@ export const Detail = ({navigation, route}) => {
             <Text
               style={{
                 ...FONTS.h2,
+                marginLeft: 5,
                 color: COLORS.primary,
-              }}>{`$${book.price * quantity}`}</Text>
+              }}>{`${book.price * quantity}₫`}</Text>
           </View>
           {/* Total */}
         </View>
@@ -283,6 +295,7 @@ export const Detail = ({navigation, route}) => {
               <StarRating
                 emptyStar={'star-o'}
                 emptyStarColor={COLORS.secondary}
+                starColor={COLORS.secondary}
                 fullStar={'star'}
                 fullStarColor={COLORS.secondary}
                 halfStar={'star-half-full'}
@@ -488,6 +501,7 @@ const Review = ({review, rateScore, reviewer, user}) => {
         <StarRating
           starSize={20}
           emptyStar={'star-o'}
+          starColor={COLORS.secondary}
           emptyStarColor={COLORS.secondary}
           fullStar={'star'}
           fullStarColor={COLORS.secondary}

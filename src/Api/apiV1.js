@@ -11,6 +11,10 @@ const bookApiPost = {
     const url = `/api/user/${userId}/update`;
     return apiPost.put(url, update);
   },
+  updateUserInfo: update => {
+    const url = `/api/user/update`;
+    return apiPost.put(url, update);
+  },
 };
 
 export default bookApiPost;

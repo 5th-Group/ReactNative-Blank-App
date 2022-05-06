@@ -79,6 +79,7 @@ const EditPlace = ({navigation, route}) => {
       </View>
     );
   };
+
   //   EditForm
   const renderEditForm = () => {
     return (
@@ -123,6 +124,7 @@ const EditPlace = ({navigation, route}) => {
       </View>
     );
   };
+
   // Bottom buttos
   const renderBottomButton = () => {
     return (

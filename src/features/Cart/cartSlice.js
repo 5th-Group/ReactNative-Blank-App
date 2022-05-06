@@ -12,10 +12,12 @@ const cartSlice = createSlice({
   reducers: {
     // ADD
     addProduct: (state, action) => {
+      // Find Exist
       const existingIndex = state.item.findIndex(
         item => item.id === action.payload.id,
       );
 
+      // Check if exist
       if (existingIndex >= 0) {
         state.item[existingIndex] = {
           ...state.item[existingIndex],

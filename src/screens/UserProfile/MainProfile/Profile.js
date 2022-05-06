@@ -60,6 +60,7 @@ const Profile = ({navigation}) => {
   // Const
   const disPatch = useDispatch();
   const user = useSelector(state => state.user.userInfo);
+  const token = useSelector(state => state.user.accessToken);
   // Handle
   // Setting
   const settingNavigate = () => {
@@ -95,7 +96,11 @@ const Profile = ({navigation}) => {
           marginBottom: SIZES.padding,
         }}>
         <View>
-          <Text style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
+          <Text
+            onPress={() => {
+              navigation.navigate('FindMap');
+            }}
+            style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
             My Profile
           </Text>
         </View>

@@ -199,15 +199,15 @@ const Login = ({navigation}) => {
           {LoginForms.map(form => {
             return (
               <Form
-                auto={form.name === 'username'}
                 key={form.id}
+                auto={form.name === 'username'}
                 isError={isError}
                 secure={form.secure}
                 formErrors={formErrors}
                 iconBrand={form.icon.brand}
                 iconName={form.icon.name}
-                name={form.name}
                 title={form.title}
+                name={form.name}
                 value={loginInfo[form.name]}
                 setValue={handleForm}></Form>
             );

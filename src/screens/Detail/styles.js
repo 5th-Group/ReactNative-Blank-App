@@ -90,7 +90,6 @@ export const style = StyleSheet.create({
   },
 
   total: {
-    width: 140,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',

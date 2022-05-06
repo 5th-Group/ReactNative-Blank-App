@@ -19,11 +19,11 @@ const StartPage = ({navigation}) => {
     <View style={style.wrap}>
       {/* Image */}
       <View style={style.boxOne}>
-        {/* <Image
+        <Image
           resizeMode="contain"
           style={style.avt}
           source={require('../../assets/Images/1rep.png')}
-        /> */}
+        />
       </View>
       {/* Title */}
       <View style={style.boxTwo}>

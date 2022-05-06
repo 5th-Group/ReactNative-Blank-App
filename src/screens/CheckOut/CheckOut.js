@@ -6,17 +6,41 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 // Const
 import {SIZES, FONTS, COLORS, UTILS} from '../../constants/constants';
+import {postOrder} from '../../api/apiFixPost';
 
 // Components
 import BackIcon from '../../components/Back-Icon/BackIcon';
 import handleIcon from '../../components/Icon/Icon';
 import Button from '../../components/Button/Button';
+import {useSelector} from 'react-redux';
 
-const Checkout = ({navigation}) => {
+const Checkout = ({navigation, route}) => {
+  // States
+  const order = [];
+  // const
+  const total = useSelector(state => state.cart.total);
+  const {items} = route.params;
+  const {address} = useSelector(state => state.user.userInfo);
+
+  // Effect
+  useEffect(() => {
+    items.forEach(item => {
+      order.push({
+        productDetail: item.id,
+        price: item.price,
+        quantity: item.quantity,
+      });
+    });
+  }, []);
+
+  // Handle
+  const handlePostOrder = () => {
+    postOrder();
+  };
   // Render
 
   //   Header
@@ -33,7 +57,11 @@ const Checkout = ({navigation}) => {
           onPress={() => {
             navigation.goBack();
           }}></BackIcon>
-        <Text style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
+        <Text
+          onPress={() => {
+            console.log(order);
+          }}
+          style={{...FONTS.largeTitleBold, color: COLORS.primary}}>
           Check Out
         </Text>
       </View>
@@ -81,7 +109,7 @@ const Checkout = ({navigation}) => {
               )}
             </View>
           </View>
-          {/*  */}
+          {/* Address */}
           <Text
             numberOfLines={2}
             style={{
@@ -91,8 +119,9 @@ const Checkout = ({navigation}) => {
               alignSelf: 'center',
             }}>
             262/20, Lạc Long Quân, Phường 10, Quận 11, TP. Hồ Chí Minh
+            {/* {address[0]} */}
           </Text>
-          {/*  */}
+          {/* Address */}
           <View style={{flex: 1, ...UTILS.center}}>
             {handleIcon(
               'MaterialIcons',
@@ -119,15 +148,16 @@ const Checkout = ({navigation}) => {
             marginVertical: 10,
             ...UTILS.shadow,
           }}>
-          <CheckOutItem></CheckOutItem>
-          <CheckOutItem></CheckOutItem>
-          <CheckOutItem></CheckOutItem>
-          <CheckOutItem></CheckOutItem>
-          <CheckOutItem></CheckOutItem>
-          <CheckOutItem></CheckOutItem>
-          <CheckOutItem></CheckOutItem>
-          <CheckOutItem></CheckOutItem>
-          <CheckOutItem></CheckOutItem>
+          {items.map(item => {
+            return (
+              <CheckOutItem
+                key={item.id}
+                quantity={item.quantity}
+                title={item.title}
+                price={item.price}
+                image={item.image}></CheckOutItem>
+            );
+          })}
         </View>
       </View>
     );
@@ -162,7 +192,7 @@ const Checkout = ({navigation}) => {
                 justifyContent: 'space-between',
               }}>
               <Text style={{...FONTS.body2}}>Item Total</Text>
-              <Text style={{...FONTS.h2}}>$450</Text>
+              <Text style={{...FONTS.h2}}>{`${total}₫`}</Text>
             </View>
             <View
               style={{
@@ -190,7 +220,7 @@ const Checkout = ({navigation}) => {
               marginBottom: 10,
             }}>
             <Text style={{...FONTS.h2}}>Total</Text>
-            <Text style={{...FONTS.h2}}>$500</Text>
+            <Text style={{...FONTS.h2}}>{`${total + 50}₫`}</Text>
           </View>
           <Button
             title="Submit"
@@ -223,7 +253,7 @@ const Checkout = ({navigation}) => {
 
 export default Checkout;
 
-const CheckOutItem = () => {
+const CheckOutItem = ({title, author, image, price, quantity}) => {
   return (
     <View
       style={{
@@ -254,7 +284,7 @@ const CheckOutItem = () => {
           <Image
             resizeMode="cover"
             style={{width: '100%', height: '100%'}}
-            source={require('../../assets/Images/Poster/1.png')}></Image>
+            source={{uri: image}}></Image>
         </View>
       </View>
       <View
@@ -265,13 +295,13 @@ const CheckOutItem = () => {
           paddingVertical: SIZES.padding - 10,
         }}>
         <Text numberOfLines={1} style={{...FONTS.h2}}>
-          Catcher in the Rye
+          {title}
         </Text>
         <Text numberOfLines={1} style={{...FONTS.body2}}>
-          J.D Sterling
+          {author}
         </Text>
         <Text numberOfLines={1} style={{...FONTS.h2, fontSize: SIZES.h2 - 2}}>
-          $30
+          {`${price}₫`}
         </Text>
       </View>
       <View
@@ -279,7 +309,8 @@ const CheckOutItem = () => {
           flex: 1,
           ...UTILS.center,
         }}>
-        <Text style={{...FONTS.h2, color: COLORS.primary}}>x2</Text>
+        <Text
+          style={{...FONTS.h2, color: COLORS.primary}}>{`x${quantity}`}</Text>
       </View>
     </View>
   );
