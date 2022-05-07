@@ -100,7 +100,7 @@ const EditUser = ({navigation}) => {
         {/* Title */}
         <Text
           onPress={() => {
-            console.log(userData);
+            console.log(token);
           }}
           style={{
             ...FONTS.largeTitleBold,

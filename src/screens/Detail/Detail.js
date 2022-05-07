@@ -24,58 +24,38 @@ import StarRating from 'react-native-star-rating';
 import style from './styles';
 import {COLORS, FONTS, SIZES, UTILS} from '../../constants/constants';
 import {useDispatch, useSelector} from 'react-redux';
+
+// Actions
 import {addProduct} from '../../features/Cart/cartSlice';
-import bookApiGet from '../../api/apiV2';
+import {getSingleBook} from '../../api/apiV2';
 
 export const Detail = ({navigation, route}) => {
   // State
-  const [book, setBook] = useState(null);
-  const [status, setStatus] = useState('idle');
   const [quantity, setQuantity] = useState(1);
 
   // Redux
   const user = useSelector(state => state.user.userInfo);
+  const book = useSelector(state => state.singleBook.singleBook);
+  const singleBookStatus = useSelector(state => state.singleBook.status);
 
   // Const
   const {id} = route.params;
   const disPatch = useDispatch();
 
   // Effect
-  useEffect(() => {
-    const getBook = async () => {
-      setStatus('loading');
-      try {
-        const response = await bookApiGet.getBook(id);
-        setBook(response.data);
-        setStatus('success');
-      } catch (error) {
-        setStatus('error');
-      }
-    };
-    getBook();
-  }, []);
+  // useEffect(() => {
+  //   getSingleBook(disPatch, id);
+  // }, [id]);
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     let isActive = true;
-  //     const getBookk = async () => {
-  //       setStatus('loading');
-  //       try {
-  //         const response = await bookApiGet.getBook(id);
-  //         if (isActive) {
-  //           setBook(response.data);
-  //           setStatus('success');
-  //         }
-  //       } catch (e) {
-  //         setStatus('error');
-  //       }
-  //     };
-  //     getBookk();
-  //     return () => {
-  //       isActive = false;
-  //     };
-  //   }, [id]),
-  // );
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+      getSingleBook(disPatch, id);
+      return () => {
+        isActive = false;
+      };
+    }, [id]),
+  );
 
   // Handle
 
@@ -90,7 +70,6 @@ export const Detail = ({navigation, route}) => {
 
   // Add Item
   const handleAddItem = () => {
-    console.log(typeof book.detail.icon);
     disPatch(
       addProduct({
         price: book.price,
@@ -164,7 +143,7 @@ export const Detail = ({navigation, route}) => {
             {/* Score */}
             <Text
               style={{...FONTS.body2, color: COLORS.lightGray, marginRight: 5}}>
-              {book.averageScore.toFixed(1)}
+              {book.averageScore}
             </Text>
             {/* Score */}
             {handleIcon('FontAwesome', 'star', SIZES.h1, COLORS.secondary)}
@@ -283,7 +262,7 @@ export const Detail = ({navigation, route}) => {
                 marginRight: SIZES.padding,
                 color: COLORS.secondary,
               }}>
-              {book.averageScore.toFixed(2)}
+              {book.averageScore}
             </Text>
 
             <View>
@@ -348,7 +327,7 @@ export const Detail = ({navigation, route}) => {
 
   return (
     <>
-      {status === 'success' ? (
+      {singleBookStatus === 'success' ? (
         <SafeAreaView style={style.wrap}>
           {/* Book's info */}
           <ScrollView>
@@ -452,7 +431,6 @@ export const Detail = ({navigation, route}) => {
             {/* Somthing else */}
             {renderCommentSection()}
           </ScrollView>
-
           {/* Bottom */}
           <Shadow
             distance={SIZES.padding}

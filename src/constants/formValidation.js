@@ -57,28 +57,110 @@ export const RegisterForms = [
     placeholder: 'Username',
     title: 'Username',
     secure: false,
+    icon: {
+      brand: 'Feather',
+      name: 'user',
+    },
   },
   {
     id: 2,
+    name: 'firstName',
+    placeholder: 'First name',
+    title: 'First name',
+    secure: false,
+    icon: {
+      brand: 'MaterialCommunityIcons',
+      name: 'music-accidental-sharp',
+    },
+  },
+  {
+    id: 3,
+    name: 'lastName',
+    placeholder: 'Last Name',
+    title: 'Last Name',
+    secure: false,
+    icon: {
+      brand: 'Feather',
+      name: 'user',
+    },
+  },
+  {
+    id: 4,
     name: 'email',
     placeholder: 'Email',
     title: 'Email',
     secure: false,
+    icon: {
+      brand: 'Feather',
+      name: 'mail',
+    },
   },
-
   {
-    id: 3,
+    id: 5,
     name: 'password',
     placeholder: 'Password',
     title: 'Password',
     secure: true,
+    icon: {
+      brand: 'Feather',
+      name: 'mail',
+    },
   },
   {
-    id: 4,
+    id: 6,
     name: 'confirmPassword',
     placeholder: 'Confirm Password',
     title: 'Confirm Password',
     secure: true,
+    icon: {
+      brand: 'Feather',
+      name: 'mail',
+    },
+  },
+  {
+    id: 7,
+    name: 'gender',
+    placeholder: 'Gender',
+    title: 'Gender',
+    secure: false,
+    icon: {
+      brand: 'Feather',
+      name: 'mail',
+    },
+  },
+  {
+    id: 8,
+    name: 'country',
+    placeholder: 'Country',
+    title: 'Country',
+    secure: false,
+    icon: {
+      brand: 'Feather',
+      name: 'mail',
+    },
+  },
+  {
+    id: 9,
+    name: 'address',
+    placeholder: 'Address',
+    title: 'Address',
+    secure: false,
+    icon: {
+      brand: 'Feather',
+      name: 'mail',
+    },
+  },
+  {
+    id: 10,
+    name: 'phoneNumber',
+    placeholder: 'Email',
+    title: 'Phone number',
+    secure: false,
+    icon: {
+      brand: 'FontAwesome',
+      name: 'mobile-phone',
+    },
+    keyboard: 'numeric',
   },
 ];
 
@@ -89,11 +171,10 @@ export const RegisterValidate = values => {
     errors.email = 'Email is required!';
   } else if (!validator.isEmail(values.email)) {
     errors.email = `Email is invalid!`;
-  } else if (values.Email.length < 4) {
+  } else if (values.email.length < 4) {
     errors.email = 'Email must be more than 4 characters';
   }
   //   UserName
-
   if (!values.username) {
     errors.username = 'Username is required!';
   } else if (!validator.isAlphanumeric(values.username)) {
@@ -103,7 +184,6 @@ export const RegisterValidate = values => {
   }
 
   //   PassWord
-
   if (!values.password) {
     errors.password = 'Password is required';
   } else if (values.password.length < 4) {
@@ -111,14 +191,25 @@ export const RegisterValidate = values => {
   } else if (values.password.length > 20) {
     errors.password = 'Password cannot exceed more than 20 characters';
   }
-
   //  Confirm Password
-
   if (!values.confirmPassword) {
     errors.confirmPassword = 'Password is required';
   } else if (!validator.equals(values.confirmPassword, values.password)) {
     errors.confirmPassword = 'Password not match!';
   }
+
+  //  Gender
+  if (!values.gender) {
+    errors.gender = 'Gender is required';
+  }
+
+  // Phone number
+  if (!values.phoneNumber) {
+    errors.phoneNumber = 'Phone number is required!';
+  } else if (!validator.isMobilePhone(values.phoneNumber)) {
+    errors.phoneNumber = `Phone number invalid!`;
+  }
+
   return errors;
 };
 
@@ -137,7 +228,7 @@ export const EditInfoForm = [
   {
     id: 2,
     name: 'firstName',
-    placeholder: 'Email',
+    placeholder: 'First name',
     title: 'First name',
     secure: false,
     icon: {
@@ -148,8 +239,8 @@ export const EditInfoForm = [
   {
     id: 3,
     name: 'lastName',
-    placeholder: 'Email',
-    title: 'Email',
+    placeholder: 'Last Name',
+    title: 'Last Name',
     secure: false,
     icon: {
       brand: 'MaterialCommunityIcons',
@@ -177,7 +268,6 @@ export const EditInfoForm = [
       brand: 'FontAwesome',
       name: 'mobile-phone',
     },
-
     keyboard: 'numeric',
   },
 ];

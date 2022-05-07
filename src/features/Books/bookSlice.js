@@ -7,21 +7,22 @@ const bookSlice = createSlice({
     status: 'idle',
   },
   reducers: {
-    getbookStart: state => {
+    setBookStatusLoading: state => {
       state.status = 'loading';
+    },
+    setBookStatusError: state => {
+      state.status = 'error';
     },
     getbookSuccess: (state, action) => {
       state.status = 'success';
       state.book = action.payload;
-    },
-    getbookFail: state => {
-      state.status = 'error';
     },
   },
 });
 
 // EXPORTS
 
-export const {getbookStart, getbookSuccess, getbookFail} = bookSlice.actions;
+export const {setBookStatusLoading, getbookSuccess, setBookStatusError} =
+  bookSlice.actions;
 
 export default bookSlice.reducer;

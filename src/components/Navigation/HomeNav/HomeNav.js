@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux';
 import Home from '../../../screens/Home/Home';
 import Cart from '../../../screens/Cart/Cart';
 import ProfileNavigate from '../ProfileNav/ProfileNav';
+import SearchScreen from '../../../screens/SearchScreen/SearchScreen';
 
 // CONST
 import {COLORS, SIZES} from '../../../constants/constants';
@@ -17,6 +18,7 @@ const HomeNavigate = () => {
   const HomeComp = 'Home';
   const CartComp = 'Cart';
   const ProfileComp = 'ProfileNavigate';
+  const SearchScreenComp = 'SearchScreen';
   const quantity = useSelector(state => state.cart.quantity);
 
   // Handle
@@ -57,6 +59,8 @@ const HomeNavigate = () => {
           iconName = focused ? 'cart' : 'cart-outline';
         } else if (rn === ProfileComp) {
           iconName = focused ? 'person' : 'person-outline';
+        } else if (rn === SearchScreenComp) {
+          iconName = focused ? 'search' : 'search-outline';
         }
 
         return (
@@ -77,6 +81,7 @@ const HomeNavigate = () => {
         return handleIcon(route);
       }}>
       <HomeNav.Screen name={HomeComp} component={Home} />
+      <HomeNav.Screen name={SearchScreenComp} component={SearchScreen} />
       <HomeNav.Screen name={ProfileComp} component={ProfileNavigate} />
       <HomeNav.Screen
         name={CartComp}

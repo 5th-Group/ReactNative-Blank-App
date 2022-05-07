@@ -4,6 +4,7 @@ import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 // Components
 import handleIcon from '../../../components/Icon/Icon';
 import BackIcon from '../../../components/Back-Icon/BackIcon';
+import {LoadingDanceDot} from '../../../components/Poster/Poster';
 
 // CONST
 import {FONTS, SIZES, COLORS, UTILS} from '../../../constants/constants';
@@ -13,6 +14,7 @@ import {useSelector} from 'react-redux';
 const OrderHistory = ({navigation}) => {
   // States
   const [orderHistory, setOrderHistory] = useState([]);
+  const [status, setStatus] = useState('idle');
 
   // Redux
   const token = useSelector(state => state.user.accessToken);
@@ -20,11 +22,14 @@ const OrderHistory = ({navigation}) => {
   // Effect
   useEffect(() => {
     const getOrderHistory = async () => {
+      setStatus('loading');
       try {
         const response = await getOrder(token);
         setOrderHistory(response);
+        setStatus('success');
       } catch (error) {
         console.log(error);
+        setStatus('error');
       }
     };
     getOrderHistory();
@@ -81,6 +86,7 @@ const OrderHistory = ({navigation}) => {
       style={{
         flex: 1,
       }}>
+      {status === 'loading' && LoadingDanceDot()}
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',

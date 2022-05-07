@@ -56,7 +56,7 @@ const SavedPlace = ({navigation}) => {
         {/* Title */}
         <Text
           onPress={() => {
-            console.log(address.length);
+            console.log(address);
           }}
           style={{
             ...FONTS.largeTitleBold,
@@ -84,10 +84,11 @@ const SavedPlace = ({navigation}) => {
     return (
       <View style={{width: SIZES.width - 40}}>
         {address.length >= 1 &&
-          address.map(({type, location}, index) => {
+          address.map(({type, location, _id}, index) => {
             return (
               <Place
                 key={index}
+                id={_id}
                 title={type}
                 onPress={navigateEditPlace}
                 address={location}></Place>
@@ -126,12 +127,12 @@ const SavedPlace = ({navigation}) => {
 
 export default SavedPlace;
 
-const Place = ({title = 'Untitled', address = '', onPress}) => {
+const Place = ({title = 'Untitled', address = '', id, onPress}) => {
   return (
     <View>
       <TouchableOpacity
         onPress={() => {
-          onPress ? onPress({type: title, location: address}) : null;
+          onPress ? onPress({type: title, location: address, id: id}) : null;
         }}
         style={{
           padding: SIZES.padding - 10,

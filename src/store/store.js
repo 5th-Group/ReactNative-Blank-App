@@ -11,17 +11,18 @@ import {
   REGISTER,
 } from 'redux-persist';
 
-//
+// Reducers
 import cartReducer from '../features/Cart/cartSlice';
 import userReducer from '../features/User/UserSlice';
 import bookReducer from '../features/Books/bookSlice';
 import addressReducer from '../features/Address/AddressSlice';
+import singleBookReducer from '../features/SingleBook/SingleBookSlice';
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage: AsyncStorage,
-  blacklist: ['book', 'address'],
+  blacklist: ['book', 'address', 'singleBook'],
 };
 
 const rootReducer = combineReducers({
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   book: bookReducer,
   address: addressReducer,
+  singleBook: singleBookReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

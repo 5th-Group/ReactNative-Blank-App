@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 
 // Components
+import {LoadingDanceDot} from '../../../../components/Poster/Poster';
 import handleIcon from '../../../../components/Icon/Icon';
 import BackIcon from '../../../../components/Back-Icon/BackIcon';
 import Form from '../../../../components/Form/Form';
@@ -22,9 +23,10 @@ const EditPlace = ({navigation, route}) => {
 
   // Redux
   const addressRedux = useSelector(state => state.address.address.long);
+  const addressId = useSelector(state => state.address.address.id);
   const name = useSelector(state => state.address.address.name);
   const userStatus = useSelector(state => state.user.status);
-  const token = useSelector(state => state.user.accesToken);
+  const token = useSelector(state => state.user.accessToken);
 
   // Const
   const {address} = route.params;
@@ -32,7 +34,9 @@ const EditPlace = ({navigation, route}) => {
 
   // Effect
   useEffect(() => {
-    disPatch(addAddress({long: address.location, name: address.type}));
+    disPatch(
+      addAddress({long: address.location, name: address.type, id: address.id}),
+    );
   }, []);
 
   useEffect(() => {
@@ -49,12 +53,15 @@ const EditPlace = ({navigation, route}) => {
 
   // Handle Add Type
   const handleAddType = () => {
-    disPatch(addAddress({name: address.type}));
+    disPatch(addAddress({name: type}));
   };
 
   // Update Address
   const handleUpdateAddress = () => {
-    const location = {address: {type: name, location: addressRedux}};
+    let location = {
+      address: {type: name, location: addressRedux},
+      pos: addressId,
+    };
     putAddress(location, token, disPatch);
   };
 
@@ -73,7 +80,6 @@ const EditPlace = ({navigation, route}) => {
         <BackIcon onPress={navigateBack}></BackIcon>
         {/* Title */}
         <Text
-          onPress={() => {}}
           style={{
             ...FONTS.largeTitleBold,
             color: COLORS.primary,
@@ -188,6 +194,7 @@ const EditPlace = ({navigation, route}) => {
       style={{
         flex: 1,
       }}>
+      {userStatus === 'loading' && LoadingDanceDot()}
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',

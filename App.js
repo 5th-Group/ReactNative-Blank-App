@@ -14,8 +14,6 @@ import Auth from './src/screens/Auth/Auth';
 import {COLORS} from './src/constants/constants';
 import {Provider} from 'react-redux';
 import {store, persistor} from './src/store/store';
-import {injectStore} from './src/api/apiClientPost';
-injectStore(store);
 
 const App = () => {
   useEffect(() => {

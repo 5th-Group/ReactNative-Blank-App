@@ -6,31 +6,39 @@ import BackIcon from '../../components/Back-Icon/BackIcon';
 import Form from '../../components/Form/Form';
 import Button from '../../components/Button/Button';
 import StarRating from 'react-native-star-rating';
+import {LoadingDanceDot} from '../../components/Poster/Poster';
 
 // Const
 import {SIZES, FONTS, UTILS, COLORS} from '../../constants/constants';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {postReview} from '../../api/apiFixPost';
+
+// Actions
+import {resetPostReivewUpdate} from '../../features/SingleBook/SingleBookSlice';
 
 const WriteReview = ({navigation, route}) => {
   // States
   const [review, setReview] = useState({
     ratedScore: 1,
   });
-  const [status, setStatus] = useState('idle');
 
   // Redux
   const token = useSelector(state => state.user.accessToken);
+  const singleBookPostReviewStatus = useSelector(
+    state => state.singleBook.postReviewStatus,
+  );
 
   // Const
   const {detail, id} = route.params;
+  const disPatch = useDispatch();
 
   // Effect
   useEffect(() => {
-    if (status === 'success') {
-      navigateBack();
+    if (singleBookPostReviewStatus === 'success') {
+      disPatch(resetPostReivewUpdate());
+      navigation.goBack();
     }
-  }, [status]);
+  }, [singleBookPostReviewStatus]);
 
   // Handle
   // Form
@@ -45,7 +53,7 @@ const WriteReview = ({navigation, route}) => {
 
   // Post review
   const handlePostReview = () => {
-    postReview(review, id, token);
+    postReview(review, id, token, disPatch);
   };
 
   // Render
@@ -87,7 +95,8 @@ const WriteReview = ({navigation, route}) => {
           padding: 20,
         }}>
         {/* Image & Name */}
-        <View style={{flexDirection: 'row', marginBottom: 50}}>
+        <View
+          style={{flexDirection: 'row', marginBottom: 50, overflow: 'hidden'}}>
           <View
             style={{
               marginHorizontal: 20,
@@ -103,9 +112,10 @@ const WriteReview = ({navigation, route}) => {
               source={{uri: detail.icon}}></Image>
           </View>
           {/* Title */}
-          <View style={{}}>
-            <Text style={{...FONTS.h2}}>{detail.title}</Text>
-            <Text style={{...FONTS.h2}}>{detail.title}</Text>
+          <View style={{flexWrap: 'wrap'}}>
+            <Text numberOfLines={1} style={{...FONTS.h1}}>
+              {detail.title}
+            </Text>
           </View>
         </View>
         {/* Image & Name */}
@@ -170,6 +180,7 @@ const WriteReview = ({navigation, route}) => {
         alignItems: 'flex-start',
         padding: SIZES.padding,
       }}>
+      {singleBookPostReviewStatus === 'loading' && LoadingDanceDot()}
       {renderHeader()}
       {renderWriteReview()}
     </View>

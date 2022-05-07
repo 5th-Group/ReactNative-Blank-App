@@ -7,6 +7,12 @@ import {
   loginSuccess,
 } from '../features/User/UserSlice';
 
+import {
+  setPostReivewUpdateLoading,
+  setPostReivewUpdateSuccess,
+  setPostReivewUpdateError,
+} from '../features/SingleBook/SingleBookSlice';
+
 // User
 // Put User Data
 export const putUserData = async (userData, token, dispatch) => {
@@ -50,12 +56,27 @@ export const login = async (user, token, dispatch) => {
   }
 };
 
+// Register
+export const register = async user => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    await axios.post(`${apiConfig.baseURL}/api/register`, user, config);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // Address
 // Put address
 export const putAddress = async (address, token, dispatch) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
   };
   dispatch(setUserStatusLoading());
@@ -65,11 +86,11 @@ export const putAddress = async (address, token, dispatch) => {
       address,
       config,
     );
-    console.log(response.data);
-    // dispatch(updateUserInfoSuccess(response.data.newData));
+
+    dispatch(updateUserInfoSuccess(response.data.newData));
   } catch (error) {
-    dispatch(setUserStatusError());
     console.log(error);
+    dispatch(setUserStatusError());
   }
 };
 
@@ -132,20 +153,23 @@ export const getOrder = async token => {
 
 // Book
 // Post review
-export const postReview = async (review, bookId, token) => {
+export const postReview = async (review, bookId, token, dispatch) => {
   // Config
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
+  dispatch(setPostReivewUpdateLoading());
   try {
     await axios.post(
       `${apiConfig.baseURL}/api/review/${bookId}/new`,
       review,
       config,
     );
+    dispatch(setPostReivewUpdateSuccess());
   } catch (error) {
     console.log(error);
+    dispatch(setPostReivewUpdateError());
   }
 };

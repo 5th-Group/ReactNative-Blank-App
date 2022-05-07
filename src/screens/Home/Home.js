@@ -14,12 +14,6 @@ import {style} from './styles';
 import {COLORS, SIZES, FONTS, UTILS} from '../../constants/constants';
 import {category} from '../../constants/data';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  getbookStart,
-  getbookFail,
-  getbookSuccess,
-} from '../../features/Books/bookSlice';
-import bookApiGet from '../../api/apiV2';
 
 // Components
 import Poster, {
@@ -27,6 +21,9 @@ import Poster, {
   ErrorAstronaut,
 } from '../../components/Poster/Poster';
 import handleIcon from '../../components/Icon/Icon';
+
+// Actions
+import {getAllBook} from '../../api/apiV2';
 
 const Home = ({navigation}) => {
   // States
@@ -44,20 +41,8 @@ const Home = ({navigation}) => {
   // Effect
   // Api Call
   useEffect(() => {
-    const getBook = async () => {
-      disPatch(getbookStart());
-      try {
-        const response = await bookApiGet.getAllBook();
-        if (response.data) {
-          disPatch(getbookSuccess(response.data));
-        }
-      } catch (error) {
-        console.log(error);
-        disPatch(getbookFail());
-      }
-    };
-    getBook();
-  }, [disPatch]);
+    getAllBook(disPatch);
+  }, []);
 
   // Handle
 
@@ -104,7 +89,12 @@ const Home = ({navigation}) => {
   const renderSearchBar = () => {
     return (
       <>
-        <TextInput style={style.input} placeholder="Search"></TextInput>
+        <TextInput
+          onPressIn={() => {
+            navigation.navigate('SearchScreen');
+          }}
+          style={style.input}
+          placeholder="Search"></TextInput>
         <View style={style.icon}>
           {handleIcon('AntDesign', 'search1', SIZES.body1, COLORS.primary)}
         </View>
@@ -239,7 +229,7 @@ const Home = ({navigation}) => {
               ? LoadingPoster()
               : status === 'error'
               ? ErrorAstronaut()
-              : data && renderBooks()}
+              : data && renderBooks(10)}
             {/* Render Book */}
           </ScrollView>
         </View>
@@ -262,7 +252,13 @@ const Home = ({navigation}) => {
             contentContainerStyle={{paddingHorizontal: SIZES.padding - 10}}
             horizontal={true}
             showsHorizontalScrollIndicator={false}>
-            {/* {!loading ? renderBooks(20) : LoadingPoster()} */}
+            {/* Render Book */}
+            {status === 'loading'
+              ? LoadingPoster()
+              : status === 'error'
+              ? ErrorAstronaut()
+              : data && renderBooks(20)}
+            {/* Render Book */}
           </ScrollView>
         </View>
         {/* Box 7 */}
@@ -283,7 +279,13 @@ const Home = ({navigation}) => {
             contentContainerStyle={{paddingHorizontal: SIZES.padding - 10}}
             horizontal={true}
             showsHorizontalScrollIndicator={false}>
-            {/* {!loading ? renderBooks(20) : LoadingPoster()} */}
+            {/* Render Book */}
+            {status === 'loading'
+              ? LoadingPoster()
+              : status === 'error'
+              ? ErrorAstronaut()
+              : data && renderBooks(30)}
+            {/* Render Book */}
           </ScrollView>
         </View>
         <View style={style.boxSeven}>
@@ -303,7 +305,13 @@ const Home = ({navigation}) => {
             contentContainerStyle={{paddingHorizontal: SIZES.padding - 10}}
             horizontal={true}
             showsHorizontalScrollIndicator={false}>
-            {/* { !loading ? renderBooks(20) : LoadingPoster()} */}
+            {/* Render Book */}
+            {status === 'loading'
+              ? LoadingPoster()
+              : status === 'error'
+              ? ErrorAstronaut()
+              : data && renderBooks(10)}
+            {/* Render Book */}
           </ScrollView>
         </View>
       </ScrollView>
